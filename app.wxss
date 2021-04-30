@@ -1,0 +1,22 @@
+/**app.wxss**/
+@import "/colorui/main.wxss";
+@import "/colorui/icon.wxss";
+
+.bg-darkRed{
+  background: #ab0000;
+}
+
+.swiper .swiper-title{
+  color: white;
+  background: rgba(0,0,0,0.5);
+  position: absolute;
+  bottom: 0rpx;
+  width:100%;
+  font-size: 28rpx;
+  line-height: 40rpx;
+  padding: 10rpx 30rpx;
+}
+
+.cu-card .cu-item, .news .cu-card .cu-item{
+  margin: 0;
+}

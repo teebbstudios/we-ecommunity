@@ -1,0 +1,46 @@
+<!--文章详情页页面-->
+<view class="container bg-white">
+  <view class="weui-article article">
+    <view class="weui-article__h1 margin-bottom-sm">
+      标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题
+    </view>
+    <view class="weui-article__p margin-bottom-xs">
+      <view class="cu-tag bg-red lg round">正义天使</view>
+      <view class="cu-tag bg-white lg round">2020-12-21</view>
+    </view>
+    <view class="content weui-article__section margin-top">
+      <view class="weui-article__p">
+        <image class="solid radius shadow" src="https://www.teebb.com/teebb_com/assets/images/teebb.jpg"
+          mode="widthFix"></image>
+      </view>
+      <view class="weui-article__p">
+        <rich-text nodes="{{body}}"></rich-text>
+      </view>
+
+      <view class="weui-article__h2">
+        附件:
+      </view>
+      <view class="weui-article__p">
+        <!-- 如果是图片附件 -->
+        <view class="grid flex-sub col-5 grid-square">
+          <view class="bg-img"
+            style="background-image:url(https://ossweb-img.qq.com/images/lol/web201310/skin/big10006.jpg);"
+            wx:for="{{9}}" wx:key="{{index}}">
+          </view>
+        </view>
+        <!-- 如果是文件 -->
+        <view class="flex align-center margin-bottom">
+          <view class="text-xxl">
+            <text class="cuIcon-file"></text>
+          </view>
+          <view class="text-df text-red padding-lr-xs">数字等较大显示.pdf</view>
+        </view>
+      </view>
+
+      <view class="share padding flex justify-center">
+        <button class="cu-btn round bg-orange lg">
+          <text class="cuIcon-share"></text>分享</button>
+      </view>
+    </view>
+  </view>
+</view>

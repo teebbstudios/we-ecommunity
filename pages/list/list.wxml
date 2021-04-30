@@ -1,0 +1,58 @@
+<!-- 用于分类列表页面 -->
+<view class="container">
+  <view class="search">
+    <e-search category="news" list-name="社区动态"></e-search>
+  </view>
+
+  <view class="swiper">
+    <swiper class="screen-swiper square-dot" indicator-dots="true" circular="true" autoplay="true" interval="5000"
+      duration="500">
+      <swiper-item wx:for="{{swiperList}}" wx:key="id">
+        <image src="{{item.url}}" mode="aspectFill" wx:if="{{item.type=='image'}}"></image>
+        <text class="swiper-title">{{item.title}}</text>
+      </swiper-item>
+    </swiper>
+  </view>
+
+  <view class="list margin-bottom">
+    <view class="cu-bar bg-white">
+      <view class="action sub-title">
+        <text class="text-xl text-bold text-red">列表</text>
+        <text class="bg-red"></text>
+      </view>
+    </view>
+    <view class="cu-card article">
+
+      <view class="cu-item shadow">
+        <view class="title">
+          <view class="text-cut">无意者 烈火焚身;以正义的烈火拔出黑暗。我有自己的正义，见证至高的烈火吧。</view>
+        </view>
+        <view class="content">
+          <view class="desc">
+            <view class="text-content"> 折磨生出苦难，苦难又会加剧折磨，凡间这无穷的循环，将有我来终结！真正的恩典因不完整而美丽，因情感而真诚，因脆弱而自由！</view>
+            <view>
+              <view class="cu-tag bg-red light sm round">正义天使</view>
+              <view class="cu-tag bg-white light lg round">2020-12-21</view>
+            </view>
+          </view>
+        </view>
+      </view>
+      <view class="cu-item shadow">
+        <view class="title">
+          <view class="text-cut">无意者 烈火焚身;以正义的烈火拔出黑暗。我有自己的正义，见证至高的烈火吧。</view>
+        </view>
+        <view class="content">
+          <image src="https://ossweb-img.qq.com/images/lol/web201310/skin/big10006.jpg" mode="aspectFill"></image>
+          <view class="desc">
+            <view class="text-content"> 折磨生出苦难，苦难又会加剧折磨，凡间这无穷的循环，将有我来终结！真正的恩典因不完整而美丽，因情感而真诚，因脆弱而自由！</view>
+            <view>
+              <view class="cu-tag bg-red light sm round">正义天使</view>
+              <view class="cu-tag bg-white light lg round">2020-12-21</view>
+            </view>
+          </view>
+        </view>
+      </view>
+      
+    </view>
+  </view>
+</view>

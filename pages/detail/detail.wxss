@@ -1,0 +1,8 @@
+/* pages/detail/detail.wxss */
+.content image{
+  width: 100%;
+}
+
+.content .share button{
+  width: 200rpx;
+}

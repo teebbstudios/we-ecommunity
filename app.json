@@ -1,0 +1,48 @@
+{
+  "pages": [
+    "pages/detail/detail",
+    "pages/search/search",
+    "pages/list/list",
+    "pages/index/index",
+    "pages/sos/sos",
+    "pages/login/login",
+    "pages/mine/mine"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#e54d42",
+    "navigationBarTitleText": "康乐智慧e家",
+    "navigationBarTextStyle": "white"
+  },
+  "tabBar": {
+    "color": "#707070",
+    "selectedColor": "#e54d42",
+    "borderStyle": "black",
+    "backgroundColor": "#fff",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "iconPath": "assets/images/home.png",
+        "selectedIconPath": "assets/images/home-on.png",
+        "text": "首页"
+      },
+      {
+        "pagePath": "pages/sos/sos",
+        "iconPath": "assets/images/sos.png",
+        "selectedIconPath": "assets/images/sos-on.png",
+        "text": "一键求助"
+      },
+      {
+        "pagePath": "pages/mine/mine",
+        "iconPath": "assets/images/mine.png",
+        "selectedIconPath": "assets/images/mine-on.png",
+        "text": "我的"
+      }
+    ]
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json",
+  "useExtendedLib": {
+    "weui": true
+  }
+}

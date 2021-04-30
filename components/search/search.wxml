@@ -1,0 +1,11 @@
+<!--components/search/search.wxml-->
+<view class="cu-bar search bg-white">
+  <view class="search-form round shadow">
+    <text class="cuIcon-search"></text>
+    <input type="text" placeholder="搜索{{listName===''?'所有内容':listName}}" data-category="{{category}}"
+      value="{{keywords===''?'':keywords}}" bindconfirm="search" bindfocus="onFocus" confirm-type="search"></input>
+  </view>
+  <block wx:if="{{cancelShow}}">
+    <view bindtap="reset" class="margin-right">取消</view>
+  </block>
+</view>

@@ -1,0 +1,5 @@
+{
+  "usingComponents": {
+    "e-search": "/components/search/search"
+  }
+}
