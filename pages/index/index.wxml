@@ -25,7 +25,7 @@
           <text>预约办理</text>
         </view>
         <view class="icon-item margin-tb-xs">
-          <text class="icon-text bg-blue cuIcon-question shadow lg"></text>
+          <text class="icon-text bg-blue cuIcon-list shadow lg"></text>
           <text>办事指南</text>
         </view>
         <view class="icon-item margin-tb-xs">
@@ -39,10 +39,6 @@
         <view class="icon-item margin-tb-xs">
           <text class="icon-text bg-pink cuIcon-like shadow lg"></text>
           <text>幸福家园</text>
-        </view>
-        <view class="icon-item margin-tb-xs">
-          <text class="icon-text bg-darkRed cuIcon-notice shadow lg"></text>
-          <text>一键求助</text>
         </view>
       </view>
     </view>

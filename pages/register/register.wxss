@@ -1,0 +1,32 @@
+/* pages/register/register.wxss */
+swiper{
+  height: calc(100vh - 334rpx);
+}
+.action .cu-btn{
+  width: 280rpx;
+}
+
+.cu-form-group .title {
+  min-width: calc(4em + 30rpx);
+}
+
+.cu-form-group .cu-btn.icon{
+  font-size: 32rpx;
+}
+
+.selfie{
+  width: 200rpx;
+  height: 200rpx;
+  overflow: hidden;
+}
+
+.img-wrapper{
+  height: 180rpx;
+  overflow: hidden;
+}
+
+.idcardImage{
+  height: 180rpx;
+  width: 100%;
+  transform: translateX(70rpx) scale(1.65) rotate(-90deg);
+}

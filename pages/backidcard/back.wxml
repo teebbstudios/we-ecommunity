@@ -1,0 +1,37 @@
+<!-- 默认宽高占满屏幕100%，推荐放在单独页 -->
+<!-- 拍照完成后会返回临时路径 -->
+<!-- 封装良苦用心 | 注释满满 | 不忙时麻烦给你Star 谢谢！ -->
+
+<!-- 调起摄像头拍照 —— 【身份证人像面】 -->
+<view class="camera_box">
+  <camera class="camera" wx:if="{{!show}}" device-position="back" flash="off" binderror="error">
+    <cover-view class="id_m">
+
+      <!-- 这是拍照轮廓图（如果是人像拍照则替换图片即可） -->
+      <cover-image class="img" src="/assets/images/back.png"></cover-image>
+      <!-- END -->
+
+      <!-- 这是文字提示（不需要删除即可） -->
+      <cover-view class="tips_txt">请将头像面放到框内，并调整好光线</cover-view>
+      <!-- END -->
+
+    </cover-view>
+  </camera>
+  <image class="camera_img" src="{{src}}" wx:if="{{show}}"></image>
+  <view class="action">
+
+    <!-- 这是三个按钮：拍照 / 确认 / 重拍(取消) -->
+    <button class="cu-btn icon lg bg-red" bindtap="takePhoto" wx:if="{{!show}}">
+      <text class="cuIcon-camera"></text>
+    </button>
+    <button class="cu-btn icon lg bg-grey" wx:if="{{show}}" bindtap="cancelBtn">
+      <text class="cuIcon-refresh"></text>
+    </button>
+    <button class="cu-btn icon lg bg-red" bindtap="saveImg" wx:if="{{show}}">
+      <text class="cuIcon-check"></text>
+    </button>
+    <!-- END -->
+
+  </view>
+</view>
+<!-- END -->

@@ -2,21 +2,49 @@
 @import "/colorui/main.wxss";
 @import "/colorui/icon.wxss";
 
-.bg-darkRed{
+@font-face {
+  font-family: "iconfont";
+  /* Project id 2521035 */
+  src: url('//at.alicdn.com/t/font_2521035_vv4v7zpmso.woff2?t=1619923768763') format('woff2'),
+    url('//at.alicdn.com/t/font_2521035_vv4v7zpmso.woff?t=1619923768763') format('woff'),
+    url('//at.alicdn.com/t/font_2521035_vv4v7zpmso.ttf?t=1619923768763') format('truetype');
+}
+
+.iconfont {
+  font-family: "iconfont" !important;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-idcardfront:before {
+  content: "\e600";
+}
+
+.icon-idcardback:before {
+  content: "\e601";
+}
+
+.bg-darkRed {
   background: #ab0000;
 }
 
-.swiper .swiper-title{
+.swiper .swiper-title {
   color: white;
-  background: rgba(0,0,0,0.5);
+  background: rgba(0, 0, 0, 0.5);
   position: absolute;
   bottom: 0rpx;
-  width:100%;
+  width: 100%;
   font-size: 28rpx;
   line-height: 40rpx;
   padding: 10rpx 30rpx;
 }
 
-.cu-card .cu-item, .news .cu-card .cu-item{
+.cu-card .cu-item,
+.news .cu-card .cu-item {
   margin: 0;
+}
+
+.h-100 {
+  height: 100%;
 }

@@ -1,0 +1,207 @@
+<!--住户登记-->
+
+<view class="container">
+
+  <view class="cu-steps padding bg-white margin-bottom radius shadow">
+    <view class="cu-item {{index>num?'':'text-red'}}" wx:for="{{numList}}" wx:key="value">
+      <text class="num" data-index="{{index + 1}}"></text> {{item.name}}
+    </view>
+  </view>
+
+  <view class="margin-bottom radius shadow">
+
+    <swiper current="{{num}}">
+
+      <!-- <swiper-item catchtouchmove="forbid">
+        <view class="page-section bg-white radius shadow padding">
+          <view class="padding-left padding-right">
+            <view class="page-section-title text-lg">请选择登记类型</view>
+            <view class="weui-cells weui-cells_after-title">
+              <radio-group bindchange="radioChange" class="response">
+                <label class="weui-cell weui-check__label" wx:for="{{types}}" wx:key="value">
+                  <view class="weui-cell__hd">
+                    <radio class="red" value="{{item.value}}" checked="{{item.checked}}" />
+                  </view>
+                  <view class="weui-cell__bd margin-left-sm text-lg">{{item.name}}</view>
+                </label>
+              </radio-group>
+            </view>
+            <view class="margin-top text-df">
+              <text class="cuIcon-notification text-red padding-right-sm"></text>
+              <text class="text-grey">{{typeDescription}}</text>
+            </view>
+          </view>
+        </view>
+      </swiper-item> -->
+
+      <!-- <swiper-item catchtouchmove="forbid">
+        <scroll-view scroll-y="true" class="bg-white radius shadow padding">
+          <view class="page-section">
+            <view class="cu-form-group">
+              <view class="title">选择小区</view>
+              <picker id="area" bindchange="pickerChange" value="{{areaIndex}}" range="{{areas}}" range-key="name">
+                <view class="picker">
+                  {{areaIndex?areas[areaIndex].name:'点击选择您所在小区'}}
+                </view>
+              </picker>
+            </view>
+            <view class="cu-form-group">
+              <view class="title">选择楼号</view>
+              <picker id="building" bindchange="pickerChange" value="{{buildingIndex}}" range="{{buildings}}"
+                range-key="label">
+                <view class="picker">
+                  {{buildingIndex?buildings[buildingIndex].label:'点击选择您的楼号'}}
+                </view>
+              </picker>
+            </view>
+            <view class="cu-form-group">
+              <view class="title">选择房间号</view>
+              <picker id="room" bindchange="pickerChange" value="{{roomIndex}}" range="{{rooms}}" range-key="label">
+                <view class="picker">
+                  {{roomIndex?rooms[roomIndex].label:'点击选择您的房间号'}}
+                </view>
+              </picker>
+            </view>
+          </view>
+        </scroll-view>
+      </swiper-item> -->
+
+      <swiper-item catchtouchmove="forbid">
+        <scroll-view scroll-y="true" class="h-100 radius shadow">
+          <view class="page-section">
+            <!-- 自拍照上传 -->
+            <view class="radius margin-bottom bg-white padding-left padding-right">
+              <view class="cu-bar">
+                <view class="action">自拍照上传</view>
+              </view>
+              <view class="text-grey padding padding-top-xs">
+                <view id="selfie" class="selfie solid radius" bindtap="goCamera">
+                  <view wx:if="{{!selfie}}" class="h-100 text-center flex text-sl flex-direction justify-center radius">
+                    <text class="cuIcon-people"></text>
+                    <text class="text-sm">点击拍摄自拍</text>
+                  </view>
+                  <image wx:if="{{selfie}}" class="selfie solid radius" mode="widthFix" src="{{selfieTmp}}"></image>
+                </view>
+                
+              </view>
+            </view>
+            <!-- 身份证国徽面 -->
+            <view class="radius margin-bottom bg-white padding-left padding-right">
+              <view class="cu-bar">
+                <view class="action">身份证上传</view>
+              </view>
+              <view class="idcard grid col-2 text-grey">
+                <view id="idcardback" class="idcardback padding padding-top-xs"  bindtap="goCamera">
+                  <view wx:if="{{!idcardBack}}" class="img-wrapper solid text-center flex flex-direction radius">
+                    <text class="iconfont icon-idcardback text-sl"></text>
+                    <text class="text-sm">点击拍摄身份证人像面</text>
+                  </view>
+                  <view wx:if="{{idcardBack}}" class="img-wrapper solid radius">
+                    <image class="idcardImage" mode="heightFix" src="{{idcardBackTmp}}"></image>
+                  </view>
+                </view>
+
+                <view id="idcardfront" class="idcardfront padding padding-top-xs"  bindtap="goCamera">
+                  <view wx:if="{{!idcardFront}}" class="img-wrapper solid text-center flex flex-direction radius">
+                    <text class="iconfont icon-idcardfront text-sl"></text>
+                    <text class="text-sm">点击拍摄身份证国徽面</text>
+                  </view>
+                  <view wx:if="{{idcardFront}}" class="img-wrapper solid radius">
+                    <image class="idcardImage" mode="heightFix" src="{{idcardFrontTmp}}"></image>
+                  </view>
+                </view>
+                
+              </view>
+
+            </view>
+            <!-- 个人信息 -->
+            <view class="radius bg-white padding-left padding-right">
+              <view class="cu-form-group">
+                <view class="title">姓名</view>
+                <input class="text-right" placeholder="请输入您的姓名" placeholder-style="text-align:right"></input>
+              </view>
+              <view class="cu-form-group">
+                <view class="title">性别</view>
+                <picker id="sex" bindchange="pickerChange" value="{{sexIndex}}" range="{{sexs}}">
+                  <view class="picker">
+                    {{sexIndex?sexs[sexIndex]:'请选择您的性别'}}
+                  </view>
+                </picker>
+              </view>
+              <view class="cu-form-group">
+                <view class="title">民族</view>
+                <input class="text-right" placeholder="请输入您的民族" placeholder-style="text-align:right"></input>
+              </view>
+              <view class="cu-form-group">
+                <view class="title">学历</view>
+                <picker id="education" bindchange="pickerChange" value="{{educationIndex}}" range="{{educations}}">
+                  <view class="picker">
+                    {{educationIndex?educations[educationIndex]:'请选择您的学历'}}
+                  </view>
+                </picker>
+              </view>
+              <view class="cu-form-group">
+                <view class="title">联系电话</view>
+                <input class="text-right" type="number" placeholder="请填写您的联系电话"
+                  placeholder-style="text-align:right"></input>
+                <button open-type="getPhoneNumber"  bindgetphonenumber="getPhoneNumber" class="cu-btn bg-white icon">
+                  <text class="cuIcon-phone text-grey"></text>
+                </button>
+              </view>
+              <view class="cu-form-group">
+                <view class="title">出生日期</view>
+                <picker mode="date" value="{{date}}" bindchange="dateChange">
+                  <view class="picker">
+                    {{date?date:'请选择出生日期'}}
+                  </view>
+                </picker>
+              </view>
+              <view class="cu-form-group">
+                <view class="title">身份证号</view>
+                <input class="text-right" type="idcard" placeholder="请输入您的身份证号"
+                  placeholder-style="text-align:right"></input>
+              </view>
+              <view class="cu-form-group">
+                <view class="title">证件住址</view>
+                <input class="text-right" value="{{address?address:''}}" placeholder="请输入您的身份证住址" placeholder-style="text-align:right"></input>
+                <button bindtap="getLocation" class="cu-btn bg-white icon">
+                  <text class="cuIcon-locationfill text-grey"></text>
+                </button>
+              </view>
+              <view class="cu-form-group">
+                <view class="title">婚姻情况</view>
+                <picker id="marriage" bindchange="pickerChange" value="{{marriageIndex}}" range="{{marriages}}">
+                  <view class="picker">
+                    {{marriageIndex?marriages[marriageIndex]:'请选择您的婚姻情况'}}
+                  </view>
+                </picker>
+              </view>
+              <view class="cu-form-group">
+                <view class="title">政治面貌</view>
+                <picker id="political" bindchange="pickerChange" value="{{politicalIndex}}" range="{{politicals}}">
+                  <view class="picker">
+                    {{politicalIndex?politicals[politicalIndex]:'请选择您的政治面貌'}}
+                  </view>
+                </picker>
+              </view>
+              <view class="cu-form-group">
+                <view class="title">现(原)单位</view>
+                <input class="text-right" placeholder="请输入工作单位,无单位写‘无’" placeholder-style="text-align:right"></input>
+              </view>
+
+            </view>
+          </view>
+        </scroll-view>
+      </swiper-item>
+    </swiper>
+
+
+  </view>
+
+  <view class="action flex justify-center">
+    <button disabled="{{num == 0? true: false}}" class="cu-btn bg-olive shadow" id="prev"
+      bindtap="numSteps">上一步</button>
+    <button wx:if="{{num !== 3}}" class="cu-btn bg-red shadow" id="next" bindtap="numSteps">下一步</button>
+    <button wx:if="{{num === 3}}" class="cu-btn bg-red shadow" bindtap="submit">提交</button>
+  </view>
+</view>
