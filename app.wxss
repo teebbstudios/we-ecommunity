@@ -3,11 +3,10 @@
 @import "/colorui/icon.wxss";
 
 @font-face {
-  font-family: "iconfont";
-  /* Project id 2521035 */
-  src: url('//at.alicdn.com/t/font_2521035_vv4v7zpmso.woff2?t=1619923768763') format('woff2'),
-    url('//at.alicdn.com/t/font_2521035_vv4v7zpmso.woff?t=1619923768763') format('woff'),
-    url('//at.alicdn.com/t/font_2521035_vv4v7zpmso.ttf?t=1619923768763') format('truetype');
+  font-family: "iconfont"; /* Project id 2521035 */
+  src: url('//at.alicdn.com/t/font_2521035_6vj4xhq7ci6.woff2?t=1620040165399') format('woff2'),
+       url('//at.alicdn.com/t/font_2521035_6vj4xhq7ci6.woff?t=1620040165399') format('woff'),
+       url('//at.alicdn.com/t/font_2521035_6vj4xhq7ci6.ttf?t=1620040165399') format('truetype');
 }
 
 .iconfont {
@@ -15,6 +14,10 @@
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-badge-full:before {
+  content: "\e877";
 }
 
 .icon-idcardfront:before {
@@ -47,4 +50,12 @@
 
 .h-100 {
   height: 100%;
+}
+
+.w-100{
+  width: 100%;
+}
+
+.margin-top-0{
+  margin-top: 0;
 }

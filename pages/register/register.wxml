@@ -11,12 +11,11 @@
   <view class="margin-bottom radius shadow">
 
     <swiper current="{{num}}">
-
-      <!-- <swiper-item catchtouchmove="forbid">
+      <swiper-item catchtouchmove="forbid">
         <view class="page-section bg-white radius shadow padding">
-          <view class="padding-left padding-right">
-            <view class="page-section-title text-lg">请选择登记类型</view>
-            <view class="weui-cells weui-cells_after-title">
+          <view class="block">
+            <view class="padding-bottom text-lg text-bold">请选择登记类型</view>
+            <view class="weui-cells weui-cells_after-title margin-top-0">
               <radio-group bindchange="radioChange" class="response">
                 <label class="weui-cell weui-check__label" wx:for="{{types}}" wx:key="value">
                   <view class="weui-cell__hd">
@@ -32,11 +31,14 @@
             </view>
           </view>
         </view>
-      </swiper-item> -->
+      </swiper-item>
 
-      <!-- <swiper-item catchtouchmove="forbid">
+      <swiper-item catchtouchmove="forbid">
         <scroll-view scroll-y="true" class="bg-white radius shadow padding">
           <view class="page-section">
+            <view class="padding-bottom solid-bottom text-lg text-bold">
+              请选择家庭住址
+            </view>
             <view class="cu-form-group">
               <view class="title">选择小区</view>
               <picker id="area" bindchange="pickerChange" value="{{areaIndex}}" range="{{areas}}" range-key="name">
@@ -64,12 +66,16 @@
             </view>
           </view>
         </scroll-view>
-      </swiper-item> -->
+      </swiper-item>
 
       <swiper-item catchtouchmove="forbid">
         <scroll-view scroll-y="true" class="h-100 radius shadow">
           <view class="page-section">
-            <!-- 自拍照上传 -->
+            <view class="padding-top padding-left padding-right bg-white">
+              <view class="padding-bottom solid-bottom text-lg text-bold">
+                请填写个人信息
+              </view>
+            </view>
             <view class="radius margin-bottom bg-white padding-left padding-right">
               <view class="cu-bar">
                 <view class="action">自拍照上传</view>
@@ -82,16 +88,14 @@
                   </view>
                   <image wx:if="{{selfie}}" class="selfie solid radius" mode="widthFix" src="{{selfieTmp}}"></image>
                 </view>
-                
               </view>
             </view>
-            <!-- 身份证国徽面 -->
             <view class="radius margin-bottom bg-white padding-left padding-right">
               <view class="cu-bar">
                 <view class="action">身份证上传</view>
               </view>
               <view class="idcard grid col-2 text-grey">
-                <view id="idcardback" class="idcardback padding padding-top-xs"  bindtap="goCamera">
+                <view id="idcardback" class="idcardback padding padding-top-xs" bindtap="goCamera">
                   <view wx:if="{{!idcardBack}}" class="img-wrapper solid text-center flex flex-direction radius">
                     <text class="iconfont icon-idcardback text-sl"></text>
                     <text class="text-sm">点击拍摄身份证人像面</text>
@@ -101,7 +105,7 @@
                   </view>
                 </view>
 
-                <view id="idcardfront" class="idcardfront padding padding-top-xs"  bindtap="goCamera">
+                <view id="idcardfront" class="idcardfront padding padding-top-xs" bindtap="goCamera">
                   <view wx:if="{{!idcardFront}}" class="img-wrapper solid text-center flex flex-direction radius">
                     <text class="iconfont icon-idcardfront text-sl"></text>
                     <text class="text-sm">点击拍摄身份证国徽面</text>
@@ -110,11 +114,8 @@
                     <image class="idcardImage" mode="heightFix" src="{{idcardFrontTmp}}"></image>
                   </view>
                 </view>
-                
               </view>
-
             </view>
-            <!-- 个人信息 -->
             <view class="radius bg-white padding-left padding-right">
               <view class="cu-form-group">
                 <view class="title">姓名</view>
@@ -144,7 +145,7 @@
                 <view class="title">联系电话</view>
                 <input class="text-right" type="number" placeholder="请填写您的联系电话"
                   placeholder-style="text-align:right"></input>
-                <button open-type="getPhoneNumber"  bindgetphonenumber="getPhoneNumber" class="cu-btn bg-white icon">
+                <button open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber" class="cu-btn bg-white icon">
                   <text class="cuIcon-phone text-grey"></text>
                 </button>
               </view>
@@ -163,7 +164,8 @@
               </view>
               <view class="cu-form-group">
                 <view class="title">证件住址</view>
-                <input class="text-right" value="{{address?address:''}}" placeholder="请输入您的身份证住址" placeholder-style="text-align:right"></input>
+                <input class="text-right" value="{{address?address:''}}" placeholder="请输入您的身份证住址"
+                  placeholder-style="text-align:right"></input>
                 <button bindtap="getLocation" class="cu-btn bg-white icon">
                   <text class="cuIcon-locationfill text-grey"></text>
                 </button>
@@ -188,9 +190,25 @@
                 <view class="title">现(原)单位</view>
                 <input class="text-right" placeholder="请输入工作单位,无单位写‘无’" placeholder-style="text-align:right"></input>
               </view>
-
+              <view class="cu-form-group">
+                <view class="title">与户主关系</view>
+                <picker id="relation" bindchange="pickerChange" value="{{relationIndex}}" range-key="label" range="{{relations}}">
+                  <view class="picker">
+                    {{relationIndex?relations[relationIndex]:'请选择您的家庭关系'}}
+                  </view>
+                </picker>
+              </view>
             </view>
           </view>
+        </scroll-view>
+      </swiper-item>
+
+      <swiper-item catchtouchmove="forbid">
+        <scroll-view scroll-y="true" class="h-100 bg-white radius shadow padding">
+          <view class="padding-bottom solid-bottom text-lg text-bold">
+            请检查并提交信息
+          </view>
+          <people-info info="{{info}}"></people-info>
         </scroll-view>
       </swiper-item>
     </swiper>

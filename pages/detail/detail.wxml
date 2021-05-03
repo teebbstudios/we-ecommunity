@@ -38,7 +38,7 @@
       </view>
 
       <view class="share padding flex justify-center">
-        <button class="cu-btn round bg-orange lg">
+        <button class="cu-btn round bg-orange">
           <text class="cuIcon-share"></text>分享</button>
       </view>
     </view>

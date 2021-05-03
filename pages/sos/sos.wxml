@@ -1,2 +1,44 @@
 <!--pages/sos/sos.wxml-->
-<text>pages/sos/sos.wxml</text>
+<view class="container">
+  <view class="toplist radius padding shadow bg-white margin-bottom">
+    <view class="topbar padding-bottom solid-bottom flex justify-between align-center">
+      <view class="text-lg text-bold">
+        🆘️ 紧急联系人列表
+      </view>
+      <view class="right">
+        <button class="cu-btn icon bg-red text-lg">
+          <text class="cuIcon-add"></text>
+        </button>
+      </view>
+    </view>
+    <scroll-view scroll-y="true" class="margin-top list-wrapper shadow">
+      <!-- <view class="padding text-lg">
+        <text class="cuIcon-notification text-red"></text>
+        当前还没有紧急联系人，请点击右上角加号，使用紧急联系人的微信扫码添加紧急联系人。
+      </view> -->
+      <view class="item flex padding bg-gray">
+        <view class="name text-lg">权伟伟</view>
+        <view class="text-lg">
+          13938834243
+          <text class="cuIcon-phone text-red margin-left">拨打电话</text>
+        </view>
+      </view>
+      <view class="item flex padding">
+        <view class="name text-lg">权伟伟</view>
+        <view class="text-lg">
+          13938834243
+          <text class="cuIcon-phone text-red margin-left">拨打电话</text>
+        </view>
+      </view>
+    </scroll-view>
+  </view>
+
+
+  <view class="call flex flex-direction align-center justify-end">
+    <button class="cu-btn shadow bg-red icon lg" bindtouchstart="touchStart" bindtouchend="touchEnd">
+      <text class="text-bold text-sl">SOS</text>
+    </button>
+    <text class="text-df padding text-gray">长按3秒将会微信通知紧急联系人您的位置信息</text>
+  </view>
+
+</view>

@@ -1,0 +1,49 @@
+<!--预约办理-->
+<view class="container bg-white">
+  <scroll-view scroll-y="true" class="form-wrapper padding">
+    <view class="text-lg text-bold padding-bottom solid-bottom">
+      请填写您要预约办理的业务
+    </view>
+    <view class="cu-form-group">
+      <view class="title">业务类型</view>
+      <picker bindchange="pickerChange" value="{{typeIndex}}" range-key="name" range="{{types}}">
+        <view class="picker">
+          {{typeIndex?types[typeIndex].name:'请选择您要办理的业务类型'}}
+        </view>
+      </picker>
+    </view>
+    <view class="padding solid-top solid-bottom">
+      <view class="title padding-bottom">业务用途</view>
+      <textarea class="w-100 solid radius padding" placeholder="请简要说明您办理业务的原因或用途"></textarea>
+    </view>
+    <view class="solid-bottom">
+      <view class="cu-bar">
+        <view class="action">资料上传</view>
+        <view class="action">{{imgList.length}}张</view>
+      </view>
+      <view class="cu-form-group">
+        <view class="grid col-4 grid-square flex-sub">
+          <view class="bg-img" wx:for="{{imgList}}" wx:key="index" bindtap="ViewImage"
+            data-url="{{imgList[index]}}">
+            <image src='{{imgList[index]}}' mode='aspectFill'></image>
+            <view class="cu-tag bg-red" catchtap="DelImg" data-index="{{index}}">
+              <text class="cuIcon-close"></text>
+            </view>
+          </view>
+          <view class="solids" bindtap="ChooseImage" wx:if="{{imgList.length<9}}">
+            <text class="cuIcon-cameraadd"></text>
+          </view>
+        </view>
+      </view>
+    </view>
+    <view wx:if="{{typeIndex}}" class="padding">
+      <text class="cuIcon-notification text-red padding-right"></text>{{types[typeIndex].description}}
+    </view>
+
+  </scroll-view>
+  <view class="button-wrapper flex align-center">
+    <button bindtap="" class="cu-btn bg-red radius">
+      <text class="cuIcon-check"></text>提交
+    </button>
+  </view>
+</view>

@@ -1,0 +1,9 @@
+/* pages/list/list.wxss */
+
+.list-wrapper{
+  height: calc(100vh - 200rpx);
+}
+
+.reply-body{
+  text-indent: 56rpx;
+}

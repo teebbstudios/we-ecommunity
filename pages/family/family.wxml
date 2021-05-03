@@ -1,0 +1,36 @@
+<!--pages/family/family.wxml-->
+<view class="container">
+  <view class="topbar radius shadow bg-white flex justify-between align-center margin-bottom">
+    <view class="cu-bar">
+      <view class="action sub-title">
+        <text class="text-xl text-bold text-red">家庭信息</text>
+        <text class="bg-red"></text>
+      </view>
+    </view>
+    <view class="margin-right">
+      <button class="cu-btn icon bg-red text-lg">
+        <text class="cuIcon-qrcode"></text>
+      </button>
+    </view>
+  </view>
+  <view class="beizhu bg-white shadow radius margin-bottom">
+    <view class="flex align-center flex-wrap padding-left padding-right padding-tb-xs">
+      <text class="text-bold margin-tb-xs text-lg">家庭备注：</text>
+
+      <view class="cu-tag margin-tb-xs bg-orange round">党员户</view>
+
+    </view>
+  </view>
+
+
+  <view class="infos radius padding bg-white shadow">
+    <view class="info-item">
+      <view class="badge-wrapper">
+        <view class="badge padding-lr-xs text-bold text-xl">大学生</view>
+        <view class="badge padding-lr-xs text-bold text-xl">党员</view>
+      </view>
+      <people-info></people-info>
+    </view>
+  </view>
+
+</view>

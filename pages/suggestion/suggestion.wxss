@@ -1,0 +1,17 @@
+/* pages/reservation/reservation.wxss */
+.container {
+  height: 100vh;
+  width: 100vw;
+}
+
+.form-wrapper {
+  height: 85vh;
+}
+
+.button-wrapper {
+  height: 15vh;
+}
+
+textarea {
+  height: 180rpx;
+}

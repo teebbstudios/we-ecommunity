@@ -5,6 +5,24 @@ Page({
    * 页面的初始数据
    */
   data: {
+    info: {
+      house: null, //家庭地址
+      name: null, //姓名
+      sex: null, //性别
+      birthday: null, //生日
+      age: null, //年龄
+      nation: null, //民族
+      selfie: null, //自拍
+      idcardFront: null, //身份证国徽面
+      idcardBack: null, //身份证人像面
+      idcardNo: null, //身份证号码
+      phone: null, //联系电话
+      education: null, //学历
+      marriage: null, //婚姻情况
+      political: null, //政治面貌
+      address: null, //证件地址
+      employer: null, //工作单位
+    },
     //所选择的登记类型，0：为自己登记，1：代他人登记
     type: 0,
     //登记类型提示
@@ -86,29 +104,28 @@ Page({
     roomIndex: null,
     imgList: [],
     //自拍照
-    selfie: null,
     selfieTmp: null,
     //身份证人像面
-    idcardBack: null,
     idcardBackTmp: null,
     //身份证国徽面
-    idcardFront: null,
     idcardFrontTmp: null,
 
     sexs: ['男', '女'],
-    sex: '男',
     sexIndex: 0,
-    date: null,
     marriages: ['单身', '已婚', '离异', '丧偶', '其他'],
-    marriage: null,
+    
     marriageIndex: null,
     politicals: ['中共党员', '中共预备党员', '共青团员', '群众', '民革党员', '民盟盟员', '民建会员', '民进会员', '农工党党员', '致公党党员', '九三学社社员', '台盟盟员', '无党派人士'],
-    political: null,
+    
     politicalIndex: null,
     educations: ['小学', '初中', '高中', '大专', '本科', '硕士', '博士', '无学历'],
-    education: null,
+    
     educationIndex: null,
-    address: null,
+    relations: [
+      {id: 1, label: '户主'},
+      {id: 2, label: '父亲'},
+      {id: 3, label: '母亲'},
+    ]
   },
   radioChange: function (e) {
     this.setData({

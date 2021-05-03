@@ -1,1 +1,19 @@
 /* pages/sos/sos.wxss */
+.list-wrapper {
+  height: calc(50vh - 140rpx);
+}
+
+.list-wrapper .name{
+  font-weight: bold;
+  min-width: calc(4em + 48rpx);
+}
+
+.call{
+  height: 43vh;
+  padding-bottom: 2vh;
+}
+
+.call button.cu-btn{
+  width: 200rpx;
+  height: 200rpx;
+}

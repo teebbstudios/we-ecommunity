@@ -69,9 +69,6 @@ Page({
       prevPage = pages[pages.length - 2];
     }
 
-
-
-
     // 刷新上一页(也就是主页面)数据-包含图片路径及标识
     if (prevPage) {
 
@@ -81,7 +78,6 @@ Page({
       // 动态更新数据(不懂移步文章)
       // https://blog.csdn.net/weixin_44198965/article/details/107821802 获取页面栈后 可以访问页面栈中的数据-这样达到的不同页面更新数据
       prevPage.setData({
-        idcardBack: src,
         idcardBackTmp: src //照片路径
       })
     }

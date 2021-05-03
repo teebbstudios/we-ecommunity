@@ -1,0 +1,76 @@
+<!-- 我的预约、我的意见建议、全局意见建议列表 页面 -->
+<view class="container">
+  <view class="search">
+    <view class="cu-bar search bg-white">
+      <view class="search-form round shadow">
+        <text class="cuIcon-search"></text>
+        <input type="text" placeholder="搜索我的意见和建议" data-category="reservation" value="{{keywords===''?'':keywords}}"
+          bindconfirm="search" bindfocus="onFocus" confirm-type="search"></input>
+      </view>
+      <block wx:if="{{cancelShow}}">
+        <view bindtap="reset" class="margin-right">取消</view>
+      </block>
+      <view class="margin-right">
+        <button class="cu-btn bg-red icon">
+          <text class="cuIcon-add"></text></button>
+      </view>
+    </view>
+  </view>
+
+  <view class="list margin-bottom">
+    <view class="cu-bar">
+      <view class="action sub-title">
+        <text class="text-lg text-bold text-red">我的意见和建议</text>
+        <text class="bg-red"></text>
+      </view>
+    </view>
+    <scroll-view scroll-y="true" class="list-wrapper">
+      <view class="cu-card article margin-bottom radius shadow">
+        <view class="cu-item">
+          <view class="title flex justify-between">
+            <view class="text-cut">类型：出生证明</view>
+            <!-- <view class="text-red text-sm">未回复</view> -->
+            <view class="text-green text-sm">已回复</view>
+          </view>
+          
+          <view class="content">
+            <view class="block">描述：
+              <text class="text-grey">折磨生出苦难，苦难又会加剧折磨，凡间这无穷的循环，将有我来终结！真正的恩典因不完整而美丽，因情感而真诚，因脆弱而自由！</text>
+            </view>
+          </view>
+          <view class="files padding grid col-5 grid-square flex-sub">
+            <view class="bg-img" wx:for="{{imgList}}" wx:key="index" bindtap="viewImage" data-url="{{imgList[index]}}">
+              <image src='{{imgList[index]}}' mode='aspectFill'></image>
+            </view>
+          </view>
+          <view class="padding-left padding-right flex justify-between">
+            <view class="author">
+              <view class="cu-avatar sm round"
+                style="background-image:url(https://ossweb-img.qq.com/images/lol/web201310/skin/big10001.jpg);"></view>
+              <text class="text-sm margin-left-xs">浪漫一家人</text>
+              <text class="text-sm margin-left-sm">2020-12-21</text>
+            </view>
+            <view class="appreciate text-lg">
+              <button class="cu-btn bg-gray icon sm">
+                <text class="cuIcon-appreciate"></text>
+              </button>
+              <text class="margin-left-xs text-sm">123</text>
+            </view>
+          </view>
+
+          <view class="reply padding">
+            <view class="padding-top solid-top">
+              <view class="flex justify-between text-orange margin-bottom-xs">
+                <view class="text-bold">回复如下：</view>
+                <view class="text-df">2021-12-21</view>
+              </view>
+              <view class="text-orange text-df reply-body">折磨生出苦难，苦难又会加剧折磨，凡间这无穷的循环，将有我来终结！真正的恩典因不完整而美丽，因情感而真诚，因脆弱而自由！
+              </view>
+            </view>
+          </view>
+
+        </view>
+      </view>
+    </scroll-view>
+  </view>
+</view>

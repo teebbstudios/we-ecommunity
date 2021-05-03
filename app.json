@@ -1,15 +1,21 @@
 {
   "pages": [
-    "pages/register/register",
-    "pages/frontidcard/front",
-    "pages/selfie/selfie",
-    "pages/mine/mine",
-    "pages/detail/detail",
-    "pages/search/search",
-    "pages/list/list",
-    "pages/index/index",
     "pages/sos/sos",
-    "pages/backidcard/back"
+    "pages/family/family",
+    "pages/index/index",
+    "pages/qrcode/qrcode",
+    "pages/mine/mine",
+    "pages/search/search",
+    "pages/detail/detail",
+    "pages/backidcard/back",
+    "pages/selfie/selfie",
+    "pages/frontidcard/front",
+    "pages/register/register",
+    "pages/reservation/reservation",
+    "pages/suggestion/suggestion",
+    "pages/interactives/list",
+    "pages/test/test",
+    "pages/list/list"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -33,7 +39,7 @@
         "pagePath": "pages/sos/sos",
         "iconPath": "assets/images/sos.png",
         "selectedIconPath": "assets/images/sos-on.png",
-        "text": "一键求助"
+        "text": "紧急求助"
       },
       {
         "pagePath": "pages/mine/mine",
@@ -45,7 +51,7 @@
   },
   "permission": {
     "scope.userLocation": {
-      "desc": "你的位置信息将用于填写证件住址。" 
+      "desc": "你的位置信息将用于填写证件住址。"
     }
   },
   "style": "v2",

@@ -1,4 +1,6 @@
 {
-  "usingComponents": {},
+  "usingComponents": {
+    "people-info": "/components/people-info/info" 
+  },
   "navigationBarTitleText": "住户登记"
 }

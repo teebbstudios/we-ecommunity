@@ -5,7 +5,54 @@ Page({
    * 页面的初始数据
    */
   data: {
+    timer: 3,
+    clocker: null,
+  },
+  // 按钮触摸开始触发的事件
+  touchStart: function (e) {
+    wx.getLocation({
+      type: "gcj02",
+      success(res) {
+        console.log(res);
+        let latitude = res.latitude;
+        let longitude = res.longitude;
+      }
+    });
 
+    let seconds = 1;
+    let timer = setInterval(() => {
+      if (seconds > 3) {
+        //todo: 发送通知
+        wx.hideLoading();
+        clearInterval(timer);
+        this.setData({
+          timer: 3
+        });
+      } else {
+        wx.showLoading({
+          title: '倒计时 ' + this.data.timer,
+        });
+        this.setData({
+          timer: this.data.timer - 1
+        });
+        //手机震动
+        // wx.vibrateShort({type: "heavy"});
+        wx.vibrateLong();
+      }
+      seconds++;
+    }, 1000);
+    this.setData({
+      clocker: timer
+    })
+  },
+  touchEnd: function (e) {
+    if (this.data.clocker) {
+      wx.hideLoading();
+      clearInterval(this.data.clocker);
+      this.setData({
+        timer: 3
+      });
+    }
   },
 
   /**

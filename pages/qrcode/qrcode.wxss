@@ -1,0 +1,25 @@
+/* pages/qrcode/qrcode.wxss */
+.qrcode{
+  height: 80vh;
+  width: 88vw;
+  margin: auto;
+  margin-top: 10vh;
+  border-radius: 20rpx;
+  position: relative;
+}
+.qrcode-image{
+  width: 64vw;
+  height: 64vw;
+  margin: auto;
+  margin-top: 4vh;
+  overflow: hidden;
+}
+
+.tips {
+  position: absolute;
+  left: 50%;
+  bottom: 5%;
+  width: 88vw;
+  text-align: center;
+  transform: translateX(-50%);
+}

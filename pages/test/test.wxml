@@ -1,0 +1,4 @@
+<!--pages/test/test.wxml-->
+<view class="padding">
+  <people-info></people-info>
+</view>
