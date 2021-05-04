@@ -1,4 +1,4 @@
-// pages/test/test.js
+// pages/sos-confirm/confirm.js
 Page({
 
   /**
@@ -6,6 +6,17 @@ Page({
    */
   data: {
 
+  },
+
+  disagree: function () {
+
+  },
+
+  agree: function () {
+    //同意订阅消息
+    wx.requestSubscribeMessage({
+      tmplIds: ['HFREcHN51tFh28_fbDzrGTvtUsOXqfQps0BOpsBIYB8']
+    });
   },
 
   /**

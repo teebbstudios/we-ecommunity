@@ -1,8 +1,12 @@
 {
   "pages": [
-    "pages/sos/sos",
-    "pages/family/family",
     "pages/index/index",
+    "pages/sos-confirm/confirm",
+    "pages/family/family",
+    "pages/register/register",
+    "pages/interactives/list",
+    "pages/interactive/detail",
+    "pages/sos/sos",
     "pages/qrcode/qrcode",
     "pages/mine/mine",
     "pages/search/search",
@@ -10,11 +14,8 @@
     "pages/backidcard/back",
     "pages/selfie/selfie",
     "pages/frontidcard/front",
-    "pages/register/register",
     "pages/reservation/reservation",
     "pages/suggestion/suggestion",
-    "pages/interactives/list",
-    "pages/test/test",
     "pages/list/list"
   ],
   "window": {

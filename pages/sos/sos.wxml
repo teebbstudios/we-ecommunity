@@ -22,6 +22,9 @@
           13938834243
           <text class="cuIcon-phone text-red margin-left">拨打电话</text>
         </view>
+        <view class="close shadow round bg-grey">
+            <text class="cuIcon-close text-white"></text>
+        </view>
       </view>
       <view class="item flex padding">
         <view class="name text-lg">权伟伟</view>
@@ -29,7 +32,11 @@
           13938834243
           <text class="cuIcon-phone text-red margin-left">拨打电话</text>
         </view>
+        <view class="close shadow round bg-grey">
+            <text class="cuIcon-close text-white"></text>
+        </view>
       </view>
+      
     </scroll-view>
   </view>
 

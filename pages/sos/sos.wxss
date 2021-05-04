@@ -5,7 +5,23 @@
 
 .list-wrapper .name{
   font-weight: bold;
-  min-width: calc(4em + 48rpx);
+  min-width: calc(3em + 48rpx);
+}
+
+.item {
+  position: relative;
+}
+
+.item .close{
+  position: absolute;
+  right: 3%;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40rpx;
+  height: 40rpx;
+  line-height: 40rpx;
+  vertical-align: middle;
+  text-align: center;
 }
 
 .call{

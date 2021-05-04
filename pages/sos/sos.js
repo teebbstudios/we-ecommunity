@@ -30,7 +30,7 @@ Page({
         });
       } else {
         wx.showLoading({
-          title: '倒计时 ' + this.data.timer,
+          title: '倒计时 ' + this.data.timer + ' 秒',
         });
         this.setData({
           timer: this.data.timer - 1

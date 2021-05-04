@@ -1,0 +1,31 @@
+/* pages/sos-confirm/confirm.wxss */
+.confirm{
+  height: 80vh;
+  width: 88vw;
+  margin: auto;
+  margin-top: 10vh;
+  border-radius: 20rpx;
+  position: relative;
+}
+
+.dialog{
+  height: 50vh;
+  width: 100%;
+}
+
+.tips {
+  position: absolute;
+  left: 50%;
+  bottom: 2%;
+  width: 88vw;
+  text-align: center;
+  transform: translateX(-50%);
+}
+
+.helper .label{
+  min-width: calc(3em + 50rpx);
+}
+
+.buttons button.cu-btn{
+  width: 240rpx;
+}
