@@ -1,4 +1,12 @@
 // components/search/search.js
+import wxRequest from 'wechat-request';
+import {
+  PostApi
+} from '../../config/api';
+import {
+  Routes
+} from '../../config/route';
+
 Component({
   /**
    * 组件的属性列表
@@ -31,7 +39,7 @@ Component({
   },
   lifetimes: {
     attached: function () {
-      if(this.data.keywords !==""){
+      if (this.data.keywords !== "") {
         this.setData({
           cancelShow: true
         });
@@ -48,7 +56,11 @@ Component({
       });
     },
     search: function (event) {
-      console.log(event);
+      let keywords = event.detail.value;
+      let category = event.currentTarget.dataset.category;
+      wx.navigateTo({
+        url: Routes.search + '?keywords=' + keywords + '&category=' + category,
+      })
     },
     reset: function () {
       this.setData({

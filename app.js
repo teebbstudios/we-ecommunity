@@ -1,8 +1,18 @@
 // app.js
+import wxRequest from 'wechat-request';
+import { ApiConfig } from './config/api';
+
+wxRequest.defaults.baseURL = ApiConfig.apiHost;
+wxRequest.defaults.headers.common.Accept = ApiConfig.accept + wxRequest.defaults.headers.common.Accept;
+wxRequest.defaults.headers.get['Content-Type'] = ApiConfig.contentType;
+wxRequest.defaults.headers.post['Content-Type'] = ApiConfig.contentType;
+wxRequest.defaults.headers.patch['Content-Type'] = ApiConfig.contentType;
+
 App({
   globalData: {},
 
   onLaunch() {
+    
     // 获取系统状态栏信息
     // wx.getSystemInfo({
     //   success: e => {

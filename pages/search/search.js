@@ -1,4 +1,12 @@
 // pages/search/search.js
+import wxRequest from 'wechat-request';
+import {
+  PostApi
+} from '../../config/api';
+import {
+  Routes
+} from '../../config/route';
+
 Page({
 
   /**
@@ -6,16 +14,55 @@ Page({
    */
   data: {
     TabCur: 0,
-    scrollLeft: 0
+    scrollLeft: 0,
+    keywords: '',
+    category: '',
+    results: [],
+    page: 1
   },
 
+  getSearchResults: function(keywords, category)
+  {
+    let params = {
+      title: keywords,
+      body: keywords,
+      'category.slug': category,
+      page: this.data.page,
+      itemsPerPage: 10
+    }
+    wxRequest.get(PostApi.getCollection, {
+      params
+    }).then((response) => {
+      let posts = response.data['hydra:member'];
+      let postList = this.data.results;
+      posts.map((item) => {
+        let post = {
+          id: item.id,
+          postImage: item.postImage.url,
+          title: item.title,
+          summary: item.summary,
+          category: item.category.name,
+          createdAt: item.createdAt
+        }
+        postList.push(post);
+        this.setData({
+          results: postList
+        });
+      })
+    });
+  },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    wx.setNavigationBarTitle({
-      title: '搜索“工村工村苛云蒸霞蔚村工村工”的结果',
+    this.setData({
+      keywords: options.keywords,
+      category: options.category
     })
+    wx.setNavigationBarTitle({
+      title: '搜索“' + options.keywords + '”',
+    })
+    this.getSearchResults(options.keywords, options.category);
   },
 
   /**
@@ -57,7 +104,10 @@ Page({
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function () {
-
+    this.setData({
+      page: this.data.page + 1
+    })
+    this.getSearchResults(this.data.keywords, this.data.category);
   },
 
   /**

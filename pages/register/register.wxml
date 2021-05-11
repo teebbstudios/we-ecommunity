@@ -64,6 +64,14 @@
                 </view>
               </picker>
             </view>
+            <view class="cu-form-group">
+              <view class="title">与房屋关系</view>
+              <picker id="room" bindchange="pickerChange" value="{{roomIndex}}" range="{{rooms}}" range-key="label">
+                <view class="picker">
+                  {{roomIndex?rooms[roomIndex].label:'点击选择您与该房产的关系'}}
+                </view>
+              </picker>
+            </view>
           </view>
         </scroll-view>
       </swiper-item>

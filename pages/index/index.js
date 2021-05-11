@@ -1,33 +1,107 @@
 // pages/index/index.js
+import wxRequest from 'wechat-request';
+
+import {
+  PostApi
+} from '../../config/api';
+
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    swiperList: [{
-      id: 0,
-      type: 'image',
-      url: 'https://ossweb-img.qq.com/images/lol/web201310/skin/big84000.jpg',
-      title: 'UI组件库合集，大家有遇到好的组件库'
-    }, {
-      id: 1,
-      type: 'image',
-      url: 'https://ossweb-img.qq.com/images/lol/web201310/skin/big84001.jpg',
-      title: 'hello world2'
-    }, {
-      id: 2,
-      type: 'image',
-      url: 'https://ossweb-img.qq.com/images/lol/web201310/skin/big39000.jpg',
-      title: 'hello world3'
-    }]
+    swiperList: [],
+    notification: {
+      id: '',
+      title: '',
+      body: '',
+      imagePost: '',
+    },
+    posts: [],
+    page: 1,
+  },
+
+  getPostList: function (params) {
+    return wxRequest.get(PostApi.getCollection, {
+      params
+    });
+  },
+
+  getSimplePost: function () {
+    let simpleNewsParams = {
+      categoryNotEqual: 'notification',
+      boolTop: false,
+      page: this.data.page,
+      itemsPerPage: 10
+    }
+    this.getPostList(simpleNewsParams).then((response) => {
+      let posts = response.data['hydra:member'];
+      let postList = this.data.posts;
+      posts.map((item) => {
+        let post = {
+          id: item.id,
+          postImage: item.postImage.url,
+          title: item.title,
+          summary: item.summary,
+          category: item.category.name,
+          createdAt: item.createdAt
+        }
+        postList.push(post);
+        this.setData({
+          posts: postList
+        });
+      })
+    })
+  },
+
+  getIndexData: function () {
+    let bannerParams = {
+      categoryNotEqual: 'notification',
+      boolTop: true,
+      itemsPerPage: 5
+    };
+    let notificationParams = {
+      'category.slug': 'notification',
+      itemsPerPage: 1
+    };
+    wxRequest.all([
+      this.getPostList(bannerParams),
+      this.getPostList(notificationParams)
+    ]).then(response => {
+      let banners = response[0].data['hydra:member'];
+      let bannerList = [];
+      banners.map((item) => {
+        let banner = {
+          id: item.id,
+          url: item.postImage.url,
+          title: item.title
+        }
+        bannerList.push(banner);
+        this.setData({
+          swiperList: bannerList
+        });
+      })
+
+      let notifications = response[1].data['hydra:member'];
+      this.setData({
+        notification: {
+          id: notifications[0].id,
+          title: notifications[0].title,
+          body: notifications[0].body,
+          postImage: notifications[0].postImage.url,
+        }
+      });
+    })
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    
+    //并发获取首页数据
+    this.getIndexData();
+    this.getSimplePost();
   },
 
   /**
@@ -69,7 +143,11 @@ Page({
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function () {
+    this.setData({
+      page: this.data.page + 1
+    })
 
+    this.getSimplePost();
   },
 
   /**

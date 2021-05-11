@@ -1,11 +1,11 @@
 {
   "pages": [
     "pages/index/index",
+    "pages/interactive/detail",
+    "pages/register/register",
     "pages/sos-confirm/confirm",
     "pages/family/family",
-    "pages/register/register",
     "pages/interactives/list",
-    "pages/interactive/detail",
     "pages/sos/sos",
     "pages/qrcode/qrcode",
     "pages/mine/mine",
