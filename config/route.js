@@ -15,5 +15,11 @@ export const Routes = {
   idcardFront: "/pages/frontidcard/front",
   reservation: "/pages/reservation/reservation",
   suggestion: "/pages/suggestion/suggestion",
-  postList: "/pages/list/list"
+  postList: "/pages/list/list",
+  
+  navTo: function(api, params){
+    wx.navigateTo({
+      url: api + params,
+    })
+  }
 }

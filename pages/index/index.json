@@ -1,5 +1,6 @@
 {
   "usingComponents": {
-    "e-search": "/components/search/search"
+    "e-search": "/components/search/search",
+    "post-item": "/components/post-item/post-item"
   }
 }

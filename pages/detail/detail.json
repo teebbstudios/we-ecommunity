@@ -1,4 +1,6 @@
 {
-  "usingComponents": {},
+  "usingComponents": {
+    "mp-toptips": "weui-miniprogram/toptips/toptips"
+  },
   "navigationBarTitleText": "文章详情"
 }

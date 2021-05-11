@@ -18,7 +18,8 @@ Page({
     keywords: '',
     category: '',
     results: [],
-    page: 1
+    page: 1,
+    loadingComplete: false,
   },
 
   getSearchResults: function(keywords, category)
@@ -48,6 +49,9 @@ Page({
         this.setData({
           results: postList
         });
+      })
+      this.setData({
+        loadingComplete: true,
       })
     });
   },

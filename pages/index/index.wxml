@@ -6,7 +6,7 @@
 
   <view class="swiper">
     <swiper class="screen-swiper" circular="true" autoplay="true" interval="5000" duration="500">
-      <swiper-item wx:for="{{swiperList}}" wx:key="id">
+      <swiper-item id="{{item.id}}" bindtap="navToDetail" wx:for="{{swiperList}}" wx:key="id">
         <image src="{{item.url}}" mode="aspectFill"></image>
         <text class="swiper-title">{{item.title}}</text>
       </swiper-item>
@@ -52,12 +52,12 @@
       </view>
     </view>
     <view class="cu-card dynamic">
-      <view class="cu-item shadow margin-top-xs">
+      <view id="{{notification.id}}" bindtap="navToDetail" class="cu-item shadow margin-top-xs">
         <view class="title text-lg margin-left margin-right margin-bottom-sm">
           <view class="text-bold">{{notification.title}}</view>
         </view>
-        <view class="text-content">
-          {{notification.body}}
+        <view class="padding-left padding-right">
+          <rich-text nodes="{{notification.body}}"></rich-text>
         </view>
         <view wx:if="{{notification.postImage}}" class="grid flex-sub padding padding-top-xs col-1">
           <view class="bg-img only-img" style="background-image:url({{notification.postImage}});">
@@ -74,24 +74,8 @@
         <text class="bg-red"></text>
       </view>
     </view>
-    <view class="cu-card article">
-
-      <view class="cu-item shadow" wx:for-item="post" wx:for="{{posts}}" wx:key="id">
-        <view class="title">
-          <view class="text-cut">{{post.title}}</view>
-        </view>
-        <view class="content">
-          <image wx:if="{{post.postImage}}" src="{{post.postImage}}" mode="aspectFill"></image>
-          <view class="desc">
-            <view class="text-content">{{post.summary}}</view>
-            <view>
-              <view class="cu-tag bg-red light sm round">{{post.category}}</view>
-              <view class="cu-tag bg-white light lg round">{{post.createdAt}}</view>
-            </view>
-          </view>
-        </view>
-      </view>
-
-    </view>
+    
+    <post-item posts="{{posts}}"></post-item>
+      
   </view>
 </view>

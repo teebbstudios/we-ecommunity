@@ -1,0 +1,8 @@
+/* components/post-item.wxss */
+@import "/colorui/main.wxss";
+@import "/colorui/icon.wxss";
+
+.cu-card .cu-item,
+.news .cu-card .cu-item {
+  margin: 0;
+}

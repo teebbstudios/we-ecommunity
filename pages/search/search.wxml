@@ -10,8 +10,9 @@
         社区通知{{index}}
       </view>
     </scroll-view> -->
-    <view class="cu-card article">
-      <view class="cu-item shadow" wx:for="{{results}}" wx:key="id">
+    <mp-loading type="circle" animated="true" wx:if="{{!loadingComplete}}"></mp-loading>
+    <view class="cu-card article" wx:if="{{loadingComplete}}">
+      <view class="cu-item shadow" wx:if="{{results.length>0}}" wx:for="{{results}}" wx:key="id">
         <view class="title">
           <view class="text-cut">{{item.title}}</view>
         </view>
@@ -26,7 +27,7 @@
           </view>
         </view>
       </view>
-
+      <view wx:if="{{results.length==0}}">没有搜索到结果</view>
     </view>
   </view>
 </view>

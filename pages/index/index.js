@@ -4,6 +4,7 @@ import wxRequest from 'wechat-request';
 import {
   PostApi
 } from '../../config/api';
+import { Routes } from '../../config/route';
 
 Page({
 
@@ -95,6 +96,10 @@ Page({
     })
   },
 
+  navToDetail: function(event){
+    let id = event.currentTarget.id;
+    Routes.navTo(Routes.postDetail, `?id=${id}`);
+  },
   /**
    * 生命周期函数--监听页面加载
    */
