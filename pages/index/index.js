@@ -21,6 +21,8 @@ Page({
     },
     posts: [],
     page: 1,
+    nomore: false,
+    Routes
   },
 
   getPostList: function (params) {
@@ -37,7 +39,14 @@ Page({
       itemsPerPage: 10
     }
     this.getPostList(simpleNewsParams).then((response) => {
+      wx.hideLoading();
+
       let posts = response.data['hydra:member'];
+      if(posts.length === 0){
+        this.setData({
+          nomore: true,
+        })
+      }
       let postList = this.data.posts;
       posts.map((item) => {
         let post = {
@@ -50,9 +59,15 @@ Page({
         }
         postList.push(post);
         this.setData({
-          posts: postList
+          posts: postList,
         });
       })
+      
+      if(postList.length < 10){
+        this.setData({
+          nomore: true
+        })
+      }
     })
   },
 
@@ -104,6 +119,9 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    wx.showLoading({
+      title: '正在加载内容',
+    });
     //并发获取首页数据
     this.getIndexData();
     this.getSimplePost();
@@ -148,11 +166,16 @@ Page({
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function () {
-    this.setData({
-      page: this.data.page + 1
-    })
-
-    this.getSimplePost();
+    if(!this.data.nomore){
+      wx.showLoading({
+        title: '正在加载中',
+      })
+      this.setData({
+        page: this.data.page + 1
+      })
+  
+      this.getSimplePost();
+    }
   },
 
   /**

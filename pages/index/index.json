@@ -1,6 +1,7 @@
 {
   "usingComponents": {
     "e-search": "/components/search/search",
-    "post-item": "/components/post-item/post-item"
+    "post-item": "/components/post-item/post-item",
+    "icon-item": "/components/icon-item/icon"
   }
 }

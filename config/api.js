@@ -1,5 +1,5 @@
 export const ApiConfig = {
-  apiHost: `http://127.0.0.1:8000`,
+  apiHost: `http://192.168.1.103:8000`,
   contentType: `application/ld+json`,
   accept: `application/ld+json, `,
 }

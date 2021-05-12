@@ -1,7 +1,7 @@
 <!--文章详情页页面-->
 <mp-toptips msg="{{fileSaveInfo}}" type="info" show="{{fileSaveInfo}}"></mp-toptips>
 <view class="container bg-white">
-  <view class="weui-article article">
+  <view class="weui-article article" wx:if="{{post.title !== ''}}">
     <view class="weui-article__h1 margin-bottom-sm">
       {{post.title}}
     </view>
@@ -23,13 +23,13 @@
           附件:
         </view>
         <!-- 如果是图片附件 -->
-        <view class="grid flex-sub col-5 grid-square" wx:if="{{post.attachImages.length>0}}">
+        <view class="grid flex-sub col-5 grid-square margin-bottom-sm" wx:if="{{post.attachImages.length>0}}">
           <view bindtap="previewImage" data-url="{{item}}" class="bg-img" style="background-image:url({{item}});" wx:for="{{post.attachImages}}" wx:key="id">
           </view>
         </view>
         <!-- 如果是文件 -->
         <block wx:if="{{post.attachFiles.length>0}}">
-          <view bindtap="downloadFile" data-url="{{item.url}}" class="flex align-center margin-bottom" wx:for="{{post.attachFiles}}" wx:key="id">
+          <view bindtap="downloadFile" data-url="{{item.url}}" class="flex align-center" wx:for="{{post.attachFiles}}" wx:key="id">
             <view class="text-xxl">
               <text class="cuIcon-file"></text>
             </view>

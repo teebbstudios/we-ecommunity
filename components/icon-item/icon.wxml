@@ -1,0 +1,5 @@
+<!--components/icon-item/icon.wxml-->
+<view bindtap="navTo" data-route="{{route}}" class="icon-item margin-tb-xs">
+  <text class="icon-text {{icon}} shadow lg"></text>
+  <text>{{title}}</text>
+</view>

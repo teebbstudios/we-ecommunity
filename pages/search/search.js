@@ -20,10 +20,10 @@ Page({
     results: [],
     page: 1,
     loadingComplete: false,
+    nomore: false,
   },
 
-  getSearchResults: function(keywords, category)
-  {
+  getSearchResults: function (keywords, category) {
     let params = {
       title: keywords,
       body: keywords,
@@ -50,6 +50,13 @@ Page({
           results: postList
         });
       })
+
+      if (postList.length < 10) {
+        this.setData({
+          nomore: true
+        })
+      }
+
       this.setData({
         loadingComplete: true,
       })
@@ -108,10 +115,12 @@ Page({
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function () {
-    this.setData({
-      page: this.data.page + 1
-    })
-    this.getSearchResults(this.data.keywords, this.data.category);
+    if (!this.data.nomore) {
+      this.setData({
+        page: this.data.page + 1
+      })
+      this.getSearchResults(this.data.keywords, this.data.category);
+    }
   },
 
   /**

@@ -1,0 +1,19 @@
+/* components/icon-item/icon.wxss */
+@import "/colorui/main.wxss";
+@import "/colorui/icon.wxss";
+
+.icon-item{
+  display:flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.icon-item .icon-text{
+  width: 100rpx;
+  height: 100rpx;
+  border-radius: 20rpx;
+  line-height: 100rpx;
+  font-size: 60rpx;
+  color: #fff;
+  margin-bottom: 10rpx;
+}

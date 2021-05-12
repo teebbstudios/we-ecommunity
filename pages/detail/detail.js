@@ -29,17 +29,15 @@ Page({
   },
 
   downloadFile: function (event) {
+    wx.showLoading({
+      title: '正在加载附件中',
+    })
     wx.downloadFile({
       url: event.currentTarget.dataset.url,
       success: (res) => {
-        wx.saveFile({
-          tempFilePath: res.tempFilePath,
-          success: (res) => {
-            const savedFilePath = res.savedFilePath
-            this.setData({
-              fileSaveInfo: `文件成功保存到${savedFilePath}`
-            });
-          }
+        wx.hideLoading();
+        wx.openDocument({
+          filePath: res.tempFilePath
         })
       }
     })

@@ -28,6 +28,9 @@
         </view>
       </view>
       <view wx:if="{{results.length==0}}">没有搜索到结果</view>
+      <view class="text-center padding" wx:if="{{nomore}}">
+        <text class="text-grey">已经到底了</text>
+      </view>
     </view>
   </view>
 </view>
