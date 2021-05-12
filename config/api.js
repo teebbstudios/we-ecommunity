@@ -33,10 +33,10 @@ export const CommunityApi = {
 }
 
 export const FamilyApi = {
-  getCollection: `/api/families`,
-  postCollection: `/api/families`,
+  getCollection: `/api/auth/families`,
+  postCollection: `/api/auth/families`,
   getItem: (id) => {
-    return `/api/families/${id}`
+    return `/api/auth/families/${id}`
   }
 }
 
@@ -80,18 +80,18 @@ export const ReservationTypeApi = {
 }
 
 export const ReservationApi = {
-  getCollection: `/api/reservations`,
-  postCollection: `/api/reservations`,
+  getCollection: `/api/auth/reservations`,
+  postCollection: `/api/auth/reservations`,
   getItem: (id) => {
-    return `/api/reservations/${id}`
+    return `/api/auth/reservations/${id}`
   }
 }
 
 export const ResidentApi = {
-  getCollection: `/api/residents`,
-  postCollection: `/api/residents`,
+  getCollection: `/api/auth/residents`,
+  postCollection: `/api/auth/residents`,
   getItem: (id) => {
-    return `/api/residents/${id}`
+    return `/api/auth/residents/${id}`
   }
 }
 
@@ -103,13 +103,13 @@ export const SuggestionTypeApi = {
 }
 
 export const SuggestionApi = {
-  getCollection: `/api/suggestions`,
-  postCollection: `/api/suggestions`,
+  getCollection: `/api/auth/suggestions`,
+  postCollection: `/api/auth/suggestions`,
   getItem: (id) => {
-    return `/api/suggestions/${id}`
+    return `/api/auth/suggestions/${id}`
   },
   patchItem: (id) => {
-    return `/api/suggestions/${id}`
+    return `/api/auth/suggestions/${id}`
   }
 }
 

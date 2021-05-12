@@ -1,3 +1,5 @@
+import wxRequest from "wechat-request";
+
 export const Routes = {
   index: "/pages/index/index",
   interactive: "/pages/interactive/detail",
@@ -16,10 +18,36 @@ export const Routes = {
   reservation: "/pages/reservation/reservation",
   suggestion: "/pages/suggestion/suggestion",
   postList: "/pages/list/list",
-  
-  navTo: function(api, params){
+
+  navTo: function (api, params) {
     wx.navigateTo({
       url: api + params,
     })
+  },
+
+  checkJwtExpired: function (response) {
+    if (response.data.code === 401 && response.data.message === 'Expired JWT Token') {
+      wx.showModal({
+        title: '您的账号已超时请重新登录',
+        success: res => {
+          if (res.confirm) {
+            wx.reLaunch({
+              url: this.mine,
+            })
+          } else if (res.cancel) {
+            console.log('用户点击取消')
+          }
+        }
+      })
+
+      delete wxRequest.defaults.headers['Authorization'];
+
+      wx.removeStorage({
+        key: 'userInfo',
+      });
+      wx.removeStorage({
+        key: 'authToken',
+      });
+    }
   }
 }

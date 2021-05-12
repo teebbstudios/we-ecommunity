@@ -1,6 +1,7 @@
 {
   "pages": [
     "pages/index/index",
+    "pages/mine/mine",
     "pages/interactive/detail",
     "pages/register/register",
     "pages/sos-confirm/confirm",
@@ -8,7 +9,6 @@
     "pages/interactives/list",
     "pages/sos/sos",
     "pages/qrcode/qrcode",
-    "pages/mine/mine",
     "pages/search/search",
     "pages/detail/detail",
     "pages/backidcard/back",

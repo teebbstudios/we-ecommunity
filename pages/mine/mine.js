@@ -1,10 +1,63 @@
 // pages/mine/mine.js
+import wxRequest from "wechat-request";
+import {
+  UserApi
+} from "../../config/api";
+import { Routes } from "../../config/route";
+
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
+    version: '',
+    userInfo: null,
+  },
+
+  login: function (event) {
+    if (this.data.userInfo) {
+      return;
+    }
+    wx.getUserProfile({
+      desc: '用于完善个人信息', // 声明获取用户个人信息后的用途，后续会展示在弹窗中，请谨慎填写
+      success: (res) => {
+        let userInfo = res.userInfo;
+        wx.setStorage({
+          key: 'userInfo',
+          data: res.userInfo
+        });
+
+        wx.login({
+          success: code => {
+            let loginParam = {
+              code: code.code,
+              userInfo
+            }
+            let postConfig = {
+              headers: {
+                "Content-Type": "application/json",
+              }
+            }
+            wxRequest.post(UserApi.postLogin, loginParam, postConfig).then(response => {
+              this.setData({
+                userInfo
+              })
+              let token = response.headers.Jwt;
+              wx.setStorageSync('authToken', token)
+
+              //登录成功后，添加Token
+              wxRequest.defaults.headers['Authorization'] = 'Bearer '+token;
+
+              wx.showToast({
+                icon: 'none',
+                title: '登录成功',
+              })
+            })
+          }
+        })
+      }
+    })
 
   },
 
@@ -12,9 +65,32 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    //获取版本号
+    const accountInfo = wx.getAccountInfoSync();
 
+    //获取用户信息
+    var userInfo = wx.getStorageSync('userInfo')
+    if (!userInfo) {
+      return;
+    }
+    this.setData({
+      version: accountInfo.miniProgram.version,
+      userInfo
+    })
   },
 
+  clearCache: function (event) {
+    wx.clearStorage({
+      success: (res) => {
+        wx.showToast({
+          title: '清除成功',
+        })
+        wx.reLaunch({
+          url: Routes.mine,
+        })
+      },
+    })
+  },
   /**
    * 生命周期函数--监听页面初次渲染完成
    */

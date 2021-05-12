@@ -16,10 +16,10 @@
   <view class="icons">
     <view class="bg-white padding-sm">
       <view class="grid col-4 text-center">
-        <icon-item icon="bg-red cuIcon-form" title="住户登记" route="{{Routes.register}}"></icon-item>
+        <icon-item needLogin="true" icon="bg-red cuIcon-form" title="住户登记" route="{{Routes.register}}"></icon-item>
         <icon-item icon="bg-blue cuIcon-list" title="办事指南" route="{{Routes.postList + '?category=guide&title=办事指南'}}"></icon-item>
-        <icon-item icon="bg-orange cuIcon-time" title="预约办理" route="{{Routes.reservation}}"></icon-item>
-        <icon-item icon="bg-cyan cuIcon-message" title="意见建议" route="{{Routes.suggestion}}"></icon-item>
+        <icon-item needLogin="true" icon="bg-orange cuIcon-time" title="预约办理" route="{{Routes.reservation}}"></icon-item>
+        <icon-item icon="bg-cyan cuIcon-message" title="意见建议" route="{{Routes.interactiveList + '?type=suggestion'}}"></icon-item>
         <icon-item icon="bg-yellow cuIcon-notification" title="社区通知"
           route="{{Routes.postList + '?category=notification&title=社区通知'}}"></icon-item>
         <icon-item icon="bg-pink cuIcon-like" title="幸福家园" route="{{Routes.postList + '?category=happiness&title=幸福家园'}}">

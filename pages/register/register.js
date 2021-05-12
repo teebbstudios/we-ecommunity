@@ -1,3 +1,11 @@
+import wxRequest from "wechat-request";
+import {
+  FamilyApi
+} from "../../config/api";
+import {
+  Routes
+} from "../../config/route";
+
 // pages/register/register.js
 Page({
 
@@ -49,57 +57,16 @@ Page({
       name: '登记完成'
     }, ],
     num: 0,
-    areas: [{
-        id: 1,
-        name: "康乐社区"
-      },
-      {
-        id: 2,
-        name: "紫金花园"
-      },
-      {
-        id: 3,
-        name: "博泰花园"
-      }
-    ],
+    areas: [],
     areaId: null,
     areaIndex: null,
-    buildings: [{
-        id: 1,
-        label: "#1"
-      },
-      {
-        id: 2,
-        label: "#2"
-      },
-      {
-        id: 3,
-        label: "#3"
-      },
-      {
-        id: 4,
-        label: "#4"
-      },
-    ],
+    buildings: [],
     buildingId: null,
     buildingIndex: null,
-    rooms: [{
-        id: 1,
-        label: "#101"
-      },
-      {
-        id: 2,
-        label: "#102"
-      },
-      {
-        id: 3,
-        label: "#201"
-      },
-      {
-        id: 4,
-        label: "#202"
-      },
-    ],
+    units: [],
+    unitId: null,
+    unitIndex: null,
+    rooms: [],
     roomId: null,
     roomIndex: null,
     imgList: [],
@@ -113,60 +80,169 @@ Page({
     sexs: ['男', '女'],
     sexIndex: 0,
     marriages: ['单身', '已婚', '离异', '丧偶', '其他'],
-    
+
     marriageIndex: null,
     politicals: ['中共党员', '中共预备党员', '共青团员', '群众', '民革党员', '民盟盟员', '民建会员', '民进会员', '农工党党员', '致公党党员', '九三学社社员', '台盟盟员', '无党派人士'],
-    
+
     politicalIndex: null,
     educations: ['小学', '初中', '高中', '大专', '本科', '硕士', '博士', '无学历'],
-    
+
     educationIndex: null,
-    relations: [
-      {id: 1, label: '户主'},
-      {id: 2, label: '父亲'},
-      {id: 3, label: '母亲'},
-    ]
+    relationsWithHost: [],
+    relationsWithHostId: null,
+    relationsWithHostIndex: null,
+    relationsWithRoom: [],
+    relationsWithRoomId: null,
+    relationsWithRoomIndex: null,
+    familyId: null,
   },
   radioChange: function (e) {
     this.setData({
-      typeDescription: this.data.types[e.detail.value].description
+      typeDescription: this.data.types[e.detail.value].description,
+      type: e.detail.value,
     });
+  },
+  replaceStr: (str, index, char) => {
+    return str.substring(0, index) + char + str.substring(index + 1);
   },
   numSteps: function (e) {
     let btnType = e.currentTarget.id;
     let currentStep = this.data.num;
-    console.log(currentStep)
+
     if (btnType === 'prev') {
       currentStep <= 0 ? 0 : currentStep -= 1;
     }
     if (btnType === 'next') {
       currentStep += 1;
     }
-    this.setData({
-      num: currentStep
-    })
+
+    //根据当前页面，对按钮添加额外方法
+    switch (currentStep) {
+      case 1: //第一步
+        this.setData({
+          num: currentStep
+        })
+        break;
+      case 2: //选择住址
+        //在这一步查找或创建家庭
+        if (!this.data.areaId || !this.data.buildingId || !this.data.unitId || !this.data.roomId || !this.data.relationsWithRoomId) {
+          wx.showToast({
+            icon: 'error',
+            title: '请补充完整信息',
+          })
+          return;
+        }
+
+        //查找当前家庭，如果当前家庭不存在，创建家庭，如果存在选择当前家庭
+        let findFamilyParams = {
+          "community.id": this.data.areas[this.data.areaIndex].id,
+          "building.id": this.data.buildings[this.data.buildingIndex].id,
+          "unit.id": this.data.units[this.data.unitIndex].id,
+          "room.id": this.data.rooms[this.data.roomIndex].id,
+        }
+        wxRequest.get(FamilyApi.getCollection, {
+          params: findFamilyParams
+        }).then(response => {
+          Routes.checkJwtExpired(response);
+
+          let families = response.data['hydra:member'];
+          if (families.length > 1) {
+            wx.showToast({
+              icon: 'error',
+              title: '系统错误',
+            })
+
+          }
+
+          if (families.length == 1) {
+            let residents = families[0].residents;
+            let residentsName = '';
+            residents.map(item => {
+              residentsName = residentsName + this.replaceStr(item.name, 1, '*') + ' ';
+            })
+            wx.showModal({
+              title: '当前家庭已存在，是否加入？',
+              content: residents.length === 0 ? '' : ('已有成员：' + residentsName),
+              success: res => {
+                if (res.confirm) {
+                  this.setData({
+                    num: currentStep,
+                    familyId: families[0]['@id']
+                  })
+                } else if (res.cancel) {
+                  console.log('用户点击取消')
+                }
+              }
+            })
+          }
+          if (families.length == 0) {
+            //创建家庭
+            let postParams = {
+              community: this.data.areaId,
+              building: this.data.buildingId,
+              unit: this.data.unitId,
+              room: this.data.roomId
+            }
+            wxRequest.post(FamilyApi.postCollection, postParams).then(response => {
+              
+              if(response.status === 201){
+                wx.showToast({
+                  icon: 'success',
+                  title: '家庭创建成功',
+                })
+
+                this.setData({
+                  num: currentStep,
+                  familyId: response.data['@id']
+                })
+              }
+            })
+          }
+        })
+        break;
+      case 3: //填写信息
+        //todo：信息完整性检查
+        break;
+      case 4: //登记完成
+        break;
+    }
+
   },
   pickerChange: function (e) {
-    console.log(e);
     let pickerType = e.currentTarget.id;
     let pickIndex = e.detail.value;
     switch (pickerType) {
       case "area":
         this.setData({
           areaIndex: pickIndex,
-          areaId: this.data.areas[pickIndex].id
+          areaId: this.data.areas[pickIndex]['@id'],
+          buildings: this.data.areas[pickIndex].builds,
+          units: this.data.areas[pickIndex].units,
+          rooms: this.data.areas[pickIndex].rooms,
         })
         break;
       case "building":
         this.setData({
           buildingIndex: pickIndex,
-          buildingId: this.data.buildings[pickIndex].id
+          buildingId: this.data.buildings[pickIndex]['@id']
+        })
+        break;
+      case "unit":
+        this.setData({
+          unitIndex: pickIndex,
+          unitId: this.data.units[pickIndex]['@id']
         })
         break;
       case "room":
         this.setData({
           roomIndex: pickIndex,
-          roomId: this.data.rooms[pickIndex].id
+          roomId: this.data.rooms[pickIndex]['@id']
+        })
+        break;
+      case "relationsWithRoom":
+        this.setData({
+          relationsWithRoomIndex: pickIndex,
+          relationsWithRoomId: this.data.relationsWithRoom[pickIndex]['@id']
         })
         break;
       case "sex":
@@ -205,17 +281,17 @@ Page({
     switch (cameraType) {
       case "selfie":
         wx.navigateTo({
-          url: '/pages/selfie/selfie',
+          url: Routes.selfie,
         })
         break;
       case "idcardback":
         wx.navigateTo({
-          url: '/pages/backidcard/back',
+          url: Routes.idcardBack,
         })
         break;
       case "idcardfront":
         wx.navigateTo({
-          url: '/pages/frontidcard/front',
+          url: Routes.idcardFront,
         })
         break;
     }
@@ -283,6 +359,15 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    let communities = wx.getStorageSync('communities');
+    let relationsWithRoom = wx.getStorageSync('relationsWithRoom');
+    let relationsWithHost = wx.getStorageSync('relationsWithHost');
+
+    this.setData({
+      areas: communities,
+      relationsWithRoom,
+      relationsWithHost
+    })
 
   },
 

@@ -50,25 +50,34 @@
             <view class="cu-form-group">
               <view class="title">选择楼号</view>
               <picker id="building" bindchange="pickerChange" value="{{buildingIndex}}" range="{{buildings}}"
-                range-key="label">
+                range-key="buildingName">
                 <view class="picker">
-                  {{buildingIndex?buildings[buildingIndex].label:'点击选择您的楼号'}}
+                  {{buildingIndex?buildings[buildingIndex].buildingName:'点击选择您的楼号'}}
+                </view>
+              </picker>
+            </view>
+            <view class="cu-form-group">
+              <view class="title">选择单元号</view>
+              <picker id="unit" bindchange="pickerChange" value="{{unitIndex}}" range="{{units}}"
+                range-key="unitName">
+                <view class="picker">
+                  {{unitIndex?units[unitIndex].unitName:'点击选择您的单元号'}}
                 </view>
               </picker>
             </view>
             <view class="cu-form-group">
               <view class="title">选择房间号</view>
-              <picker id="room" bindchange="pickerChange" value="{{roomIndex}}" range="{{rooms}}" range-key="label">
+              <picker id="room" bindchange="pickerChange" value="{{roomIndex}}" range="{{rooms}}" range-key="RoomNum">
                 <view class="picker">
-                  {{roomIndex?rooms[roomIndex].label:'点击选择您的房间号'}}
+                  {{roomIndex?rooms[roomIndex].RoomNum:'点击选择您的房间号'}}
                 </view>
               </picker>
             </view>
             <view class="cu-form-group">
-              <view class="title">与房屋关系</view>
-              <picker id="room" bindchange="pickerChange" value="{{roomIndex}}" range="{{rooms}}" range-key="label">
+              <view class="title">与该房产关系</view>
+              <picker id="relationsWithRoom" bindchange="pickerChange" value="{{relationsWithRoomIndex}}" range="{{relationsWithRoom}}" range-key="name">
                 <view class="picker">
-                  {{roomIndex?rooms[roomIndex].label:'点击选择您与该房产的关系'}}
+                  {{relationsWithRoomIndex?relationsWithRoom[relationsWithRoomIndex].name:'点击选择您与该房产的关系'}}
                 </view>
               </picker>
             </view>
