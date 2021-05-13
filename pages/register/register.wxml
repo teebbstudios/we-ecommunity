@@ -40,44 +40,35 @@
               请选择家庭住址
             </view>
             <view class="cu-form-group">
-              <view class="title">选择小区</view>
+              <view class="title text-bold">选择小区</view>
               <picker id="area" bindchange="pickerChange" value="{{areaIndex}}" range="{{areas}}" range-key="name">
                 <view class="picker">
-                  {{areaIndex?areas[areaIndex].name:'点击选择您所在小区'}}
+                  {{info.communityName?info.communityName:'点击选择您所在小区'}}
                 </view>
               </picker>
             </view>
             <view class="cu-form-group">
-              <view class="title">选择楼号</view>
+              <view class="title text-bold">选择楼号</view>
               <picker id="building" bindchange="pickerChange" value="{{buildingIndex}}" range="{{buildings}}"
                 range-key="buildingName">
                 <view class="picker">
-                  {{buildingIndex?buildings[buildingIndex].buildingName:'点击选择您的楼号'}}
+                  {{info.buildingName?info.buildingName:buildingIndex?buildings[buildingIndex].buildingName:'点击选择您的楼号'}}
                 </view>
               </picker>
             </view>
             <view class="cu-form-group">
-              <view class="title">选择单元号</view>
-              <picker id="unit" bindchange="pickerChange" value="{{unitIndex}}" range="{{units}}"
-                range-key="unitName">
+              <view class="title text-bold">选择单元号</view>
+              <picker id="unit" bindchange="pickerChange" value="{{unitIndex}}" range="{{units}}" range-key="unitName">
                 <view class="picker">
-                  {{unitIndex?units[unitIndex].unitName:'点击选择您的单元号'}}
+                  {{info.unitName?info.unitName:unitIndex?units[unitIndex].unitName:'点击选择您的单元号'}}
                 </view>
               </picker>
             </view>
             <view class="cu-form-group">
-              <view class="title">选择房间号</view>
+              <view class="title text-bold">选择房间号</view>
               <picker id="room" bindchange="pickerChange" value="{{roomIndex}}" range="{{rooms}}" range-key="RoomNum">
                 <view class="picker">
-                  {{roomIndex?rooms[roomIndex].RoomNum:'点击选择您的房间号'}}
-                </view>
-              </picker>
-            </view>
-            <view class="cu-form-group">
-              <view class="title">与该房产关系</view>
-              <picker id="relationsWithRoom" bindchange="pickerChange" value="{{relationsWithRoomIndex}}" range="{{relationsWithRoom}}" range-key="name">
-                <view class="picker">
-                  {{relationsWithRoomIndex?relationsWithRoom[relationsWithRoomIndex].name:'点击选择您与该房产的关系'}}
+                  {{info.roomNum?info.roomNum:roomIndex?rooms[roomIndex].RoomNum:'点击选择您的房间号'}}
                 </view>
               </picker>
             </view>
@@ -95,123 +86,140 @@
             </view>
             <view class="radius margin-bottom bg-white padding-left padding-right">
               <view class="cu-bar">
-                <view class="action">自拍照上传</view>
+                <view class="action text-bold">自拍照上传</view>
               </view>
               <view class="text-grey padding padding-top-xs">
                 <view id="selfie" class="selfie solid radius" bindtap="goCamera">
-                  <view wx:if="{{!selfie}}" class="h-100 text-center flex text-sl flex-direction justify-center radius">
+                  <view wx:if="{{!info.selfieTmp}}"
+                    class="h-100 text-center flex text-sl flex-direction justify-center radius">
                     <text class="cuIcon-people"></text>
                     <text class="text-sm">点击拍摄自拍</text>
                   </view>
-                  <image wx:if="{{selfie}}" class="selfie solid radius" mode="widthFix" src="{{selfieTmp}}"></image>
+                  <image wx:if="{{info.selfieTmp}}" class="selfie solid radius" mode="widthFix"
+                    src="{{info.selfieTmp}}"></image>
                 </view>
               </view>
             </view>
             <view class="radius margin-bottom bg-white padding-left padding-right">
               <view class="cu-bar">
-                <view class="action">身份证上传</view>
+                <view class="action text-bold">身份证上传</view>
               </view>
               <view class="idcard grid col-2 text-grey">
                 <view id="idcardback" class="idcardback padding padding-top-xs" bindtap="goCamera">
-                  <view wx:if="{{!idcardBack}}" class="img-wrapper solid text-center flex flex-direction radius">
+                  <view wx:if="{{!info.idcardBackTmp}}"
+                    class="img-wrapper solid text-center flex flex-direction radius">
                     <text class="iconfont icon-idcardback text-sl"></text>
                     <text class="text-sm">点击拍摄身份证人像面</text>
                   </view>
-                  <view wx:if="{{idcardBack}}" class="img-wrapper solid radius">
-                    <image class="idcardImage" mode="heightFix" src="{{idcardBackTmp}}"></image>
+                  <view wx:if="{{info.idcardBackTmp}}" class="img-wrapper solid radius">
+                    <image class="idcardImage" mode="heightFix" src="{{info.idcardBackTmp}}"></image>
                   </view>
                 </view>
 
                 <view id="idcardfront" class="idcardfront padding padding-top-xs" bindtap="goCamera">
-                  <view wx:if="{{!idcardFront}}" class="img-wrapper solid text-center flex flex-direction radius">
+                  <view wx:if="{{!info.idcardFrontTmp}}"
+                    class="img-wrapper solid text-center flex flex-direction radius">
                     <text class="iconfont icon-idcardfront text-sl"></text>
                     <text class="text-sm">点击拍摄身份证国徽面</text>
                   </view>
-                  <view wx:if="{{idcardFront}}" class="img-wrapper solid radius">
-                    <image class="idcardImage" mode="heightFix" src="{{idcardFrontTmp}}"></image>
+                  <view wx:if="{{info.idcardFrontTmp}}" class="img-wrapper solid radius">
+                    <image class="idcardImage" mode="heightFix" src="{{info.idcardFrontTmp}}"></image>
                   </view>
                 </view>
               </view>
             </view>
             <view class="radius bg-white padding-left padding-right">
               <view class="cu-form-group">
-                <view class="title">姓名</view>
-                <input class="text-right" placeholder="请输入您的姓名" placeholder-style="text-align:right"></input>
+                <view class="title text-bold">姓名</view>
+                <input class="text-right" id="name" bindblur="getInputValue" value="{{info.name}}" placeholder="请输入您的姓名"
+                  placeholder-style="text-align:right"></input>
               </view>
               <view class="cu-form-group">
-                <view class="title">性别</view>
+                <view class="title text-bold">性别</view>
                 <picker id="sex" bindchange="pickerChange" value="{{sexIndex}}" range="{{sexs}}">
                   <view class="picker">
-                    {{sexIndex?sexs[sexIndex]:'请选择您的性别'}}
+                    {{info.sex?info.sex==1?"男":"女" :sexIndex?sexs[sexIndex]:'请选择您的性别'}}
                   </view>
                 </picker>
               </view>
               <view class="cu-form-group">
-                <view class="title">民族</view>
-                <input class="text-right" placeholder="请输入您的民族" placeholder-style="text-align:right"></input>
+                <view class="title text-bold">民族</view>
+                <input class="text-right" id="nationality" bindblur="getInputValue" class="text-right"
+                  placeholder="请输入您的民族" value="{{info.nationality}}" placeholder-style="text-align:right"></input>
               </view>
               <view class="cu-form-group">
-                <view class="title">学历</view>
+                <view class="title text-bold">学历</view>
                 <picker id="education" bindchange="pickerChange" value="{{educationIndex}}" range="{{educations}}">
                   <view class="picker">
-                    {{educationIndex?educations[educationIndex]:'请选择您的学历'}}
+                    {{info.education?info.education:educationIndex?educations[educationIndex]:'请选择您的学历'}}
                   </view>
                 </picker>
               </view>
               <view class="cu-form-group">
-                <view class="title">联系电话</view>
-                <input class="text-right" type="number" placeholder="请填写您的联系电话"
-                  placeholder-style="text-align:right"></input>
+                <view class="title text-bold">联系手机</view>
+                <input class="text-right" id="phone" bindblur="getInputValue" class="text-right" type="number"
+                  placeholder="请填写您或监护人的手机号码" placeholder-style="text-align:right" value="{{info.phone}}"></input>
                 <button open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber" class="cu-btn bg-white icon">
                   <text class="cuIcon-phone text-grey"></text>
                 </button>
               </view>
               <view class="cu-form-group">
-                <view class="title">出生日期</view>
-                <picker mode="date" value="{{date}}" bindchange="dateChange">
+                <view class="title text-bold">出生日期</view>
+                <picker mode="date" value="{{info.birthday}}" bindchange="dateChange">
                   <view class="picker">
-                    {{date?date:'请选择出生日期'}}
+                    {{info.birthday?info.birthday:'请选择出生日期'}}
                   </view>
                 </picker>
               </view>
               <view class="cu-form-group">
-                <view class="title">身份证号</view>
-                <input class="text-right" type="idcard" placeholder="请输入您的身份证号"
-                  placeholder-style="text-align:right"></input>
+                <view class="title text-bold">身份证号</view>
+                <input class="text-right" id="idcard" bindblur="getInputValue" class="text-right" type="idcard"
+                  value="{{info.idcard}}" placeholder="请输入您的身份证号" placeholder-style="text-align:right"></input>
               </view>
               <view class="cu-form-group">
-                <view class="title">证件住址</view>
-                <input class="text-right" value="{{address?address:''}}" placeholder="请输入您的身份证住址"
-                  placeholder-style="text-align:right"></input>
+                <view class="title text-bold">证件住址</view>
+                <input class="text-right" id="address" bindblur="getInputValue" class="text-right"
+                  value="{{info.address}}" placeholder="请输入您的身份证住址" placeholder-style="text-align:right"></input>
                 <button bindtap="getLocation" class="cu-btn bg-white icon">
                   <text class="cuIcon-locationfill text-grey"></text>
                 </button>
               </view>
               <view class="cu-form-group">
-                <view class="title">婚姻情况</view>
+                <view class="title text-bold">婚姻情况</view>
                 <picker id="marriage" bindchange="pickerChange" value="{{marriageIndex}}" range="{{marriages}}">
                   <view class="picker">
-                    {{marriageIndex?marriages[marriageIndex]:'请选择您的婚姻情况'}}
+                    {{info.marriage?info.marriage:'请选择您的婚姻情况'}}
                   </view>
                 </picker>
               </view>
               <view class="cu-form-group">
-                <view class="title">政治面貌</view>
+                <view class="title text-bold">政治面貌</view>
                 <picker id="political" bindchange="pickerChange" value="{{politicalIndex}}" range="{{politicals}}">
                   <view class="picker">
-                    {{politicalIndex?politicals[politicalIndex]:'请选择您的政治面貌'}}
+                    {{info.politics?info.politics:'请选择您的政治面貌'}}
                   </view>
                 </picker>
               </view>
               <view class="cu-form-group">
-                <view class="title">现(原)单位</view>
-                <input class="text-right" placeholder="请输入工作单位,无单位写‘无’" placeholder-style="text-align:right"></input>
+                <view class="title text-bold">现(原)单位</view>
+                <input class="text-right" id="employer" bindblur="getInputValue" value="{{info.employer}}"
+                  placeholder="请输入工作单位,无单位写‘无’" placeholder-style="text-align:right"></input>
               </view>
               <view class="cu-form-group">
-                <view class="title">与户主关系</view>
-                <picker id="relation" bindchange="pickerChange" value="{{relationIndex}}" range-key="label" range="{{relations}}">
+                <view class="title text-bold">与户主关系</view>
+                <picker id="relationsWithHost" bindchange="pickerChange" value="{{relationsWithHostIndex}}"
+                  range-key="name" range="{{relationsWithHost}}">
                   <view class="picker">
-                    {{relationIndex?relations[relationIndex]:'请选择您的家庭关系'}}
+                    {{info.relationWithHostName?info.relationWithHostName:'请选择您与户主的关系'}}
+                  </view>
+                </picker>
+              </view>
+              <view class="cu-form-group">
+                <view class="title text-bold">与该房产关系</view>
+                <picker id="relationsWithRoom" bindchange="pickerChange" value="{{relationsWithRoomIndex}}"
+                  range="{{relationsWithRoom}}" range-key="name">
+                  <view class="picker">
+                    {{info.relationWithRoomName?info.relationWithRoomName:'点击选择您与该房产的关系'}}
                   </view>
                 </picker>
               </view>
@@ -229,8 +237,6 @@
         </scroll-view>
       </swiper-item>
     </swiper>
-
-
   </view>
 
   <view class="action flex justify-center">

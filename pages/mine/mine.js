@@ -3,7 +3,9 @@ import wxRequest from "wechat-request";
 import {
   UserApi
 } from "../../config/api";
-import { Routes } from "../../config/route";
+import {
+  Routes
+} from "../../config/route";
 
 Page({
 
@@ -19,6 +21,9 @@ Page({
     if (this.data.userInfo) {
       return;
     }
+    wx.showLoading({
+      title: '正在登录请稍候',
+    })
     wx.getUserProfile({
       desc: '用于完善个人信息', // 声明获取用户个人信息后的用途，后续会展示在弹窗中，请谨慎填写
       success: (res) => {
@@ -40,14 +45,17 @@ Page({
               }
             }
             wxRequest.post(UserApi.postLogin, loginParam, postConfig).then(response => {
+              wx.hideLoading();
+              
               this.setData({
                 userInfo
               })
               let token = response.headers.Jwt;
               wx.setStorageSync('authToken', token)
+              wx.setStorageSync('userId', response.headers["User-Id"])
 
               //登录成功后，添加Token
-              wxRequest.defaults.headers['Authorization'] = 'Bearer '+token;
+              wxRequest.defaults.headers['Authorization'] = 'Bearer ' + token;
 
               wx.showToast({
                 icon: 'none',

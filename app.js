@@ -41,7 +41,8 @@ App({
     wxRequest.defaults.headers.common.Accept = ApiConfig.accept + wxRequest.defaults.headers.common.Accept;
     wxRequest.defaults.headers.get['Content-Type'] = ApiConfig.contentType;
     wxRequest.defaults.headers.post['Content-Type'] = ApiConfig.contentType;
-    wxRequest.defaults.headers.patch['Content-Type'] = ApiConfig.contentType;
+    wxRequest.defaults.headers.put['Content-Type'] = ApiConfig.contentType;
+    wxRequest.defaults.headers.patch['Content-Type'] = ApiConfig.patchContentType;
 
     //如果已经登录，添加Authentication
     wx.getStorage({

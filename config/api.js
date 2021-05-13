@@ -1,6 +1,7 @@
 export const ApiConfig = {
-  apiHost: `http://192.168.1.103:8000`,
+  apiHost: `http://192.168.1.3:8000`,
   contentType: `application/ld+json`,
+  patchContentType: `application/merge-patch+json`,
   accept: `application/ld+json, `,
 }
 
@@ -41,7 +42,7 @@ export const FamilyApi = {
 }
 
 export const FileApi = {
-  postCollection: `/api/files`,
+  postCollection: `/api/auth/files`,
   getItem: (id) => {
     return `/api/files/${id}`
   }
@@ -92,6 +93,9 @@ export const ResidentApi = {
   postCollection: `/api/auth/residents`,
   getItem: (id) => {
     return `/api/auth/residents/${id}`
+  },
+  patchItem: (id) => {
+    return `/api/auth/residents/${id}`
   }
 }
 
@@ -113,4 +117,24 @@ export const SuggestionApi = {
   }
 }
 
+export const FileUploader = function (config) {
+  let promise = Promise.resolve(config);
+  let url = ApiConfig.apiHost + FileApi.postCollection;
+  return promise.then(config => {
+    return new Promise((resolve, reject) => {
+      wx.uploadFile({
+        url: url,
+        filePath: config.filePath,
+        name: config.name ? config.name : 'file',
+        header: config.headers,
+        success: response => {
+          resolve(response)
+        },
+        fail: error => {
+          reject(error)
+        }
+      });
+    })
+  })
 
+}

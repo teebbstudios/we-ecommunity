@@ -79,8 +79,8 @@ Page({
       // 动态更新数据(不懂移步文章)
       // https://blog.csdn.net/weixin_44198965/article/details/107821802 获取页面栈后 可以访问页面栈中的数据-这样达到的不同页面更新数据
       prevPage.setData({
-        selfie: src, //照片路径
-        selfieTmp: src //照片路径
+        selfieUpdate: true,
+        "info.selfieTmp": src, //照片路径
       })
     }
 

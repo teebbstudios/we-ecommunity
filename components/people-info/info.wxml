@@ -3,25 +3,26 @@
   <view class="container">
     <view class="col-4 solid">
       <view class="selfie margin-sm flex flex-direction align-center">
-        <image bindtap="previewImage" data-src="/assets/images/123.png" class="radius solid" mode="widthFix" src="/assets/images/123.png"></image>
+        <image bindtap="previewImage" data-src="{{info.selfieTmp}}" class="radius solid" mode="widthFix"
+          src="{{info.selfieTmp}}"></image>
       </view>
     </view>
     <view class="col-8 solid-top solid-right solid-bottom">
       <view class="info-row flex solid-bottom padding-left padding-right">
         <view class="label">姓名:</view>
-        <view class="value">姓名名</view>
+        <view class="value">{{info.name}}</view>
       </view>
       <view class="info-row flex solid-bottom padding-left padding-right">
         <view class="label">性别:</view>
-        <view class="value">男</view>
+        <view class="value">{{info.sex === 1 ? "男" : "女"}}</view>
       </view>
       <view class="info-row flex solid-bottom padding-left padding-right">
         <view class="label">生日:</view>
-        <view class="value">2020-12-21</view>
+        <view class="value">{{info.birthday}}</view>
       </view>
       <view class="info-row flex padding-left padding-right">
         <view class="label">年龄:</view>
-        <view class="value">23</view>
+        <view class="value">{{info.age}}</view>
       </view>
     </view>
   </view>
@@ -29,13 +30,13 @@
     <view class="col-6 solid-left">
       <view class="info-row flex padding-left padding-right solid-bottom">
         <view class="label">民族:</view>
-        <view class="value">汉</view>
+        <view class="value">{{info.nationality}}</view>
       </view>
     </view>
     <view class="col-6  solid-left solid-right">
       <view class="info-row flex padding-left padding-right solid-bottom">
         <view class="label">学历:</view>
-        <view class="value">大专</view>
+        <view class="value">{{info.education}}</view>
       </view>
     </view>
   </view>
@@ -43,13 +44,13 @@
     <view class="col-6 solid-left">
       <view class="info-row flex padding-left padding-right solid-bottom">
         <view class="label">婚姻情况:</view>
-        <view class="value">已婚</view>
+        <view class="value">{{info.marriage}}</view>
       </view>
     </view>
     <view class="col-6  solid-left solid-right">
       <view class="info-row flex padding-left padding-right solid-bottom">
         <view class="label">与户主关系:</view>
-        <view class="value">户主</view>
+        <view class="value">{{info.relationWithHostName}}</view>
       </view>
     </view>
   </view>
@@ -57,7 +58,7 @@
     <view class="col-12 solid-left solid-right">
       <view class="info-row flex padding-left padding-right solid-bottom">
         <view class="label">政治面貌:</view>
-        <view class="value">中共党员</view>
+        <view class="value">{{info.politics}}</view>
       </view>
     </view>
   </view>
@@ -65,8 +66,8 @@
     <view class="col-12 solid-left solid-right">
       <view class="info-row flex padding-left padding-right solid-bottom">
         <view class="label">联系电话:</view>
-        <view class="value">13338834243</view>
-        <view class="call text-lg text-red margin-left">
+        <view class="value">{{info.phone}}</view>
+        <view bindtap="callPhone" data-phone="{{info.phone}}" class="call text-lg text-red margin-left">
           <text class="cuIcon-phone"></text>
           <text class="text-df margin-left-xs">拨打电话</text>
         </view>
@@ -77,7 +78,7 @@
     <view class="col-12 solid-left solid-right">
       <view class="info-row flex padding-left padding-right solid-bottom">
         <view class="label">身份证号:</view>
-        <view class="value">410306198712345678</view>
+        <view class="value">{{info.idcard}}</view>
       </view>
     </view>
   </view>
@@ -85,7 +86,7 @@
     <view class="col-12 solid-left solid-right">
       <view class="info-row flex padding-left padding-right solid-bottom">
         <view class="label">家庭地址:</view>
-        <view class="value">博泰花园#13号楼304</view>
+        <view class="value">{{info.house}}</view>
       </view>
     </view>
   </view>
@@ -93,7 +94,7 @@
     <view class="col-12 solid-left solid-right">
       <view class="info-row flex padding-left padding-right solid-bottom">
         <view class="label">证件住址:</view>
-        <view class="value">河南省洛阳市吉利区世经大首白坡社区大赛路43号</view>
+        <view class="value">{{info.address}}</view>
       </view>
     </view>
   </view>
@@ -101,7 +102,15 @@
     <view class="col-12 solid-left solid-right">
       <view class="info-row flex padding-left padding-right solid-bottom">
         <view class="label">原(现)单位:</view>
-        <view class="value">博泰花园</view>
+        <view class="value">{{info.employer}}</view>
+      </view>
+    </view>
+  </view>
+  <view class="container">
+    <view class="col-12 solid-left solid-right">
+      <view class="info-row flex padding-left padding-right solid-bottom">
+        <view class="label">与该房产关系:</view>
+        <view class="value">{{info.relationWithRoomName}}</view>
       </view>
     </view>
   </view>

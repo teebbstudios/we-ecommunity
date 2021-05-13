@@ -1,6 +1,10 @@
 import wxRequest from "wechat-request";
 import {
-  FamilyApi
+  ApiConfig,
+  FamilyApi,
+  FileApi,
+  FileUploader,
+  ResidentApi
 } from "../../config/api";
 import {
   Routes
@@ -13,26 +17,41 @@ Page({
    * 页面的初始数据
    */
   data: {
+    infoUpdate: false,
+    selfieUpdate: false,
+    idcardBackUpdate: false,
+    idcardFrontUpdate: false,
+    familyUpdate: false,
     info: {
+      createType: 0, //所选择的登记类型，0：为自己登记，1：代他人登记
       house: null, //家庭地址
       name: null, //姓名
       sex: null, //性别
       birthday: null, //生日
       age: null, //年龄
-      nation: null, //民族
+      nationality: null, //民族
       selfie: null, //自拍
+      selfieTmp: null, //自拍临时文件
+      //身份证人像面
+      idcardBackTmp: null,
+      //身份证国徽面
+      idcardFrontTmp: null,
       idcardFront: null, //身份证国徽面
       idcardBack: null, //身份证人像面
-      idcardNo: null, //身份证号码
+      idcard: null, //身份证号码
       phone: null, //联系电话
       education: null, //学历
       marriage: null, //婚姻情况
-      political: null, //政治面貌
+      politics: null, //政治面貌
       address: null, //证件地址
       employer: null, //工作单位
+      family: null, //家庭iri
+      relationWithHost: null, //与户主关系iri
+      relationsWithHostName: null, //与户主关系名称
+      relationWithRoom: null, //与房产关系
+      relationsWithRoomName: null, //与房产关系
     },
-    //所选择的登记类型，0：为自己登记，1：代他人登记
-    type: 0,
+
     //登记类型提示
     typeDescription: '如果您是首次登记，请先为自己登记信息。',
     types: [{
@@ -60,50 +79,67 @@ Page({
     areas: [],
     areaId: null,
     areaIndex: null,
+    community: null,
     buildings: [],
     buildingId: null,
     buildingIndex: null,
+    building: null,
     units: [],
     unitId: null,
     unitIndex: null,
+    unit: null,
     rooms: [],
     roomId: null,
     roomIndex: null,
+    room: null,
     imgList: [],
-    //自拍照
-    selfieTmp: null,
-    //身份证人像面
-    idcardBackTmp: null,
-    //身份证国徽面
-    idcardFrontTmp: null,
+
 
     sexs: ['男', '女'],
     sexIndex: 0,
+
     marriages: ['单身', '已婚', '离异', '丧偶', '其他'],
-
     marriageIndex: null,
+
     politicals: ['中共党员', '中共预备党员', '共青团员', '群众', '民革党员', '民盟盟员', '民建会员', '民进会员', '农工党党员', '致公党党员', '九三学社社员', '台盟盟员', '无党派人士'],
-
     politicalIndex: null,
-    educations: ['小学', '初中', '高中', '大专', '本科', '硕士', '博士', '无学历'],
 
+    educations: ['小学', '初中', '高中', '大专', '本科', '硕士', '博士', '无学历'],
     educationIndex: null,
+
     relationsWithHost: [],
-    relationsWithHostId: null,
     relationsWithHostIndex: null,
+
     relationsWithRoom: [],
-    relationsWithRoomId: null,
     relationsWithRoomIndex: null,
-    familyId: null,
+
+  },
+
+  getInputValue: function (e) {
+    let key = e.currentTarget.id
+    let info = this.data.info;
+    info[key] = e.detail.value;
+    this.setData({
+      info
+    })
   },
   radioChange: function (e) {
     this.setData({
       typeDescription: this.data.types[e.detail.value].description,
-      type: e.detail.value,
+      "info.createType": e.detail.value * 1,
     });
   },
   replaceStr: (str, index, char) => {
     return str.substring(0, index) + char + str.substring(index + 1);
+  },
+  getRelationIri: (relations, id) => {
+    let ralationIri = null;
+    relations.map(item => {
+      if (item.id == id) {
+        ralationIri = item['@id'];
+      }
+    })
+    return ralationIri;
   },
   numSteps: function (e) {
     let btnType = e.currentTarget.id;
@@ -111,101 +147,201 @@ Page({
 
     if (btnType === 'prev') {
       currentStep <= 0 ? 0 : currentStep -= 1;
+      this.setData({
+        num: currentStep
+      })
     }
     if (btnType === 'next') {
       currentStep += 1;
-    }
 
-    //根据当前页面，对按钮添加额外方法
-    switch (currentStep) {
-      case 1: //第一步
-        this.setData({
-          num: currentStep
-        })
-        break;
-      case 2: //选择住址
-        //在这一步查找或创建家庭
-        if (!this.data.areaId || !this.data.buildingId || !this.data.unitId || !this.data.roomId || !this.data.relationsWithRoomId) {
-          wx.showToast({
-            icon: 'error',
-            title: '请补充完整信息',
-          })
-          return;
-        }
+      //根据当前页面，对按钮添加额外方法
+      switch (currentStep) {
+        case 1: //第一步
+          if (this.data.info.createType == 0) {
+            wx.showLoading({
+              title: '正在加载中',
+            })
+            //如果自己已经登记过，那么弹出提示只能代他人登记。
+            let params = {
+              "owner.id": wx.getStorageSync('userId')
+            }
+            wxRequest.get(ResidentApi.getCollection, {
+              params
+            }).then(response => {
+              wx.hideLoading();
+              if (response.data["hydra:member"].length > 0) {
+                wx.showModal({
+                  title: '您已登记过信息',
+                  content: '您已登记过信息，点击确定将修改信息，点击取消可以选择代他人登记信息。',
+                  success: (res) => {
+                    let resident = response.data["hydra:member"][0];
+                    if (res.confirm) {
+                      //获取小区信息
+                      let familyParams = {
+                        "owner.id": wx.getStorageSync('userId')
+                      }
+                      wxRequest.get(resident.family).then(response => {
+                        let family = response.data;
 
-        //查找当前家庭，如果当前家庭不存在，创建家庭，如果存在选择当前家庭
-        let findFamilyParams = {
-          "community.id": this.data.areas[this.data.areaIndex].id,
-          "building.id": this.data.buildings[this.data.buildingIndex].id,
-          "unit.id": this.data.units[this.data.unitIndex].id,
-          "room.id": this.data.rooms[this.data.roomIndex].id,
-        }
-        wxRequest.get(FamilyApi.getCollection, {
-          params: findFamilyParams
-        }).then(response => {
-          Routes.checkJwtExpired(response);
+                        this.data.areas.map(item => {
+                          if (item['@id'] == family.community['@id']) {
+                            this.setData({
+                              buildings: item.builds,
+                              units: item.units,
+                              rooms: item.rooms,
+                            })
+                          }
+                        });
 
-          let families = response.data['hydra:member'];
-          if (families.length > 1) {
+                        this.setData({
+                          infoUpdate: true,
+                          num: currentStep,
+                          areaId: family.community['@id'],
+                          community: family.community,
+                          buildingId: family.building['@id'],
+                          building: family.building,
+                          unitId: family.unit['@id'],
+                          unit: family.unit,
+                          roomId: family.room['@id'],
+                          room: family.room,
+                          info: resident,
+                          "info.age": this.getAge(resident.birthday),
+                          "info.house": family.community.name + family.building.buildingName + family.unit.unitName + family.room.RoomNum,
+                          "info.communityName": family.community.name,
+                          "info.buildingName": family.building.buildingName,
+                          "info.unitName": family.unit.unitName,
+                          "info.roomNum": family.room.RoomNum,
+                          "info.selfieTmp": resident.selfieUrl,
+                          "info.idcardBackTmp": resident.idcardBackUrl,
+                          "info.idcardFrontTmp": resident.idcardFrontUrl,
+                          "info.relationWithRoom": this.getRelationIri(this.data.relationsWithRoom, resident.relationWithRoom.id),
+                          "info.relationWithRoomName": resident.relationWithRoom.name,
+                          "info.relationWithHost": this.getRelationIri(this.data.relationsWithHost, resident.relationWithHost.id),
+                          "info.relationWithHostName": resident.relationWithHost.name,
+                        })
+                      })
+                    }
+                  }
+                })
+              }
+            })
+          } else {
+            this.setData({
+              num: currentStep
+            })
+          }
+          break;
+        case 2: //选择住址
+          //在这一步查找或创建家庭
+          if (!this.data.areaId || !this.data.buildingId || !this.data.unitId || !this.data.roomId || !this.data.info.relationWithRoom) {
             wx.showToast({
               icon: 'error',
-              title: '系统错误',
+              title: '请补充完整信息',
             })
-
+            return;
           }
 
-          if (families.length == 1) {
-            let residents = families[0].residents;
-            let residentsName = '';
-            residents.map(item => {
-              residentsName = residentsName + this.replaceStr(item.name, 1, '*') + ' ';
-            })
-            wx.showModal({
-              title: '当前家庭已存在，是否加入？',
-              content: residents.length === 0 ? '' : ('已有成员：' + residentsName),
-              success: res => {
-                if (res.confirm) {
-                  this.setData({
-                    num: currentStep,
-                    familyId: families[0]['@id']
-                  })
-                } else if (res.cancel) {
-                  console.log('用户点击取消')
-                }
-              }
-            })
-          }
-          if (families.length == 0) {
-            //创建家庭
-            let postParams = {
-              community: this.data.areaId,
-              building: this.data.buildingId,
-              unit: this.data.unitId,
-              room: this.data.roomId
+          //家庭信息变更时，重新查询数据
+          if (this.data.familyUpdate) {
+            wx.showLoading({
+              title: '正在查询请稍候',
+              mask: true
+            });
+            //查找当前家庭，如果当前家庭不存在，创建家庭，如果存在选择当前家庭
+            let data = this.data;
+            let community = data.community && !data.areaIndex ? data.community : data.areas[data.areaIndex];
+            let building = data.building && !data.buildingIndex ? data.building : data.buildings[data.buildingIndex];
+            let unit = data.unit && !data.unitIndex ? data.unit : data.units[data.unitIndex];
+            let room = data.room && !data.roomIndex ? data.room : data.rooms[data.roomIndex];
+            let findFamilyParams = {
+              "community.id": community.id,
+              "building.id": building.id,
+              "unit.id": unit.id,
+              "room.id": room.id,
             }
-            wxRequest.post(FamilyApi.postCollection, postParams).then(response => {
-              
-              if(response.status === 201){
-                wx.showToast({
-                  icon: 'success',
-                  title: '家庭创建成功',
-                })
 
-                this.setData({
-                  num: currentStep,
-                  familyId: response.data['@id']
+            this.setData({
+              "info.house": community.name + building.buildingName + unit.unitName + room.RoomNum
+            })
+
+            wxRequest.get(FamilyApi.getCollection, {
+              params: findFamilyParams
+            }).then(response => {
+              wx.hideLoading();
+              Routes.checkJwtExpired(response);
+
+              let families = response.data['hydra:member'];
+              if (families.length > 1) {
+                wx.showToast({
+                  icon: 'error',
+                  title: '系统错误',
+                })
+                return;
+              }
+
+              if (families.length == 1) {
+                let residents = families[0].residents;
+                let residentsName = '';
+                residents.map(item => {
+                  residentsName = residentsName + this.replaceStr(item.name, 1, '*') + ' ';
+                })
+                wx.showModal({
+                  title: '当前家庭已存在，是否加入？',
+                  content: residents.length === 0 ? '' : ('已有成员：' + residentsName),
+                  success: res => {
+                    if (res.confirm) {
+                      this.setData({
+                        num: currentStep,
+                        "info.family": families[0]['@id']
+                      })
+                    } else if (res.cancel) {
+                      console.log('用户点击取消')
+                    }
+                  }
+                })
+              }
+              if (families.length == 0) {
+                //创建家庭
+                let postParams = {
+                  community: this.data.areaId,
+                  building: this.data.buildingId,
+                  unit: this.data.unitId,
+                  room: this.data.roomId
+                }
+                wxRequest.post(FamilyApi.postCollection, postParams).then(response => {
+                  if (response.status === 201) {
+                    wx.showToast({
+                      icon: 'success',
+                      title: '家庭创建成功',
+                    })
+                    this.setData({
+                      num: currentStep,
+                      "info.family": response.data['@id']
+                    })
+                  }
                 })
               }
             })
+          } else {
+            this.setData({
+              num: currentStep
+            })
           }
-        })
-        break;
-      case 3: //填写信息
-        //todo：信息完整性检查
-        break;
-      case 4: //登记完成
-        break;
+          break;
+        case 3: //填写信息
+          //检查信息是否完整
+          let result = this.checkInfoComplete();
+          if (-1 !== result) {
+            this.setData({
+              num: currentStep
+            })
+          }
+          break;
+        case 4: //登记完成
+          break;
+      }
     }
+
 
   },
   pickerChange: function (e) {
@@ -214,7 +350,9 @@ Page({
     switch (pickerType) {
       case "area":
         this.setData({
+          familyUpdate: true,
           areaIndex: pickIndex,
+          "info.communityName": this.data.areas[pickIndex].name,
           areaId: this.data.areas[pickIndex]['@id'],
           buildings: this.data.areas[pickIndex].builds,
           units: this.data.areas[pickIndex].units,
@@ -223,59 +361,85 @@ Page({
         break;
       case "building":
         this.setData({
+          familyUpdate: true,
           buildingIndex: pickIndex,
-          buildingId: this.data.buildings[pickIndex]['@id']
+          "info.buildingName": this.data.buildings[pickIndex].buildingName,
+          buildingId: this.data.buildings[pickIndex]['@id'],
         })
         break;
       case "unit":
         this.setData({
+          familyUpdate: true,
           unitIndex: pickIndex,
+          "info.unitName": this.data.units[pickIndex].unitName,
           unitId: this.data.units[pickIndex]['@id']
         })
         break;
       case "room":
         this.setData({
+          familyUpdate: true,
           roomIndex: pickIndex,
+          "info.roomNum": this.data.rooms[pickIndex].RoomNum,
           roomId: this.data.rooms[pickIndex]['@id']
         })
         break;
       case "relationsWithRoom":
         this.setData({
           relationsWithRoomIndex: pickIndex,
-          relationsWithRoomId: this.data.relationsWithRoom[pickIndex]['@id']
+          "info.relationWithRoom": this.data.relationsWithRoom[pickIndex]['@id'],
+          "info.relationWithRoomName": this.data.relationsWithRoom[pickIndex].name
         })
         break;
       case "sex":
         this.setData({
           sexIndex: pickIndex,
-          sex: this.data.sexs[pickIndex]
+          "info.sex": this.data.sexs[pickIndex] === "男" ? 1 : 0
         });
         break;
       case "marriage":
         this.setData({
           marriageIndex: pickIndex,
-          marriage: this.data.marriages[pickIndex]
+          "info.marriage": this.data.marriages[pickIndex]
         });
         break;
       case "political":
         this.setData({
           politicalIndex: pickIndex,
-          political: this.data.politicals[pickIndex]
+          "info.politics": this.data.politicals[pickIndex]
         });
         break;
       case "education":
         this.setData({
           educationIndex: pickIndex,
-          education: this.data.educations[pickIndex]
+          "info.education": this.data.educations[pickIndex]
+        });
+        break;
+      case "relationsWithHost":
+        this.setData({
+          relationsWithHostIndex: pickIndex,
+          "info.relationWithHost": this.data.relationsWithHost[pickIndex]['@id'],
+          "info.relationWithHostName": this.data.relationsWithHost[pickIndex].name
         });
         break;
     }
   },
+
+  getAge: function (birthday) {
+    //出生时间 毫秒
+    let birthDayTime = new Date(birthday).getTime();
+    //当前时间 毫秒
+    let nowTime = new Date().getTime();
+    //一年毫秒数(365 * 86400000 = 31536000000)
+    return Math.ceil((nowTime - birthDayTime) / 31536000000);
+  },
+
   dateChange(e) {
     this.setData({
-      date: e.detail.value
+      "info.birthday": e.detail.value,
+      "info.age": this.getAge(e.detail.value)
     })
   },
+
   goCamera: function (e) {
     let cameraType = e.currentTarget.id;
     switch (cameraType) {
@@ -299,6 +463,41 @@ Page({
 
   getPhoneNumber: function (e) {
     console.log(e);
+  },
+
+  //检查住户信息是否完整
+  checkInfoComplete: function () {
+    let info = this.data.info;
+    if (!info.selfieTmp || !info.idcardFrontTmp || !info.idcardBackTmp) {
+      wx.showToast({
+        icon: 'error',
+        title: '请补充拍照信息',
+      })
+      return -1;
+    }
+    if (!info.name || !info.sex || !info.nationality || !info.education || !info.phone || !info.birthday || !info.idcard || !info.address || !info.marriage || !info.politics || !info.employer || !info.relationWithHost) {
+      wx.showToast({
+        icon: 'error',
+        title: '请补充完整信息',
+      })
+      return -1;
+    }
+    if (!(/^1[3456789]\d{9}$/.test(info.phone))) {
+      wx.showToast({
+        icon: 'error',
+        title: '手机号格式错误',
+      })
+      return -1;
+    }
+    let idcardReg = /(^[1-9]\d{5}(18|19|([23]\d))\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$)|(^[1-9]\d{5}\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{3}$)/;
+    if (!(idcardReg.test(info.idcard))) {
+      wx.showToast({
+        icon: 'error',
+        title: '身份证格式错误',
+      })
+      return -1;
+    }
+
   },
 
   getChoosePoi: (e) => {
@@ -348,8 +547,110 @@ Page({
     });
   },
 
-  submit: function (e) {
+  uploadFile: function (params) {
+    if (params.upload) {
+      return FileUploader(params);
+    }
+  },
 
+  uploadFilesFunc: function () {
+    //上传照片，提交信息
+    let headers = {
+      "Content-Type": "multipart/form-data",
+      "Accept": "application/ld+json, application/json",
+      "Authorization": 'Bearer ' + wx.getStorageSync('authToken')
+    }
+    let selfieParams = {
+      upload: this.data.selfieUpdate,
+      filePath: this.data.info.selfieTmp,
+      headers
+    }
+    let idcardBackParams = {
+      upload: this.data.idcardBackUpdate,
+      filePath: this.data.info.idcardBackTmp,
+      headers
+    }
+    let idcardFrontParams = {
+      upload: this.data.idcardFrontUpdate,
+      filePath: this.data.info.idcardFrontTmp,
+      headers
+    }
+
+    return wxRequest.all([
+      this.uploadFile(selfieParams),
+      this.uploadFile(idcardBackParams),
+      this.uploadFile(idcardFrontParams),
+    ]).then(response => {
+      //selfie
+      if (response[0] !== undefined) {
+        let result = JSON.parse(response[0].data);
+        this.setData({
+          "info.selfie": result['@id']
+        })
+      }
+      //idcardBack
+      if (response[1] !== undefined) {
+        let result = JSON.parse(response[1].data);
+        this.setData({
+          "info.idcardBack": result['@id']
+        })
+      }
+      //idcardFront
+      if (response[2] !== undefined) {
+        let result = JSON.parse(response[2].data);
+        this.setData({
+          "info.idcardFront": result['@id']
+        })
+      }
+    })
+  },
+
+  //提交资料
+  submit: function (e) {
+    wx.showLoading({
+      title: '正在提交请稍候',
+      mask: true
+    })
+
+    this.uploadFilesFunc().then(res => {
+      if (this.data.infoUpdate) {
+        //更新资料
+        wxRequest.put(ResidentApi.patchItem(this.data.info.id), this.data.info).then(response => {
+          wx.hideLoading();
+          if (response.status === 200) {
+            wx.showModal({
+              title: '资料提交成功',
+              content: '您的资料已提交成功，请等待审核',
+              showCancel: false
+            })
+          } else {
+            wx.showModal({
+              title: '资料提交失败',
+              content: response.data['hydra:description'],
+              showCancel: false
+            })
+          }
+        });
+      } else {
+        //提交资料
+        wxRequest.post(ResidentApi.postCollection, this.data.info).then(response => {
+          wx.hideLoading();
+          if (response.status === 201) {
+            wx.showModal({
+              title: '资料提交成功',
+              content: '您的资料已提交成功，请等待审核',
+              showCancel: false
+            })
+          } else {
+            wx.showModal({
+              title: '资料提交失败',
+              content: response.data['hydra:description'],
+              showCancel: false
+            })
+          }
+        });
+      }
+    })
   },
 
   forbid: function (e) {

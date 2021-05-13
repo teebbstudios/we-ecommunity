@@ -11,17 +11,22 @@ Component({
    * 组件的初始数据
    */
   data: {
-    
+
   },
 
   /**
    * 组件的方法列表
    */
   methods: {
-    previewImage: (e)=>{
+    previewImage: (e) => {
       wx.previewImage({
         urls: [e.currentTarget.dataset.src]
       });
+    },
+    callPhone: (e) => {
+      wx.makePhoneCall({
+        phoneNumber: e.currentTarget.dataset.phone,
+      })
     }
   }
 })
