@@ -4,14 +4,13 @@
     <view class="cu-bar search bg-white">
       <view class="search-form round shadow">
         <text class="cuIcon-search"></text>
-        <input type="text" placeholder="搜索我的意见和建议" data-category="reservation" value="{{keywords===''?'':keywords}}"
-          bindconfirm="search" bindfocus="onFocus" confirm-type="search"></input>
+        <input type="text" placeholder="搜索{{isMinePage?'我的':''}}{{typeName}}" data-category="{{type}}" value="{{keywords===''?'':keywords}}" bindconfirm="search" bindfocus="onFocus" confirm-type="search"></input>
       </view>
       <block wx:if="{{cancelShow}}">
         <view bindtap="reset" class="margin-right">取消</view>
       </block>
       <view class="margin-right">
-        <button class="cu-btn bg-red icon">
+        <button bindtap="addBtnSubmit" class="cu-btn bg-red icon">
           <text class="cuIcon-add"></text></button>
       </view>
     </view>
@@ -20,35 +19,33 @@
   <view class="list margin-bottom">
     <view class="cu-bar">
       <view class="action sub-title">
-        <text class="text-lg text-bold text-red">我的意见和建议</text>
+        <text class="text-lg text-bold text-red">{{isMinePage?"我的":""}}{{typeName}}列表</text>
         <text class="bg-red"></text>
       </view>
     </view>
     <scroll-view scroll-y="true" class="list-wrapper">
-      <view class="cu-card article margin-bottom radius shadow">
+      <view id="{{item.id}}" data-index="{{index}}" bindtap="openDetail" class="cu-card article margin-bottom radius shadow" wx:for="{{contents}}" wx:key="id">
         <view class="cu-item">
           <view class="title flex justify-between">
-            <view class="text-cut">类型：出生证明</view>
-            <!-- <view class="text-red text-sm">未回复</view> -->
-            <view class="text-green text-sm">已回复</view>
+            <view class="text-cut">类型：{{item.typeName}}</view>
+            <view wx:if="{{!item.hasReplied}}" class="text-red text-sm">未回复</view>
+            <view wx:if="{{item.hasReplied}}" class="text-green text-sm">已回复</view>
           </view>
           <view class="content">
             <view class="block">描述：
-              <text class="text-grey">折磨生出苦难，苦难又会加剧折磨，凡间这无穷的循环，将有我来终结！真正的恩典因不完整而美丽，因情感而真诚，因脆弱而自由！</text>
+              <text class="text-grey">{{item.description}}</text>
             </view>
           </view>
           <view class="padding-left margin-top padding-right flex justify-between">
             <view class="author text-black">
               <view class="cu-avatar sm round"
-                style="background-image:url(https://ossweb-img.qq.com/images/lol/web201310/skin/big10001.jpg);"></view>
-              <text class="text-sm margin-left-xs">浪漫一家人</text>
-              <text class="text-sm margin-left-sm">2020-12-21</text>
+                style="background-image:url({{item.author.avatar}});"></view>
+              <text class="text-sm margin-left-xs">{{item.author.nickname}}</text>
+              <text class="text-sm margin-left-sm">{{item.createdAt}}</text>
             </view>
-            <view class="appreciate text-black text-lg">
-              <button class="cu-btn bg-gray icon sm">
-                <text class="cuIcon-appreciate"></text>
-              </button>
-              <text class="margin-left-xs text-sm">123</text>
+            <view wx:if="{{type == 'suggestion'}}" class="appreciate flex align-center text-black text-df">
+              <text class="cuIcon-appreciate"></text>
+              <text class="margin-left-xs text-sm">{{item.likeCount}}</text>
             </view>
           </view>
         </view>

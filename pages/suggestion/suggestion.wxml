@@ -14,7 +14,7 @@
     </view>
     <view class="padding solid-top solid-bottom">
       <view class="title padding-bottom">内容描述</view>
-      <textarea class="w-100 solid radius padding" placeholder="请简要说明您的意见和建议内容"></textarea>
+      <textarea value="{{suggestion.description}}" bindinput="changeDescription"  class="w-100 solid radius padding" placeholder="请简要说明您的意见和建议内容"></textarea>
     </view>
     <view class="solid-bottom">
       <view class="cu-bar">
@@ -42,7 +42,7 @@
 
   </scroll-view>
   <view class="button-wrapper flex align-center">
-    <button bindtap="" class="cu-btn bg-red radius">
+    <button bindtap="submit" class="cu-btn bg-red radius">
       <text class="cuIcon-check"></text>提交
     </button>
   </view>

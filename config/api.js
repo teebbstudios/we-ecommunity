@@ -1,5 +1,5 @@
 export const ApiConfig = {
-  apiHost: `http://192.168.1.3:8000`,
+  apiHost: `http://192.168.1.103:8000`,
   contentType: `application/ld+json`,
   patchContentType: `application/merge-patch+json`,
   accept: `application/ld+json, `,
@@ -112,7 +112,7 @@ export const SuggestionApi = {
   getItem: (id) => {
     return `/api/auth/suggestions/${id}`
   },
-  patchItem: (id) => {
+  putItem: (id) => {
     return `/api/auth/suggestions/${id}`
   }
 }

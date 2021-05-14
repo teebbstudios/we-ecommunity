@@ -8,6 +8,10 @@ import {
   SuggestionTypeApi
 } from './config/api';
 
+function abc(){
+  console.log(abc)
+}
+
 App({
   globalData: {},
 
@@ -35,6 +39,18 @@ App({
     })
   },
 
+  getReservationTypes:function(){
+    wxRequest.get(ReservationTypeApi.getCollection).then(response=>{
+      wx.setStorage({key:'reservationTypes', data: response.data['hydra:member']});
+    });
+  },
+
+  getSuggestionTypes: function(){
+    wxRequest.get(SuggestionTypeApi.getCollection).then(response=>{
+      wx.setStorage({key:'suggestionTypes', data: response.data['hydra:member']});
+    });
+  },
+
   onLaunch() {
     //wxRequest全局配置
     wxRequest.defaults.baseURL = ApiConfig.apiHost;
@@ -56,7 +72,8 @@ App({
     this.getCommuntiies();
     this.getRelationWithHost();
     this.getRelationWithRoom();
-
+    this.getReservationTypes();
+    this.getSuggestionTypes();
 
     // 获取系统状态栏信息
     // wx.getSystemInfo({

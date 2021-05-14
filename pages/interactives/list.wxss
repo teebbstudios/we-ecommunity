@@ -1,7 +1,7 @@
 /* pages/list/list.wxss */
 
 .list-wrapper{
-  height: calc(100vh - 200rpx);
+  height: calc(100vh - 230rpx);
 }
 
 .reply-body{

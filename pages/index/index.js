@@ -4,7 +4,9 @@ import wxRequest from 'wechat-request';
 import {
   PostApi
 } from '../../config/api';
-import { Routes } from '../../config/route';
+import {
+  Routes
+} from '../../config/route';
 
 Page({
 
@@ -12,6 +14,7 @@ Page({
    * 页面的初始数据
    */
   data: {
+    postLimit: 10,
     swiperList: [],
     notification: {
       id: '',
@@ -36,13 +39,13 @@ Page({
       categoryNotEqual: 'notification',
       boolTop: false,
       page: this.data.page,
-      itemsPerPage: 10
+      itemsPerPage: this.data.postLimit,
     }
     this.getPostList(simpleNewsParams).then((response) => {
       wx.hideLoading();
 
       let posts = response.data['hydra:member'];
-      if(posts.length === 0){
+      if (posts.length < this.data.postLimit) {
         this.setData({
           nomore: true,
         })
@@ -62,12 +65,7 @@ Page({
           posts: postList,
         });
       })
-      
-      if(postList.length < 10){
-        this.setData({
-          nomore: true
-        })
-      }
+
     })
   },
 
@@ -111,7 +109,7 @@ Page({
     })
   },
 
-  navToDetail: function(event){
+  navToDetail: function (event) {
     let id = event.currentTarget.id;
     Routes.navTo(Routes.postDetail, `?id=${id}`);
   },
@@ -166,14 +164,14 @@ Page({
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function () {
-    if(!this.data.nomore){
+    if (!this.data.nomore) {
       wx.showLoading({
         title: '正在加载中',
       })
       this.setData({
         page: this.data.page + 1
       })
-  
+
       this.getSimplePost();
     }
   },

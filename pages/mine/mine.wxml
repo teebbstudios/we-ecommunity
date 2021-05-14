@@ -29,22 +29,22 @@
     </view> -->
   </view>
   <view class="cu-list menu card-menu margin-top-xl margin-bottom-xl shadow-lg radius">
-    <view class="cu-item arrow">
+    <view bindtap="navToProfile" class="cu-item arrow">
       <view class="content" >
         <text class="cuIcon-people text-blue"></text>
         <text class="text-grey">个人信息</text>
       </view>
     </view>
-    <view class="cu-item arrow">
+    <view bindtap="navToMyReservations" class="cu-item arrow">
       <view class="content">
         <text class="cuIcon-time text-cyan"></text>
         <text class="text-grey">我的预约</text>
       </view>
     </view>
-    <view class="cu-item arrow">
+    <view bindtap="navToMySuggestions" class="cu-item arrow">
       <view class="content" bindtap="showQrcode">
         <text class="cuIcon-message text-red"></text>
-        <text class="text-grey">意见建议</text>
+        <text class="text-grey">我的意见建议</text>
       </view>
     </view>
     <view bindtap="clearCache" class="cu-item arrow">

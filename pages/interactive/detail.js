@@ -1,21 +1,32 @@
 // pages/list/list.js
-Page({
+import wxRequest from "wechat-request";
+import {
+  SuggestionApi,
+  ReservationApi
+} from "../../config/api";
+import {
+  Routes
+} from "../../config/route";
 
+Page({
   /**
    * 页面的初始数据
    */
   data: {
-    imgList:[
-      "/assets/images/123.png",
-      "/assets/images/123.png",
-      "/assets/images/123.png",
-      "/assets/images/123.png",
-      "/assets/images/123.png",
-      "/assets/images/123.png",
-      "/assets/images/123.png",
-      "/assets/images/123.png",
-      "/assets/images/123.png",
-    ]
+    ready: false,
+    type: null,
+    typeName: null,
+    imgList: [],
+    typeList: [{
+        name: "意见建议",
+        typeSlug: "suggestion",
+      },
+      {
+        name: "预约办理",
+        typeSlug: "reservation",
+      }
+    ],
+    detail: null,
   },
   viewImage(e) {
     wx.previewImage({
@@ -41,14 +52,65 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    let {
+      id,
+      type
+    } = options;
+    this.data.typeList.map(item => {
+      if (item.typeSlug === type) {
+        this.setData({
+          type: item.typeSlug,
+          typeName: item.name
+        })
+        wx.setNavigationBarTitle({
+          title: item.name + `详情`,
+        })
+      }
+    })
+    const eventChannel = this.getOpenerEventChannel();
+    eventChannel.on('acceptDataFromOpenerPage', (data) => {
+      let imgList = [];
+      data.data.attachments.map(item => {
+        imgList.push(item.url);
+      })
+      this.setData({
+        imgList,
+        detail: data.data,
+      })
+    })
+  },
 
+  addAppreciate: function (e) {
+    let likeCount = e.currentTarget.dataset.likecount + 1;
+    let currentId = e.currentTarget.id;
+
+    if (this.data.detail.liked) {
+      wx.showToast({
+        icon: 'error',
+        title: '您已经点过赞啦',
+      })
+      return;
+    }
+
+    wxRequest.put(SuggestionApi.putItem(currentId), {
+      likeCount
+    }).then(response => {
+      if (response.status == 200) {
+        this.setData({
+          "detail.likeCount": likeCount,
+          "detail.liked": true
+        })
+      }
+    })
   },
 
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-
+    this.setData({
+      ready: true,
+    })
   },
 
   /**

@@ -69,6 +69,21 @@ Page({
 
   },
 
+  navToProfile: function(e){
+
+  },
+  navToMyReservations: function(e){
+    wx.navigateTo({
+      url: Routes.interactiveList + `?type=reservation&mine=true`
+    })
+  },
+  navToMySuggestions: function(e){
+    wx.navigateTo({
+      url: Routes.interactiveList + `?type=suggestion&mine=true`
+    })
+  },
+
+
   /**
    * 生命周期函数--监听页面加载
    */
