@@ -46,13 +46,15 @@ Page({
             }
             wxRequest.post(UserApi.postLogin, loginParam, postConfig).then(response => {
               wx.hideLoading();
-              
+
               this.setData({
                 userInfo
               })
               let token = response.headers.Jwt;
               wx.setStorageSync('authToken', token)
               wx.setStorageSync('userId', response.headers["User-Id"])
+              wx.setStorageSync('familyId', response.headers["Family-Id"])
+              wx.setStorageSync('expireAt', response.headers["Expire-At"])
 
               //登录成功后，添加Token
               wxRequest.defaults.headers['Authorization'] = 'Bearer ' + token;
@@ -69,15 +71,30 @@ Page({
 
   },
 
-  navToProfile: function(e){
+  navToProfile: function (e) {
 
   },
-  navToMyReservations: function(e){
+
+  navToMyFamily: function (e) {
+    let familyId = wx.getStorageSync('familyId');
+    wx.navigateTo({
+      url: Routes.family + `?id=${familyId}`
+    })
+  },
+
+  navToMyQrcode: function (e) {
+    let userId = wx.getStorageSync('userId');
+    wx.navigateTo({
+      url: Routes.qrcode + `?userId=${userId}&type=profile`
+    })
+  },
+
+  navToMyReservations: function (e) {
     wx.navigateTo({
       url: Routes.interactiveList + `?type=reservation&mine=true`
     })
   },
-  navToMySuggestions: function(e){
+  navToMySuggestions: function (e) {
     wx.navigateTo({
       url: Routes.interactiveList + `?type=suggestion&mine=true`
     })

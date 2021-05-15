@@ -14,7 +14,6 @@ Page({
    * 页面的初始数据
    */
   data: {
-    page: 1,
     type: null,
     typeName: null,
     addRoute: null,
@@ -23,25 +22,29 @@ Page({
     typeProperty: null,
     loadApiParams: {
       page: 1,
-      itemsPerPage: 10,
+      itemsPerPage: 4,
     },
     typeList: [{
         name: "意见建议",
         typeSlug: "suggestion",
         addRoute: Routes.suggestion,
         loadApi: SuggestionApi.getCollection,
-        typeProperty: 'suggestionType',
+        typeProperty: 'suggestionType.name',
       },
       {
         name: "预约办理",
         typeSlug: "reservation",
         addRoute: Routes.reservation,
         loadApi: ReservationApi.getCollection,
-        typeProperty: 'reservationType',
+        typeProperty: 'reservationType.name',
       }
     ],
     contents: [],
+    beforeContents: [],
+    beforePage: null,
+    beformNomore: false,
     nomore: false,
+    keywords: null,
   },
 
   onFocus: function () {
@@ -49,13 +52,19 @@ Page({
       cancelShow: true
     });
   },
-  search: function (event) {
-    console.log(event);
-  },
+
   reset: function () {
+    let loadApiParams = this.data.loadApiParams;
+    delete loadApiParams[this.data.typeProperty];
+    delete loadApiParams["description"];
+
     this.setData({
       keywords: '',
-      cancelShow: false
+      cancelShow: false,
+      contents: this.data.beforeContents,
+      loadApiParams,
+      "loadApiParams.page": this.data.beforePage,
+      nomore: this.data.beformNomore,
     });
   },
 
@@ -70,13 +79,13 @@ Page({
     this.getPageContents().then(response => {
       wx.hideLoading();
       let contents = response.data["hydra:member"];
-      if (contents.length < 10) {
+      if (contents.length < this.data.loadApiParams.itemsPerPage) {
         this.setData({
           nomore: true,
         })
       }
       this.setData({
-        contents: this.data.contents.concat(response.data["hydra:member"])
+        contents: this.data.contents.concat(contents)
       })
     })
   },
@@ -103,11 +112,17 @@ Page({
       }
     })
 
+    wx.setNavigationBarTitle({
+      title: isMinePage ? '我的' : '' + this.data.typeName + '列表',
+    })
+
     if (this.data.isMinePage) {
+      let loadApiParams = {
+        ...this.data.loadApiParams,
+        "author.id": wx.getStorageSync('userId')
+      }
       this.setData({
-        loadApiParams: {
-          "author.id": wx.getStorageSync('userId')
-        }
+        loadApiParams
       })
     }
 
@@ -119,7 +134,7 @@ Page({
     let index = e.currentTarget.dataset.index;
     wx.navigateTo({
       url: Routes.interactive + `?id=${id}&type=${this.data.type}`,
-      success:(res) => {
+      success: (res) => {
         // 通过eventChannel向被打开页面传送数据
         res.eventChannel.emit('acceptDataFromOpenerPage', {
           data: this.data.contents[index]
@@ -139,6 +154,35 @@ Page({
     wx.navigateTo({
       url: this.data.addRoute,
     })
+  },
+  //搜索
+  search: function (e) {
+    wx.showLoading({
+      title: '正在搜索中',
+    })
+    //每次搜索时清除页码和之前的内容，nomore
+    this.setData({
+      beformNomore: this.data.nomore,
+      beforePage: this.data.loadApiParams.page,
+      beforeContents: this.data.contents,
+      contents: [],
+      "loadApiParams.page": 1,
+      nomore: false,
+    })
+    let keywords = e.detail.value;
+    let loadApiParams = {
+      ...this.data.loadApiParams,
+      [this.data.typeProperty]: keywords,
+      "description": keywords,
+    }
+
+    this.setData({
+      keywords,
+      loadApiParams
+    })
+
+    this.loadData(true);
+
   },
   /**
    * 生命周期函数--监听页面显示
@@ -167,20 +211,24 @@ Page({
   onPullDownRefresh: function () {
 
   },
+  scrollToLower: function () {
+    if (!this.data.nomore) {
+      wx.showLoading({
+        title: '正在加载中',
+        mask: true,
+      })
+      this.setData({
+        "loadApiParams.page": this.data.loadApiParams.page + 1,
+      })
+      this.loadData();
+    }
+  },
 
   /**
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function () {
-    if (!this.data.nomore) {
-      wx.showLoading({
-        title: '正在加载中',
-      })
-      this.setData({
-        "loadApiParams.page": this.data.page + 1,
-      })
-      this.loadData();
-    }
+
   },
 
   /**

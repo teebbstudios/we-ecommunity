@@ -63,7 +63,7 @@ Page({
       {
         value: 1,
         name: '代他人登记',
-        description: '代他人登记之前，请先为自己登记信息。仅允许登记相同户号的他人信息。'
+        description: '代他人登记之前，请先为自己登记信息。仅允许登记相同户号的家人信息。'
       }
     ],
     numList: [{
@@ -233,7 +233,7 @@ Page({
           break;
         case 2: //选择住址
           //在这一步查找或创建家庭
-          if (!this.data.areaId || !this.data.buildingId || !this.data.unitId || !this.data.roomId || !this.data.info.relationWithRoom) {
+          if (!this.data.areaId || !this.data.buildingId || !this.data.unitId || !this.data.roomId) {
             wx.showToast({
               icon: 'error',
               title: '请补充完整信息',
@@ -475,7 +475,7 @@ Page({
       })
       return -1;
     }
-    if (!info.name || !info.sex || !info.nationality || !info.education || !info.phone || !info.birthday || !info.idcard || !info.address || !info.marriage || !info.politics || !info.employer || !info.relationWithHost) {
+    if (!info.name || !info.sex || !info.nationality || !info.education || !info.phone || !info.birthday || !info.idcard || !info.address || !info.marriage || !info.politics || !info.employer || !info.relationWithHost  || !this.data.info.relationWithRoom) {
       wx.showToast({
         icon: 'error',
         title: '请补充完整信息',

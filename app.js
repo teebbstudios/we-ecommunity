@@ -59,6 +59,14 @@ App({
     wxRequest.defaults.headers.post['Content-Type'] = ApiConfig.contentType;
     wxRequest.defaults.headers.put['Content-Type'] = ApiConfig.contentType;
     wxRequest.defaults.headers.patch['Content-Type'] = ApiConfig.patchContentType;
+    //检查token是否过期
+    let expireAt = wx.getStorageSync('expireAt') * 1;
+    if(new Date() > new Date(expireAt)){
+      wx.removeStorage({key: 'authToken'});
+      wx.removeStorage({key: 'userInfo'});
+      wx.removeStorage({key: 'userId'});
+      wx.removeStorage({key: 'familyId'});
+    }
 
     //如果已经登录，添加Authentication
     wx.getStorage({

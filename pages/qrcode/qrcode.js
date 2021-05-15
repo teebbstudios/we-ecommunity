@@ -5,22 +5,23 @@ Page({
    * 页面的初始数据
    */
   data: {
-    //生成的二维码类型
-    type: ['mine', 'family'],
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    wx.showLoading({
+      title: '正在加载中',
+    })
+    console.log(options);
   },
 
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-
+    wx.hideLoading()
   },
 
   /**

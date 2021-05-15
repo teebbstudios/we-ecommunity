@@ -3,8 +3,7 @@
   <view class="container">
     <view class="col-4 solid">
       <view class="selfie margin-sm flex flex-direction align-center">
-        <image bindtap="previewImage" data-src="{{info.selfieTmp}}" class="radius solid" mode="widthFix"
-          src="{{info.selfieTmp}}"></image>
+        <image bindtap="previewImage" data-src="{{info.selfieTmp}}" class="radius solid" mode="widthFix" src="{{info.selfieTmp}}"></image>
       </view>
     </view>
     <view class="col-8 solid-top solid-right solid-bottom">

@@ -5,7 +5,7 @@
       请反馈您的意见和建议
     </view>
     <view class="cu-form-group">
-      <view class="title">反馈类型</view>
+      <view class="text-bold title">反馈类型</view>
       <picker bindchange="pickerChange" value="{{typeIndex}}" range-key="name" range="{{types}}">
         <view class="picker">
           {{typeIndex?types[typeIndex].name:'请选择反馈类型'}}
@@ -13,12 +13,12 @@
       </picker>
     </view>
     <view class="padding solid-top solid-bottom">
-      <view class="title padding-bottom">内容描述</view>
+      <view class="text-bold title padding-bottom">内容描述</view>
       <textarea value="{{suggestion.description}}" bindinput="changeDescription"  class="w-100 solid radius padding" placeholder="请简要说明您的意见和建议内容"></textarea>
     </view>
     <view class="solid-bottom">
       <view class="cu-bar">
-        <view class="action">资料上传</view>
+        <view class="text-bold action">资料上传</view>
         <view class="action">{{imgList.length}}张</view>
       </view>
       <view class="cu-form-group">

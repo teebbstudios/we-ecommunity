@@ -27,6 +27,10 @@
   overflow: hidden;
 }
 
+.selfie image{
+  max-height: 240rpx;
+}
+
 .info-row{
   padding-top: 14rpx;
   padding-bottom: 14rpx;

@@ -4,7 +4,7 @@
     <view class="cu-bar search bg-white">
       <view class="search-form round shadow">
         <text class="cuIcon-search"></text>
-        <input type="text" placeholder="搜索{{isMinePage?'我的':''}}{{typeName}}" data-category="{{type}}" value="{{keywords===''?'':keywords}}" bindconfirm="search" bindfocus="onFocus" confirm-type="search"></input>
+        <input type="text" placeholder="搜索{{isMinePage?'我的':''}}{{typeName}}" data-category="{{type}}" value="{{keywords?keywords:''}}" bindconfirm="search" bindfocus="onFocus" confirm-type="search"></input>
       </view>
       <block wx:if="{{cancelShow}}">
         <view bindtap="reset" class="margin-right">取消</view>
@@ -23,7 +23,7 @@
         <text class="bg-red"></text>
       </view>
     </view>
-    <scroll-view scroll-y="true" class="list-wrapper">
+    <scroll-view scroll-y="true" bindscrolltolower="scrollToLower" class="list-wrapper">
       <view id="{{item.id}}" data-index="{{index}}" bindtap="openDetail" class="cu-card article margin-bottom radius shadow" wx:for="{{contents}}" wx:key="id">
         <view class="cu-item">
           <view class="title flex justify-between">
@@ -49,6 +49,9 @@
             </view>
           </view>
         </view>
+      </view>
+      <view class="text-center padding-bottom" wx:if="{{nomore}}">
+        <text class="text-grey">已经到底了</text>
       </view>
     </scroll-view>
   </view>

@@ -8,7 +8,7 @@
       </view>
     </view>
     <view class="margin-right">
-      <button class="cu-btn icon bg-red text-lg">
+      <button bindtap="navToQrcode" class="cu-btn icon bg-red text-lg">
         <text class="cuIcon-qrcode"></text>
       </button>
     </view>
@@ -16,20 +16,17 @@
   <view class="beizhu bg-white shadow radius margin-bottom">
     <view class="flex align-center flex-wrap padding-left padding-right padding-tb-xs">
       <text class="text-bold margin-tb-xs text-lg">家庭备注：</text>
-
-      <view class="cu-tag margin-tb-xs bg-orange round">党员户</view>
-
+      <view wx:if="{{family.certifications.length==0}}" class="margin-tb-xs">无</view>
+      <view wx:for="{{family.certifications}}" wx:key="id" class="cu-tag margin-tb-xs bg-orange round">{{item.label}}</view>
     </view>
   </view>
 
-
   <view class="infos radius padding bg-white shadow">
-    <view class="info-item">
-      <view class="badge-wrapper">
-        <view class="badge padding-lr-xs text-bold text-xl">大学生</view>
-        <view class="badge padding-lr-xs text-bold text-xl">党员</view>
+    <view wx:for="{{residents}}" wx:key="id" class="info-item">
+      <view wx:if="{{item.certifications.length>0}}"  class="badge-wrapper">
+        <view wx:for="{{item.certifications}}" wx:for-item="certification" wx:key="id" class="badge padding-lr-xs text-bold text-xl">{{certification.label}}</view>
       </view>
-      <people-info></people-info>
+      <people-info info="{{item}}"></people-info>
     </view>
   </view>
 
