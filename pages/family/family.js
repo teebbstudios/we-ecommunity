@@ -30,6 +30,8 @@ Page({
       familyId
     })
     wxRequest.get(FamilyApi.getItem(familyId)).then(response => {
+      wx.hideLoading();
+      
       let residents = [];
       let family = response.data;
       response.data.residents.map(item => {
@@ -70,7 +72,7 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-    wx.hideLoading();
+    
   },
 
   /**
