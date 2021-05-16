@@ -1,4 +1,6 @@
 // pages/sos/sos.js
+import { Routes } from "../../config/route";
+
 Page({
 
   /**
@@ -55,6 +57,21 @@ Page({
     }
   },
 
+  navToQrcode: function(e){
+    let userInfo = wx.getStorageSync('userInfo');
+    let authToken = wx.getStorageSync('authToken');
+    if (!userInfo || !authToken) {
+      wx.showToast({
+        icon: 'error',
+        title: '请登录后再试',
+      })
+      return;
+    }
+    let userId = wx.getStorageSync('userId');
+    wx.navigateTo({
+      url: Routes.qrcode + `?userId=${userId}&type=sos`
+    })
+  },
   /**
    * 生命周期函数--监听页面加载
    */

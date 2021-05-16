@@ -1,0 +1,20 @@
+/* pages/family/family.wxss */
+.info-item {
+  position: relative;
+}
+
+.badge-wrapper {
+  position: absolute;
+  right: 0%;
+  top: 1%;
+}
+
+.badge {
+  text-align: center;
+  margin-top: 20rpx;
+  border: red 10rpx solid;
+  transform: rotate(18deg);
+  z-index: 100;
+  opacity: 0.7;
+  color: red;
+}

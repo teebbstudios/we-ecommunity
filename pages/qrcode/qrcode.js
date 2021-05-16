@@ -1,10 +1,15 @@
 // pages/qrcode/qrcode.js
+import wxRequest from "wechat-request";
+import {FamilyApi, UserApi} from "../../config/api";
+
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
+    userInfo: null,
+    qrcode: null,
   },
 
   /**
@@ -14,9 +19,46 @@ Page({
     wx.showLoading({
       title: '正在加载中',
     })
-    console.log(options);
+    this.setData({
+      userInfo: wx.getStorageSync('userInfo')
+    })
+    switch(options.type){
+      case "family":
+        wx.setNavigationBarTitle({
+          title: '我的家庭二维码',
+        })
+        this.getQrcode(FamilyApi.getItemQrcode(options.familyId))
+        break;
+      case "profile":
+        wx.setNavigationBarTitle({
+          title: '我的个人二维码',
+        })
+        this.getQrcode(UserApi.getItemQrcode(options.userId))
+        break;
+      case "sos":
+        wx.setNavigationBarTitle({
+          title: '添加紧急联系人二维码',
+        })
+        
+        break;
+    }
   },
 
+  getQrcode: function(api){
+    wxRequest.get(api).then(response=>{
+      wx.hideLoading();
+      if(response.status < 300){
+        this.setData({
+          qrcode: response.data
+        })
+      }
+    })
+  },
+  previewImage: function(e){
+    wx.previewImage({
+      urls: [e.currentTarget.dataset.src],
+    })
+  },
   /**
    * 生命周期函数--监听页面初次渲染完成
    */

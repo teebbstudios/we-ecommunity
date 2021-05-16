@@ -38,6 +38,9 @@ export const FamilyApi = {
   postCollection: `/api/auth/families`,
   getItem: (id) => {
     return `/api/auth/families/${id}`
+  },
+  getItemQrcode: (id) => {
+    return `/api/auth/families/${id}/qrcode`
   }
 }
 
@@ -50,6 +53,9 @@ export const FileApi = {
 
 export const UserApi = {
   postLogin: `/api/login`,
+  getItemQrcode: (id) => {
+    return `/api/auth/users/${id}/qrcode`
+  }
 }
 
 export const PostApi = {

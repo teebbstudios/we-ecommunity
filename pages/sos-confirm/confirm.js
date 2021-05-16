@@ -1,11 +1,12 @@
 // pages/sos-confirm/confirm.js
+import { Routes } from "../../config/route";
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-
+    userInfo: null,
   },
 
   disagree: function () {
@@ -23,7 +24,44 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    let userInfo = wx.getStorageSync('userInfo');
+    let authToken = wx.getStorageSync('authToken');
+    let userId= wx.getStorageSync('userId');
+    let registered= wx.getStorageSync('registered');
+    if (!userInfo || !authToken) {
+      wx.showModal({
+        title: "您还没有登录",
+        content: "请您登录后再次扫码添加成为紧急联系人，点击确定跳转到登录页面。",
+        showCancel:false,
+        success: res=>{
+          if(res.confirm){
+            wx.reLaunch({
+              url: Routes.mine
+            })
+          }
+        }
+      })
+      return;
+    }
+    //如果用户登录了，但是没有登记过，跳转登记。
+    if(userId && registered == 0){
+      wx.showModal({
+        title: "您还没有登记信息",
+        content: "请您登记后再次扫码添加成为紧急联系人，点击确定跳转到登记页面。",
+        showCancel:false,
+        success: res=>{
+          if(res.confirm){
+            wx.reLaunch({
+              url: Routes.register
+            })
+          }
+        }
+      })
+      return;
+    }
+    this.setData({
+      userInfo
+    })
   },
 
   /**

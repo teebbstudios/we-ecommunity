@@ -1,12 +1,12 @@
 <!--pages/qrcode/qrcode.wxml-->
 <view class="container">
   <view class="qrcode shadow bg-white">
-    <view class="info padding">
-      <view class="cu-avatar shadow solid xl radius" style="background-image:url(https://ossweb-img.qq.com/images/lol/web201310/skin/big99008.jpg);"></view>
-      <text class="text-xl text-bold margin-left">权伟伟</text>
+    <view wx:if="{{userInfo}}" class="info padding">
+      <view class="cu-avatar shadow solid xl radius" style="background-image:url({{userInfo.avatarUrl}});"></view>
+      <text class="text-xl text-bold margin-left">{{userInfo.nickName}}</text>
     </view>
     <view class="qrcode-image">
-      <image mode="aspectFit" src="/assets/images/123.png"></image>
+      <image wx:if="{{qrcode}}" bindtap="previewImage" data-src="{{qrcode.url}}" mode="aspectFit" src="{{qrcode.url}}"></image>
     </view>
     <view class="tips">
       <text class="text-grey">如有需要请向工作人员出示此二维码</text>

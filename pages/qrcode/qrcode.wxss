@@ -11,7 +11,7 @@
   width: 64vw;
   height: 64vw;
   margin: auto;
-  margin-top: 4vh;
+  margin-top: 3vh;
   overflow: hidden;
 }
 

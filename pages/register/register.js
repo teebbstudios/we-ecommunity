@@ -223,6 +223,10 @@ Page({
                     }
                   }
                 })
+              } else {
+                this.setData({
+                  num: currentStep
+                })
               }
             })
           } else {
@@ -280,6 +284,11 @@ Page({
               }
 
               if (families.length == 1) {
+                //如果是为自己登记，创建家庭之后，设置familyId
+                if(this.data.info.createType == 0){
+                  wx.setStorage({key: 'familyId', data: families[0].id});
+                }
+
                 let residents = families[0].residents;
                 let residentsName = '';
                 residents.map(item => {
@@ -318,6 +327,10 @@ Page({
                       num: currentStep,
                       "info.family": response.data['@id']
                     })
+                    //如果是为自己登记，创建家庭之后，设置familyId
+                    if(this.data.info.createType == 0){
+                      wx.setStorage({key: 'familyId', data: response.data.id});
+                    }
                   }
                 })
               }
@@ -475,7 +488,7 @@ Page({
       })
       return -1;
     }
-    if (!info.name || !info.sex || !info.nationality || !info.education || !info.phone || !info.birthday || !info.idcard || !info.address || !info.marriage || !info.politics || !info.employer || !info.relationWithHost  || !this.data.info.relationWithRoom) {
+    if (!info.name || !info.sex || !info.nationality || !info.education || !info.phone || !info.birthday || !info.idcard || !info.address || !info.marriage || !info.politics || !info.employer || !info.relationWithHost || !this.data.info.relationWithRoom) {
       wx.showToast({
         icon: 'error',
         title: '请补充完整信息',

@@ -1,10 +1,10 @@
 <!--pages/sos-confirm/confirm.wxml-->
 <view class="container">
   <view class="confirm shadow bg-white">
-    <view class="info padding">
-      <view class="cu-avatar shadow solid xl radius"
-        style="background-image:url(https://ossweb-img.qq.com/images/lol/web201310/skin/big99008.jpg);"></view>
-      <text class="text-xl text-bold margin-left">权伟伟</text>
+    <view wx:if="{{userInfo}}" class="info padding">
+      <view  class="cu-avatar shadow solid xl radius"
+        style="background-image:url({{userInfo.avatarUrl}});"></view>
+      <text class="text-xl text-bold margin-left">{{userInfo.nickName}}</text>
     </view>
     <view class="dialog padding">
       <view class="solid radius shadow padding">

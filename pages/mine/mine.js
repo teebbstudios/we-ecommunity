@@ -55,7 +55,8 @@ Page({
               wx.setStorageSync('userId', response.headers["User-Id"])
               wx.setStorageSync('familyId', response.headers["Family-Id"])
               wx.setStorageSync('expireAt', response.headers["Expire-At"])
-
+              wx.setStorageSync('registered', response.headers["Registered"])
+    
               //登录成功后，添加Token
               wxRequest.defaults.headers['Authorization'] = 'Bearer ' + token;
 
@@ -72,17 +73,55 @@ Page({
   },
 
   navToProfile: function (e) {
-
+    let userInfo = wx.getStorageSync('userInfo');
+    let authToken = wx.getStorageSync('authToken');
+    if (!userInfo || !authToken) {
+      wx.showToast({
+        icon: 'error',
+        title: '请登录后再试',
+      })
+      return;
+    }
+    let userId = wx.getStorageSync('userId');
+    wx.navigateTo({
+      url: Routes.profile + `?id=${userId}`
+    })
   },
 
   navToMyFamily: function (e) {
+    let userInfo = wx.getStorageSync('userInfo');
+    let authToken = wx.getStorageSync('authToken');
+    if (!userInfo || !authToken) {
+      wx.showToast({
+        icon: 'error',
+        title: '请登录后再试',
+      })
+      return;
+    }
     let familyId = wx.getStorageSync('familyId');
+    if (familyId == '') {
+      wx.showToast({
+        icon: 'error',
+        title: '请登记住户信息',
+      })
+      return;
+    }
     wx.navigateTo({
       url: Routes.family + `?id=${familyId}`
     })
   },
 
   navToMyQrcode: function (e) {
+    let userInfo = wx.getStorageSync('userInfo');
+    let authToken = wx.getStorageSync('authToken');
+    if (!userInfo || !authToken) {
+      wx.showToast({
+        icon: 'error',
+        title: '请登录后再试',
+      })
+      return;
+    }
+
     let userId = wx.getStorageSync('userId');
     wx.navigateTo({
       url: Routes.qrcode + `?userId=${userId}&type=profile`

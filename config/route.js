@@ -18,7 +18,8 @@ export const Routes = {
   reservation: "/pages/reservation/reservation",
   suggestion: "/pages/suggestion/suggestion",
   postList: "/pages/list/list",
-
+  profile: "/pages/profile/profile",
+  
   navTo: function (api, params) {
     wx.navigateTo({
       url: api + params,
