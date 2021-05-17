@@ -1,4 +1,6 @@
 {
   "navigationBarTitleText": "紧急求助",
-  "usingComponents": {}
+  "usingComponents": {
+    "mp-toptips": "weui-miniprogram/toptips/toptips"
+  }
 }

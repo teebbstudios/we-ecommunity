@@ -37,13 +37,13 @@
       </view>
     </view>
     <view bindtap="navToMySuggestions" class="cu-item arrow">
-      <view class="content" bindtap="showQrcode">
+      <view class="content">
         <text class="cuIcon-message text-red"></text>
         <text class="text-grey">我的意见建议</text>
       </view>
     </view>
     <view bindtap="clearCache" class="cu-item arrow">
-      <view class="content" bindtap="showQrcode">
+      <view class="content">
         <text class="cuIcon-delete text-grey"></text>
         <text class="text-grey">清除缓存</text>
       </view>

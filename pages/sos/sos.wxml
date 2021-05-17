@@ -1,5 +1,6 @@
 <!--pages/sos/sos.wxml-->
 <view class="container">
+  <mp-toptips msg="{{showTitle}}" type="info" delay="5000" show="{{boolShowSeconds}}"></mp-toptips>
   <view class="toplist radius padding shadow bg-white margin-bottom">
     <view class="topbar padding-bottom solid-bottom flex justify-between align-center">
       <view class="text-lg text-bold">

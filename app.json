@@ -1,7 +1,7 @@
 {
   "pages": [
-    "pages/sos-confirm/confirm",
     "pages/index/index",
+    "pages/sos-confirm/confirm",
     "pages/profile/profile",
     "pages/mine/mine",
     "pages/interactive/detail",

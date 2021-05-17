@@ -1,5 +1,7 @@
 // pages/sos/sos.js
-import { Routes } from "../../config/route";
+import {
+  Routes
+} from "../../config/route";
 
 Page({
 
@@ -9,6 +11,8 @@ Page({
   data: {
     timer: 3,
     clocker: null,
+    boolShowSeconds: false,
+    showTitle: null,
   },
   // 按钮触摸开始触发的事件
   touchStart: function (e) {
@@ -25,17 +29,20 @@ Page({
     let timer = setInterval(() => {
       if (seconds > 3) {
         //todo: 发送通知
-        wx.hideLoading();
+        this.setData({
+          boolShowSeconds: false,
+          timer: 3,
+        });
+        wx.showToast({
+          icon: 'success',
+          title: '发送成功',
+        })
         clearInterval(timer);
-        this.setData({
-          timer: 3
-        });
       } else {
-        wx.showLoading({
-          title: '倒计时 ' + this.data.timer + ' 秒',
-        });
         this.setData({
-          timer: this.data.timer - 1
+          boolShowSeconds: true,
+          timer: this.data.timer - 1,
+          showTitle: "发送倒计时 " + this.data.timer + " 秒",
         });
         //手机震动
         // wx.vibrateShort({type: "heavy"});
@@ -43,13 +50,14 @@ Page({
       }
       seconds++;
     }, 1000);
+
     this.setData({
-      clocker: timer
+      clocker: timer,
     })
   },
   touchEnd: function (e) {
     if (this.data.clocker) {
-      wx.hideLoading();
+      boolShowSeconds: false,
       clearInterval(this.data.clocker);
       this.setData({
         timer: 3
@@ -57,7 +65,7 @@ Page({
     }
   },
 
-  navToQrcode: function(e){
+  navToQrcode: function (e) {
     let userInfo = wx.getStorageSync('userInfo');
     let authToken = wx.getStorageSync('authToken');
     if (!userInfo || !authToken) {
@@ -76,7 +84,23 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    let userInfo = wx.getStorageSync('userInfo');
+    let authToken = wx.getStorageSync('authToken');
+    if (!userInfo || !authToken) {
+      wx.showModal({
+        title: '您还没有登录',
+        content: "请您登录后再次操作，点击确定跳转到登录页面",
+        showCancel: false,
+        success: res => {
+          if (res.confirm) {
+            wx.reLaunch({
+              url: Routes.mine
+            })
+          }
+        }
+      })
+      return;
+    }
   },
 
   /**
