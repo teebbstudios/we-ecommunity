@@ -66,9 +66,9 @@
             </view>
             <view class="cu-form-group">
               <view class="title text-bold">选择房间号</view>
-              <picker id="room" bindchange="pickerChange" value="{{roomIndex}}" range="{{rooms}}" range-key="RoomNum">
+              <picker id="room" bindchange="pickerChange" value="{{roomIndex}}" range="{{rooms}}" range-key="roomNum">
                 <view class="picker">
-                  {{info.roomNum?info.roomNum:roomIndex?rooms[roomIndex].RoomNum:'点击选择您的房间号'}}
+                  {{info.roomNum?info.roomNum:roomIndex?rooms[roomIndex].roomNum:'点击选择您的房间号'}}
                 </view>
               </picker>
             </view>

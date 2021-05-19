@@ -32,6 +32,19 @@ Page({
     }).then(response => {
       wx.hideLoading()
       if(response.status === 200){
+        if(response.data["hydra:member"].length == 0){
+          wx.showModal({
+            title: '您还没有登记住户信息',
+            confirmText: '立即登记',
+            success: res=>{
+              if(res.confirm){
+                wx.navigateTo({
+                  url: Routes.register
+                })
+              }
+            }
+          })
+        }
         let resident = response.data["hydra:member"][0];
         this.setData({
           info: resident,

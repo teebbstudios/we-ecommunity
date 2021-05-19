@@ -206,7 +206,7 @@ Page({
                           room: family.room,
                           info: resident,
                           "info.age": this.getAge(resident.birthday),
-                          "info.house": family.community.name + family.building.buildingName + family.unit.unitName + family.room.RoomNum,
+                          "info.house": family.community.name + family.building.buildingName + family.unit.unitName + family.room.roomNum,
                           "info.communityName": family.community.name,
                           "info.buildingName": family.building.buildingName,
                           "info.unitName": family.unit.unitName,
@@ -265,7 +265,7 @@ Page({
             }
 
             this.setData({
-              "info.house": community.name + building.buildingName + unit.unitName + room.RoomNum
+              "info.house": community.name + building.buildingName + unit.unitName + room.roomNum
             })
 
             wxRequest.get(FamilyApi.getCollection, {

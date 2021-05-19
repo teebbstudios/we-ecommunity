@@ -1,5 +1,6 @@
 export const ApiConfig = {
-  apiHost: `https://qwwdezone.ngrok2.xiaomiqiu.cn`,
+  // apiHost: `https://qwwdezone.ngrok2.xiaomiqiu.cn`,
+  apiHost: `http://192.168.1.103:8000`,
   contentType: `application/ld+json`,
   patchContentType: `application/merge-patch+json`,
   accept: `application/ld+json, `,
