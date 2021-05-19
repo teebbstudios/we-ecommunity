@@ -54,9 +54,12 @@ export const FileApi = {
 
 export const UserApi = {
   postLogin: `/api/login`,
+  getItem: (id)=>{
+    return `/api/auth/users/${id}`
+  },
   getItemQrcode: (id) => {
     return `/api/auth/users/${id}/qrcode`
-  }
+  },
 }
 
 export const PostApi = {

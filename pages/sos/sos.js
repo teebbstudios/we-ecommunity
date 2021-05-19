@@ -1,4 +1,8 @@
 // pages/sos/sos.js
+import wxRequest from "wechat-request";
+import {
+  UserApi
+} from "../../config/api";
 import {
   Routes
 } from "../../config/route";
@@ -13,9 +17,16 @@ Page({
     clocker: null,
     boolShowSeconds: false,
     showTitle: null,
+    sosListeners: [],
   },
   // 按钮触摸开始触发的事件
   touchStart: function (e) {
+    if(this.data.sosListeners.length == 0){
+      wx.showToast({
+        title: '请先添加联系人'
+      })
+      return;
+    }
     wx.getLocation({
       type: "gcj02",
       success(res) {
@@ -64,7 +75,12 @@ Page({
       });
     }
   },
-
+  callPhone: function(e){
+    let phone = e.currentTarget.dataset.phone;
+    wx.makePhoneCall({
+      phoneNumber: phone,
+    })
+  },
   navToQrcode: function (e) {
     let userInfo = wx.getStorageSync('userInfo');
     let authToken = wx.getStorageSync('authToken');
@@ -79,6 +95,10 @@ Page({
     wx.navigateTo({
       url: Routes.qrcode + `?userId=${userId}&type=sos`
     })
+  },
+  getUserSosListeners: function () {
+    let userId = wx.getStorageSync('userId');
+    return wxRequest.get(UserApi.getItem(userId))
   },
   /**
    * 生命周期函数--监听页面加载
@@ -101,6 +121,13 @@ Page({
       })
       return;
     }
+
+    this.getUserSosListeners().then(response=>{
+      let sosListeners = response.data.sosListeners;
+      this.setData({
+        sosListeners
+      })
+    })
   },
 
   /**

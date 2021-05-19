@@ -13,25 +13,15 @@
       </view>
     </view>
     <scroll-view scroll-y="true" class="margin-top list-wrapper shadow">
-      <!-- <view class="padding text-lg">
+      <view wx:if="{{sosListeners.length == 0}}" class="padding text-lg">
         <text class="cuIcon-notification text-red"></text>
         当前还没有紧急联系人，请点击右上角加号，使用紧急联系人的微信扫码添加紧急联系人。
-      </view> -->
-      <view class="item flex padding bg-gray">
-        <view class="name text-lg">权伟伟</view>
-        <view class="text-lg">
-          13938834243
-          <text class="cuIcon-phone text-red margin-left">拨打电话</text>
-        </view>
-        <view class="close shadow round bg-grey">
-            <text class="cuIcon-close text-white"></text>
-        </view>
       </view>
-      <view class="item flex padding">
+      <view wx:if="{{sosListeners.length > 0}}" wx:for="{{sosListeners}}" wx:key="id" class="item flex padding bg-gray">
         <view class="name text-lg">权伟伟</view>
         <view class="text-lg">
           13938834243
-          <text class="cuIcon-phone text-red margin-left">拨打电话</text>
+          <text bindtap="callPhone" data-phone="123" class="cuIcon-phone text-red margin-left">拨打电话</text>
         </view>
         <view class="close shadow round bg-grey">
             <text class="cuIcon-close text-white"></text>
