@@ -210,7 +210,7 @@ Page({
                           "info.communityName": family.community.name,
                           "info.buildingName": family.building.buildingName,
                           "info.unitName": family.unit.unitName,
-                          "info.roomNum": family.room.RoomNum,
+                          "info.roomNum": family.room.roomNum,
                           "info.selfieTmp": resident.selfieUrl,
                           "info.idcardBackTmp": resident.idcardBackUrl,
                           "info.idcardFrontTmp": resident.idcardFrontUrl,
@@ -392,7 +392,7 @@ Page({
         this.setData({
           familyUpdate: true,
           roomIndex: pickIndex,
-          "info.roomNum": this.data.rooms[pickIndex].RoomNum,
+          "info.roomNum": this.data.rooms[pickIndex].roomNum,
           roomId: this.data.rooms[pickIndex]['@id']
         })
         break;

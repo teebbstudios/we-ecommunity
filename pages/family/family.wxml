@@ -23,7 +23,9 @@
 
   <view class="infos radius padding bg-white shadow">
     <view wx:for="{{residents}}" wx:key="id" class="info-item">
-      <view wx:if="{{item.certifications.length>0}}"  class="badge-wrapper">
+      <view wx:if="{{info.certifications.length>0||info.status!=='finish'}}"  class="badge-wrapper">
+        <view wx:if="{{info.status == null || info.status == 'new' || info.status == 'checking'}}" class="badge padding-lr-xs text-bold text-xl">待审核</view>
+        <view wx:if="{{info.status == 'reject'}}" class="badge padding-lr-xs text-bold text-xl">待修改</view>
         <view wx:for="{{item.certifications}}" wx:for-item="certification" wx:key="id" class="badge padding-lr-xs text-bold text-xl">{{certification.label}}</view>
       </view>
       <people-info info="{{item}}"></people-info>

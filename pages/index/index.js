@@ -14,7 +14,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-    postLimit: 5,
+    postLimit: 10,
     swiperList: [],
     notification: {
       id: '',
