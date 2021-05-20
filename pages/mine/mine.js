@@ -158,16 +158,19 @@ Page({
     })
   },
 
-  clearCache: function (event) {
-    wx.clearStorage({
-      success: (res) => {
-        wx.showToast({
-          title: '清除成功',
-        })
-        wx.reLaunch({
-          url: Routes.mine,
-        })
-      },
+  logout: function (event) {
+    wx.removeStorageSync('authToken')
+    wx.removeStorageSync('userInfo')
+    wx.removeStorageSync('userId')
+    wx.removeStorageSync('familyId')
+    wx.removeStorageSync('expireAt')
+    wx.removeStorageSync('registered')
+    
+    wx.showToast({
+      title: '清除成功',
+    })
+    wx.reLaunch({
+      url: Routes.mine,
     })
   },
   /**

@@ -42,10 +42,10 @@
         <text class="text-grey">我的意见建议</text>
       </view>
     </view>
-    <view bindtap="clearCache" class="cu-item arrow">
+    <view bindtap="logout" class="cu-item arrow">
       <view class="content">
-        <text class="cuIcon-delete text-grey"></text>
-        <text class="text-grey">清除缓存</text>
+        <text class="cuIcon-exit text-grey"></text>
+        <text class="text-grey">退出登录</text>
       </view>
     </view>
   </view>

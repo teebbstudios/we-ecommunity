@@ -104,6 +104,11 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    wx.showLoading({
+      title: '正在加载中',
+      mask: true,
+    })
+
     let userInfo = wx.getStorageSync('userInfo');
     let authToken = wx.getStorageSync('authToken');
     if (!userInfo || !authToken) {
@@ -123,6 +128,7 @@ Page({
     }
 
     this.getUserSosListeners().then(response=>{
+      wx.hideLoading();
       let sosListeners = response.data.sosListeners;
       this.setData({
         sosListeners
