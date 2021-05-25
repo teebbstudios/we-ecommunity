@@ -23,6 +23,7 @@ Page({
   touchStart: function (e) {
     if(this.data.sosListeners.length == 0){
       wx.showToast({
+        icon: 'error',
         title: '请先添加联系人'
       })
       return;
@@ -104,11 +105,6 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    wx.showLoading({
-      title: '正在加载中',
-      mask: true,
-    })
-
     let userInfo = wx.getStorageSync('userInfo');
     let authToken = wx.getStorageSync('authToken');
     if (!userInfo || !authToken) {
@@ -126,7 +122,10 @@ Page({
       })
       return;
     }
-
+    wx.showLoading({
+      title: '正在加载中',
+      mask: true,
+    })
     this.getUserSosListeners().then(response=>{
       wx.hideLoading();
       let sosListeners = response.data.sosListeners;

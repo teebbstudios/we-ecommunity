@@ -1,6 +1,6 @@
 export const ApiConfig = {
   apiHost: `https://qwwdezone.ngrok2.xiaomiqiu.cn`,
-  // apiHost: `http://127.0.0.1:8001`,
+  // apiHost: `http://127.0.0.1:8000`,
   contentType: `application/ld+json`,
   patchContentType: `application/merge-patch+json`,
   accept: `application/ld+json, `,
@@ -59,6 +59,9 @@ export const UserApi = {
   },
   getItemQrcode: (id) => {
     return `/api/auth/users/${id}/qrcode`
+  },
+  getItemPhone: (id) => {
+    return `/api/auth/users/${id}/decrypt-phone`
   },
 }
 

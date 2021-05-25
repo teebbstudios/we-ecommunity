@@ -3,6 +3,7 @@ import {
   ApiConfig,
   FamilyApi,
   FileApi,
+  UserApi,
   FileUploader,
   ResidentApi
 } from "../../config/api";
@@ -93,7 +94,6 @@ Page({
     roomIndex: null,
     room: null,
     imgList: [],
-
 
     sexs: ['男', '女'],
     sexIndex: 0,
@@ -285,8 +285,11 @@ Page({
 
               if (families.length == 1) {
                 //如果是为自己登记，创建家庭之后，设置familyId
-                if(this.data.info.createType == 0){
-                  wx.setStorage({key: 'familyId', data: families[0].id});
+                if (this.data.info.createType == 0) {
+                  wx.setStorage({
+                    key: 'familyId',
+                    data: families[0].id
+                  });
                 }
 
                 let residents = families[0].residents;
@@ -328,8 +331,11 @@ Page({
                       "info.family": response.data['@id']
                     })
                     //如果是为自己登记，创建家庭之后，设置familyId
-                    if(this.data.info.createType == 0){
-                      wx.setStorage({key: 'familyId', data: response.data.id});
+                    if (this.data.info.createType == 0) {
+                      wx.setStorage({
+                        key: 'familyId',
+                        data: response.data.id
+                      });
                     }
                   }
                 })
@@ -475,7 +481,27 @@ Page({
   },
 
   getPhoneNumber: function (e) {
-    console.log(e);
+    let encryptedData = e.detail.encryptedData;
+    let iv = e.detail.iv;
+    let errMsg = e.detail.errMsg;
+    if (errMsg == 'getPhoneNumber:ok') {
+      let userId = wx.getStorageSync('userId');
+      let postConfig = {
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer " + wx.getStorageSync('authToken')
+        }
+      }
+      wxRequest.post(UserApi.getItemPhone(userId), {
+        iv,
+        encryptedData
+      }, postConfig).then(response => {
+        let phone = response.data.phoneNumber;
+        this.setData({
+          "info.phone": phone
+        })
+      })
+    }
   },
 
   //检查住户信息是否完整
@@ -673,6 +699,11 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    wx.showModal({
+      title: '住户登记说明',
+      content: '康乐e社区将收集您的信息用于住户管理及在线服务，用户隐私将遵守小程序服务条款“四、用户个人信息保护”及运营规范“15.用户隐私及数据规范”等规定进行保护。点击“同意”按钮继续登记信息。',
+      confirmText: "同意"
+    })
     let communities = wx.getStorageSync('communities');
     let relationsWithRoom = wx.getStorageSync('relationsWithRoom');
     let relationsWithHost = wx.getStorageSync('relationsWithHost');
