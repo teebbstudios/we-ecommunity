@@ -165,7 +165,7 @@
               </view>
               <view class="cu-form-group">
                 <view class="title text-bold">出生日期</view>
-                <picker mode="date" value="{{info.birthday}}" bindchange="dateChange">
+                <picker mode="date" end="{{today}}" value="{{info.birthday}}" bindchange="dateChange">
                   <view class="picker">
                     {{info.birthday?info.birthday:'请选择出生日期'}}
                   </view>

@@ -15,6 +15,8 @@ export const MsgTemplates = {
   suggestion_reply: 'CKsP93olyuJHqkdlSxUBlzCTiXRR0nhFrrZqoemcIfQ',
   //新公告通知提醒
   notification: 'lDcmrD443FfWdMkutewi84VNCrsvjt34C0n54cyzxk8',
+  //新住户登记审核通知
+  new_check: 'Fyd_M2MxhT8ugMtbEeW4Z7E2lJcPqPTC_nY4TThFtI0',
   //审核结果通知提醒
   check_result: 'MAgMKm6C3SDPln9A545b7Q_6mSJZ9P_2J-dxbCUGh4U',
 }

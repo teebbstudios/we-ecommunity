@@ -101,7 +101,7 @@ Page({
     sexs: ['男', '女'],
     sexIndex: 0,
 
-    marriages: ['单身', '已婚', '离异', '丧偶', '其他'],
+    marriages: ['单身', '已婚', '离异', '再婚', '丧偶', '其他'],
     marriageIndex: null,
 
     politicals: ['群众', '中共党员', '中共预备党员', '共青团员', '民革党员', '民盟盟员', '民建会员', '民进会员', '农工党党员', '致公党党员', '九三学社社员', '台盟盟员', '无党派人士'],
@@ -117,9 +117,25 @@ Page({
     relationsWithRoomIndex: null,
 
     //通知设置
-    tmplIds: [MsgTemplates.notification, MsgTemplates.activity, MsgTemplates.check_result]
+    tmplIds: [MsgTemplates.notification, MsgTemplates.activity, MsgTemplates.check_result],
+
+    //生日选择器最大日期
+    today: null,
   },
 
+  formatDate: function (date) {
+    var myyear = date.getFullYear();
+    var mymonth = date.getMonth() + 1;
+    var myweekday = date.getDate();
+
+    if (mymonth < 10) {
+      mymonth = "0" + mymonth;
+    }
+    if (myweekday < 10) {
+      myweekday = "0" + myweekday;
+    }
+    return (myyear + "-" + mymonth + "-" + myweekday);
+  },
   getInputValue: function (e) {
     let key = e.currentTarget.id
     let info = this.data.info;
@@ -501,10 +517,18 @@ Page({
         iv,
         encryptedData
       }, postConfig).then(response => {
-        let phone = response.data.phoneNumber;
-        this.setData({
-          "info.phone": phone
-        })
+        if (response.status === 200) {
+          let phone = response.data.phoneNumber;
+          this.setData({
+            "info.phone": phone
+          })
+        } else {
+          wx.showToast({
+            icon: 'error',
+            title: '获取手机号失败',
+          })
+        }
+
       })
     }
   },
@@ -742,7 +766,8 @@ Page({
     this.setData({
       areas: communities,
       relationsWithRoom,
-      relationsWithHost
+      relationsWithHost,
+      today: this.formatDate(new Date())
     })
 
   },

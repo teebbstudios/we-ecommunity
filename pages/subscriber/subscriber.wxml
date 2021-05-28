@@ -37,6 +37,12 @@
         <text class="text-grey">意见反馈回复提醒</text>
       </view>
     </view>
+    <view wx:if="{{isAdmin}}" bindtap="configSubscriber" data-msgid="new_check" class="cu-item arrow">
+      <view class="content">
+        <text class="cuIcon-notification text-gray"></text>
+        <text class="text-grey">新住户登记审核通知</text>
+      </view>
+    </view>
     <view bindtap="configSubscriber" data-msgid="check_result" class="cu-item arrow">
       <view class="content">
         <text class="cuIcon-notification text-gray"></text>
