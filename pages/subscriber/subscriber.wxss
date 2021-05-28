@@ -1,0 +1,4 @@
+/* pages/subscriber/subscriber.wxss */
+scroll-view{
+  height: 100vh;
+}

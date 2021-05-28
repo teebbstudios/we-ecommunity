@@ -4,6 +4,7 @@ import {
   FileUploader,
   ReservationApi
 } from "../../config/api";
+import { MsgTemplates } from "../../config/templates";
 
 Page({
 
@@ -166,7 +167,17 @@ Page({
             showCancel: false,
             success: res => {
               if (res.confirm) {
-                //todo: 此处弹出申请通知权限
+                wx.requestSubscribeMessage({
+                  tmplIds: [
+                    MsgTemplates.reservation_reply
+                  ],
+                  success: res => {
+                    
+                  },
+                  complete: res=>{
+                    wx.navigateBack();
+                  }
+                })
               }
             }
           })

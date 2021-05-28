@@ -52,6 +52,23 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    let userInfo = wx.getStorageSync('userInfo');
+    let authToken = wx.getStorageSync('authToken');
+    if (!userInfo || !authToken) {
+      wx.showModal({
+        title: "您还没有登录",
+        content: "请您登录后再次点击通知卡片，点击确定跳转到登录页面。",
+        showCancel: false,
+        success: res => {
+          if (res.confirm) {
+            wx.reLaunch({
+              url: Routes.mine
+            })
+          }
+        }
+      })
+      return;
+    }
     let {
       id,
       type
@@ -68,16 +85,46 @@ Page({
       }
     })
     const eventChannel = this.getOpenerEventChannel();
-    eventChannel.on('acceptDataFromOpenerPage', (data) => {
-      let imgList = [];
-      data.data.attachments.map(item => {
-        imgList.push(item.url);
+    //如果是从通知卡片打开的页面
+    if(Object.keys(eventChannel).length === 0){
+      wx.showLoading({
+        title: '正在加载中',
+        mask:true
       })
-      this.setData({
-        imgList,
-        detail: data.data,
+      let detailUrl = '';
+      if(type === 'reservation'){
+        detailUrl = ReservationApi.getItem(id);
+      }
+      if(type === 'suggestion'){
+        detailUrl = SuggestionApi.getItem(id);
+      }
+      wxRequest.get(detailUrl).then(response=>{
+        wx.hideLoading();
+
+        let imgList = [];
+        response.data.attachments["hydra:member"].map(item => {
+          imgList.push(item.url);
+        })
+        this.setData({
+          imgList,
+          detail: response.data,
+          "detail.replies": response.data.replies["hydra:member"]
+        })
       })
-    })
+
+    }else{
+      eventChannel.on('acceptDataFromOpenerPage', (data) => {
+        let imgList = [];
+        data.data.attachments.map(item => {
+          imgList.push(item.url);
+        })
+        this.setData({
+          imgList,
+          detail: data.data,
+        })
+      })
+    }
+  
   },
 
   addAppreciate: function (e) {

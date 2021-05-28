@@ -5,6 +5,7 @@ import {
   ReservationApi,
   SuggestionApi
 } from "../../config/api";
+import { MsgTemplates } from "../../config/templates";
 
 Page({
 
@@ -157,7 +158,17 @@ Page({
             showCancel: false,
             success: res => {
               if (res.confirm) {
-                //todo: 此处弹出申请通知权限
+                wx.requestSubscribeMessage({
+                  tmplIds: [
+                    MsgTemplates.suggestion_reply
+                  ],
+                  success: res => {
+                    
+                  },
+                  complete: res=>{
+                    wx.navigateBack();
+                  }
+                })
               }
             }
           })

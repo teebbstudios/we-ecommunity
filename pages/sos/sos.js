@@ -6,6 +6,7 @@ import {
 import {
   Routes
 } from "../../config/route";
+import { MsgTemplates } from "../../config/templates";
 
 Page({
 
@@ -93,8 +94,16 @@ Page({
       return;
     }
     let userId = wx.getStorageSync('userId');
-    wx.navigateTo({
-      url: Routes.qrcode + `?userId=${userId}&type=sos`
+
+    wx.requestSubscribeMessage({
+      tmplIds: [
+        MsgTemplates.sos_add_contact
+      ],
+      complete: res =>{
+        wx.navigateTo({
+          url: Routes.qrcode + `?userId=${userId}&type=sos`
+        })
+      }
     })
   },
   getUserSosListeners: function () {

@@ -10,6 +10,9 @@ import {
 import {
   Routes
 } from "../../config/route";
+import {
+  MsgTemplates
+} from "../../config/templates";
 
 // pages/register/register.js
 Page({
@@ -113,6 +116,8 @@ Page({
     relationsWithRoom: [],
     relationsWithRoomIndex: null,
 
+    //通知设置
+    tmplIds: [MsgTemplates.notification, MsgTemplates.activity, MsgTemplates.check_result]
   },
 
   getInputValue: function (e) {
@@ -542,7 +547,9 @@ Page({
   getChoosePoi: (e) => {
     wx.choosePoi(e)({
       success: (e) => {
-        console.log(e);
+        this.setData({
+          // "info.address": e.address
+        })
       }
     })
   },
@@ -576,9 +583,8 @@ Page({
   onGetLocation: function (e) {
     wx.chooseLocation({
       success: (result) => {
-        console.log(result);
         this.setData({
-          address: result.address + result.name
+          "info.address": result.address
         })
       },
       fail: (e) => {},
@@ -659,8 +665,18 @@ Page({
           if (response.status === 200) {
             wx.showModal({
               title: '资料提交成功',
-              content: '您的资料已提交成功，请等待审核',
-              showCancel: false
+              content: '您的资料已提交成功，审核结果将以微信通知的方法告诉您。请您接受通知提醒。',
+              showCancel: false,
+              success: res => {
+                if (res.confirm) {
+                  wx.requestSubscribeMessage({
+                    tmplIds: this.data.tmplIds,
+                    complete: res => {
+                      wx.navigateBack();
+                    }
+                  })
+                }
+              }
             })
           } else {
             wx.showModal({
@@ -677,8 +693,18 @@ Page({
           if (response.status === 201) {
             wx.showModal({
               title: '资料提交成功',
-              content: '您的资料已提交成功，请等待审核',
-              showCancel: false
+              content: '您的资料已提交成功，审核结果将以微信通知的方法告诉您。请您接受通知提醒。',
+              showCancel: false,
+              success: res => {
+                if (res.confirm) {
+                  wx.requestSubscribeMessage({
+                    tmplIds: this.data.tmplIds,
+                    complete: res => {
+                      wx.navigateBack();
+                    }
+                  })
+                }
+              }
             })
           } else {
             wx.showModal({
@@ -702,7 +728,12 @@ Page({
     wx.showModal({
       title: '住户登记说明',
       content: '康乐e社区将收集您的信息用于住户管理及在线服务，用户隐私将遵守小程序服务条款“四、用户个人信息保护”及运营规范“15.用户隐私及数据规范”等规定进行保护。点击“同意”按钮继续登记信息。',
-      confirmText: "同意"
+      confirmText: "同意",
+      success: res => {
+        if (res.cancel) {
+          wx.navigateBack();
+        }
+      }
     })
     let communities = wx.getStorageSync('communities');
     let relationsWithRoom = wx.getStorageSync('relationsWithRoom');

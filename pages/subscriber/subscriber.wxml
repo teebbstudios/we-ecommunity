@@ -1,0 +1,60 @@
+<!--pages/subscriber/subscriber.wxml-->
+<scroll-view scroll-y>
+  <view class="cu-list menu shadow-lg radius">
+    <view bindtap="configSubscriber" data-msgid="activity" class="cu-item arrow">
+      <view class="content">
+        <text class="cuIcon-notification text-gray"></text>
+        <text class="text-grey">新社区活动通知</text>
+      </view>
+    </view>
+    <view bindtap="configSubscriber" data-msgid="notification" class="cu-item arrow">
+      <view class="content">
+        <text class="cuIcon-notification text-gray"></text>
+        <text class="text-grey">新社区公告通知</text>
+      </view>
+    </view>
+    <view wx:if="{{isAdmin}}" bindtap="configSubscriber" data-msgid="new_reservation" class="cu-item arrow">
+      <view class="content">
+        <text class="cuIcon-notification text-gray"></text>
+        <text class="text-grey">新预约办理审核提醒</text>
+      </view>
+    </view>
+    <view bindtap="configSubscriber" data-msgid="reservation_reply" class="cu-item arrow">
+      <view class="content">
+        <text class="cuIcon-notification text-gray"></text>
+        <text class="text-grey">预约办理回复通知</text>
+      </view>
+    </view>
+    <view wx:if="{{isAdmin}}" bindtap="configSubscriber" data-msgid="new_suggestion" class="cu-item arrow">
+      <view class="content">
+        <text class="cuIcon-notification text-gray"></text>
+        <text class="text-grey">新意见反馈审核通知</text>
+      </view>
+    </view>
+    <view bindtap="configSubscriber" data-msgid="suggestion_reply" class="cu-item arrow">
+      <view class="content">
+        <text class="cuIcon-notification text-gray"></text>
+        <text class="text-grey">意见反馈回复提醒</text>
+      </view>
+    </view>
+    <view bindtap="configSubscriber" data-msgid="check_result" class="cu-item arrow">
+      <view class="content">
+        <text class="cuIcon-notification text-gray"></text>
+        <text class="text-grey">住户登记审核结果通知</text>
+      </view>
+    </view>
+    <view bindtap="configSubscriber" data-msgid="sos_add_contact" class="cu-item arrow">
+      <view class="content">
+        <text class="cuIcon-notification text-gray"></text>
+        <text class="text-grey">添加紧急联系人成功通知</text>
+      </view>
+    </view>
+    <view bindtap="configSubscriber" data-msgid="sos_send_help" class="cu-item arrow">
+      <view class="content">
+        <text class="cuIcon-notification text-gray"></text>
+        <text class="text-grey">紧急联系人接收求助通知</text>
+      </view>
+    </view>
+    
+  </view>
+</scroll-view>

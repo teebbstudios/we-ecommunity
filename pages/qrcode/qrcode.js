@@ -10,6 +10,7 @@ Page({
   data: {
     userInfo: null,
     qrcode: null,
+    type: null,
   },
 
   /**
@@ -39,7 +40,10 @@ Page({
         wx.setNavigationBarTitle({
           title: '添加紧急联系人二维码',
         })
-        
+        this.setData({
+          type: 'sosqrcode'
+        });
+        this.getQrcode(UserApi.getSosQrcode(options.userId))
         break;
     }
   },

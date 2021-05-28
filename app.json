@@ -1,6 +1,7 @@
 {
   "pages": [
     "pages/index/index",
+    "pages/subscriber/subscriber",
     "pages/sos-confirm/confirm",
     "pages/profile/profile",
     "pages/mine/mine",
