@@ -27,13 +27,13 @@ Page({
   },
   // 按钮触摸开始触发的事件
   touchStart: function (e) {
-    // if (this.data.sosListeners.length == 0) {
-    //   wx.showToast({
-    //     icon: 'none',
-    //     title: '请先添加联系人'
-    //   })
-    //   return;
-    // }
+    if (this.data.sosListeners.length == 0) {
+      wx.showToast({
+        icon: 'none',
+        title: '请先添加联系人'
+      })
+      return;
+    }
     wx.getLocation({
       type: "gcj02",
       success: res => {

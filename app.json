@@ -19,7 +19,8 @@
     "pages/reservation/reservation",
     "pages/suggestion/suggestion",
     "pages/list/list",
-    "pages/bind-wechat/bind-wechat"
+    "pages/bind-wechat/bind-wechat",
+    "pages/sos-map/map"
   ],
   "window": {
     "backgroundTextStyle": "light",
