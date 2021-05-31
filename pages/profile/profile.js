@@ -23,6 +23,7 @@ Page({
   onLoad: function (options) {
     wx.showLoading({
       title: '正在加载中',
+      mask: true,
     })
     let userId = options.id;
     wxRequest.get(ResidentApi.getCollection, {

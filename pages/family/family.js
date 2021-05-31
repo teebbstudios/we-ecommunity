@@ -29,27 +29,55 @@ Page({
     this.setData({
       familyId
     })
+    
+    let userFamilyId = wx.getStorageSync('familyId');
+    let userIsAdmin = wx.getStorageSync('isAdmin');
+
+    if(userFamilyId == "" && userIsAdmin == ""){
+      wx.showToast({
+        icon: 'error',
+        title: '您还没有登记信息',
+      })
+      return;
+    }
+    if(userFamilyId !== familyId && userIsAdmin == ""){
+      wx.showToast({
+        icon: 'error',
+        title: '您无权查看信息',
+      })
+    }
+
     wxRequest.get(FamilyApi.getItem(familyId)).then(response => {
       wx.hideLoading();
-      
-      let residents = [];
-      let family = response.data;
-      response.data.residents.map(item => {
-        let resident = item;
-
-        resident.selfieTmp = item.selfie.url;
-        resident.relationWithHostName = item.relationWithHost.name;
-        resident.relationWithRoomName = item.relationWithRoom.name;
-        resident.house = family.community.name + family.building.buildingName + family.unit.unitName + family.room.RoomNum;
-        resident.age= this.getAge(item.birthday);
-
-        residents.push(resident);  
-        this.setData({
-          family,
-          residents
+      if(response.status == 200){
+        let residents = [];
+        let family = response.data;
+        response.data.residents.map(item => {
+          let resident = item;
+  
+          resident.selfieTmp = item.selfie.url;
+          resident.relationWithHostName = item.relationWithHost.name;
+          resident.relationWithRoomName = item.relationWithRoom.name;
+          resident.house = family.community.name + family.building.buildingName + family.unit.unitName + family.room.roomNum;
+          resident.age= this.getAge(item.birthday);
+  
+          residents.push(resident);  
+          this.setData({
+            family,
+            residents
+          })
         })
-      })
-
+      }else{
+        wx.showModal({
+          title: response.data['hydra:description'],
+          showCancel: false,
+          success: res=>{
+            if(res.confirm){
+              wx.navigateBack();
+            }
+          }
+        })
+      }
     });
   },
 

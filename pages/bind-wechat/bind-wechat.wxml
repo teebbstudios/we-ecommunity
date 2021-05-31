@@ -9,30 +9,29 @@
     <view class="dialog padding">
       <view class="solid radius shadow padding">
         <view class="padding-bottom solid-bottom">
-          <text class="text-bold text-df">您正在成为{{helperInfo.name}}的紧急联系人，是否同意？</text>
+          <text class="text-bold text-df">您正在绑定住户“{{resident.name}}”微信，是否同意？</text>
         </view>
         <view class="helper padding solid-bottom flex">
-          <text class="label text-bold">求助人</text>
-          <text class="text">{{helperInfo.name}}</text>
+          <text class="label text-bold">住户姓名</text>
+          <text class="text">{{resident.name}}</text>
         </view>
         <view class="helper padding solid-bottom flex">
           <text class="label text-bold">身份证号</text>
-          <text class="text">{{helperInfo.idcard}}</text>
+          <text class="text">{{resident.idcard}}</text>
         </view>
         <view class="helper padding solid-bottom flex">
           <text class="label text-bold">家庭地址</text>
-          <text class="text">{{helperInfo.house}}</text>
+          <text class="text">{{resident.house}}</text>
         </view>
         <view class="buttons margin-top flex justify-between">
           <button bindtap="disagree" class="cu-btn shadow radius bg-gray">不同意</button>
-          <button bindtap="agree" data-helperid="{{helperId}}" class="cu-btn shadow radius bg-red">同意</button>
+          <button bindtap="agree" data-residentid="{{resident.id}}" class="cu-btn shadow radius bg-red">同意</button>
         </view>
       </view>
 
     </view>
     <view class="tips flex flex-direction">
-      <text class="text-grey">点击同意按钮即可成为求助人的紧急联系人</text>
-      <text class="text-grey">请允许订阅消息，用于接收求助人的紧急求助</text>
+      <text class="text-grey">点击同意按钮即可绑定微信</text>
     </view>
   </view>
 </view>

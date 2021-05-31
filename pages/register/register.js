@@ -715,6 +715,7 @@ Page({
         wxRequest.post(ResidentApi.postCollection, this.data.info).then(response => {
           wx.hideLoading();
           if (response.status === 201) {
+            wx.setStorage({key: 'registered', data: true});
             wx.showModal({
               title: '资料提交成功',
               content: '您的资料已提交成功，审核结果将以微信通知的方法告诉您。请您接受通知提醒。',

@@ -1,6 +1,6 @@
 // pages/qrcode/qrcode.js
 import wxRequest from "wechat-request";
-import {FamilyApi, UserApi} from "../../config/api";
+import {FamilyApi, UserApi, ResidentApi} from "../../config/api";
 
 Page({
 
@@ -44,6 +44,17 @@ Page({
           type: 'sosqrcode'
         });
         this.getQrcode(UserApi.getSosQrcode(options.userId))
+        break;
+
+      case "bindwechat":
+        wx.setNavigationBarTitle({
+          title: '住户绑定微信',
+        })
+        this.setData({
+          type: 'bindwechat',
+          residentName: options.residentName
+        });
+        this.getQrcode(ResidentApi.getItemBindQrcode(options.residentId))
         break;
     }
   },

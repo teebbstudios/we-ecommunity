@@ -54,7 +54,10 @@ export const FileApi = {
 
 export const UserApi = {
   postLogin: `/api/login`,
-  getItem: (id)=>{
+  getItem: (id) => {
+    return `/api/auth/users/${id}`
+  },
+  putItem: (id) => {
     return `/api/auth/users/${id}`
   },
   getItemQrcode: (id) => {
@@ -65,6 +68,9 @@ export const UserApi = {
   },
   getSosQrcode: (id) => {
     return `/api/auth/users/${id}/sos-qrcode`
+  },
+  postItemSendSos: (id) => {
+    return `/api/auth/users/${id}/send-sos`
   },
 }
 
@@ -112,7 +118,13 @@ export const ResidentApi = {
   },
   patchItem: (id) => {
     return `/api/auth/residents/${id}`
-  }
+  },
+  putItem: (id) => {
+    return `/api/auth/residents/${id}`
+  },
+  getItemBindQrcode: (id) => {
+    return `/api/auth/residents/${id}/bind-qrcode`
+  },
 }
 
 export const SuggestionTypeApi = {

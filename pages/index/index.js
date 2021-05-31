@@ -76,6 +76,7 @@ Page({
     };
     let notificationParams = {
       'category.slug': 'notification',
+      boolTop: true,
       itemsPerPage: 1
     };
     wxRequest.all([

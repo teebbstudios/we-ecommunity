@@ -80,7 +80,7 @@ Page({
           body: postObj.body,
           category: postObj.category.name,
           createdAt: postObj.createdAt,
-          postImage: postObj.postImage.url,
+          postImage: postObj.postImage ? postObj.postImage.url : null,
           attachments: attachments,
           attachImages: attachImages,
           attachFiles: attachFiles

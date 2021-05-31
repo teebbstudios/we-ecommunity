@@ -18,7 +18,8 @@
     "pages/frontidcard/front",
     "pages/reservation/reservation",
     "pages/suggestion/suggestion",
-    "pages/list/list"
+    "pages/list/list",
+    "pages/bind-wechat/bind-wechat"
   ],
   "window": {
     "backgroundTextStyle": "light",

@@ -6,7 +6,9 @@ import {
 import {
   Routes
 } from "../../config/route";
-import { MsgTemplates } from "../../config/templates";
+import {
+  MsgTemplates
+} from "../../config/templates";
 
 Page({
 
@@ -19,37 +21,71 @@ Page({
     boolShowSeconds: false,
     showTitle: null,
     sosListeners: [],
+    sosListenerIRIs: [],
+    latitude: null,
+    longitude: null,
   },
   // 按钮触摸开始触发的事件
   touchStart: function (e) {
-    if(this.data.sosListeners.length == 0){
-      wx.showToast({
-        icon: 'error',
-        title: '请先添加联系人'
-      })
-      return;
-    }
+    // if (this.data.sosListeners.length == 0) {
+    //   wx.showToast({
+    //     icon: 'none',
+    //     title: '请先添加联系人'
+    //   })
+    //   return;
+    // }
     wx.getLocation({
       type: "gcj02",
-      success(res) {
-        console.log(res);
-        let latitude = res.latitude;
-        let longitude = res.longitude;
+      success: res => {
+        this.setData({
+          latitude: res.latitude,
+          longitude: res.longitude
+        })
       }
     });
 
     let seconds = 1;
     let timer = setInterval(() => {
       if (seconds > 3) {
-        //todo: 发送通知
         this.setData({
           boolShowSeconds: false,
           timer: 3,
         });
-        wx.showToast({
-          icon: 'success',
-          title: '发送成功',
-        })
+
+        //发送求助通知
+        if (!this.data.latitude || !this.data.longitude) {
+          wx.getLocation({
+            type: "gcj02",
+            success: res => {
+              this.setData({
+                latitude: res.latitude,
+                longitude: res.longitude
+              })
+            }
+          })
+        }
+        let params = {
+          latitude: this.data.latitude,
+          longitude: this.data.longitude
+        }
+        let postConfig = {
+          headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/ld+json, application/json",
+            "Authorization": 'Bearer ' + wx.getStorageSync('authToken')
+          }
+        }
+
+        let userId = wx.getStorageSync('userId')
+        wxRequest.post(UserApi.postItemSendSos(userId), params, postConfig)
+          .then(response => {
+            if (response.status == 204) {
+              wx.showToast({
+                icon: 'success',
+                title: '发送成功',
+              })
+            }
+          })
         clearInterval(timer);
       } else {
         this.setData({
@@ -67,6 +103,8 @@ Page({
     this.setData({
       clocker: timer,
     })
+
+
   },
   touchEnd: function (e) {
     if (this.data.clocker) {
@@ -77,7 +115,7 @@ Page({
       });
     }
   },
-  callPhone: function(e){
+  callPhone: function (e) {
     let phone = e.currentTarget.dataset.phone;
     wx.makePhoneCall({
       phoneNumber: phone,
@@ -93,13 +131,22 @@ Page({
       })
       return;
     }
+    let registered = wx.getStorageSync('registered');
+    if (!registered) {
+      wx.showToast({
+        icon: 'error',
+        title: '请您登记后再试',
+      })
+      return;
+    }
+
     let userId = wx.getStorageSync('userId');
 
     wx.requestSubscribeMessage({
       tmplIds: [
         MsgTemplates.sos_add_contact
       ],
-      complete: res =>{
+      complete: res => {
         wx.navigateTo({
           url: Routes.qrcode + `?userId=${userId}&type=sos`
         })
@@ -135,15 +182,56 @@ Page({
       title: '正在加载中',
       mask: true,
     })
-    this.getUserSosListeners().then(response=>{
+    this.getUserSosListeners().then(response => {
       wx.hideLoading();
       let sosListeners = response.data.sosListeners;
+      let sosListenerIRIs = [];
+      sosListeners.map(item => {
+        sosListenerIRIs.push(item['@id'])
+      })
       this.setData({
-        sosListeners
+        sosListeners,
+        sosListenerIRIs
       })
     })
   },
+  callPhone: function (e) {
+    wx.makePhoneCall({
+      phoneNumber: e.currentTarget.dataset.phone,
+    })
+  },
+  removeSosListener: function (e) {
+    let userId = wx.getStorageSync('userId');
+    wx.showModal({
+      title: '您将要删除联系人“' + e.currentTarget.dataset.listenername + '”,确定吗？',
+      success: res => {
+        if (res.confirm) {
+          let removeListenerId = e.currentTarget.dataset.listenerid;
+          let sosListenerIRIs = this.data.sosListenerIRIs;
+          let index = sosListenerIRIs.indexOf(removeListenerId);
+          sosListenerIRIs.splice(index, 1);
 
+          wxRequest.put(UserApi.putItem(userId), {
+            sosListeners: sosListenerIRIs
+          }).then(res => {
+            if (res.status == 200) {
+              wx.showToast({
+                icon: 'success',
+                title: '删除联系人成功',
+                complete: result => {
+                  wx.reLaunch({
+                    url: Routes.sos
+                  })
+                }
+              })
+            }
+          })
+
+        }
+      }
+    })
+
+  },
   /**
    * 生命周期函数--监听页面初次渲染完成
    */

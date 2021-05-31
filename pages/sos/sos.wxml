@@ -18,12 +18,12 @@
         当前还没有紧急联系人，请点击右上角加号，使用紧急联系人的微信扫码添加紧急联系人。
       </view>
       <view wx:if="{{sosListeners.length > 0}}" wx:for="{{sosListeners}}" wx:key="id" class="item flex padding bg-gray">
-        <view class="name text-lg">权伟伟</view>
+        <view class="name text-lg">{{item.resident.name}}</view>
         <view class="text-lg">
-          13938834243
-          <text bindtap="callPhone" data-phone="123" class="cuIcon-phone text-red margin-left">拨打电话</text>
+          {{item.resident.phone}}
+          <text bindtap="callPhone" data-phone="{{item.resident.phone}}" class="cuIcon-phone text-red margin-left">拨打电话</text>
         </view>
-        <view class="close shadow round bg-grey">
+        <view bindtap="removeSosListener" data-listenername="{{item.resident.name}}" data-listenerid="{{item['@id']}}" class="close shadow round bg-grey">
             <text class="cuIcon-close text-white"></text>
         </view>
       </view>

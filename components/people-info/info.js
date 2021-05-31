@@ -1,3 +1,5 @@
+import { Routes } from "../../config/route";
+
 // components/people-info/info.js
 Component({
   /**
@@ -26,6 +28,13 @@ Component({
     callPhone: (e) => {
       wx.makePhoneCall({
         phoneNumber: e.currentTarget.dataset.phone,
+      })
+    },
+    bindWechat: (e) => {
+      let residentId = e.currentTarget.dataset.residentid;
+      let residentName = e.currentTarget.dataset.residentname;
+      wx.navigateTo({
+        url: Routes.qrcode + '?type=bindwechat&residentId='+residentId +'&residentName='+ residentName
       })
     }
   }

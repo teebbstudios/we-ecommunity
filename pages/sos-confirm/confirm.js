@@ -1,10 +1,14 @@
 // pages/sos-confirm/confirm.js
+import wxRequest from "wechat-request";
 import {
   Routes
 } from "../../config/route";
 import {
   MsgTemplates
 } from "../../config/templates";
+import {
+  UserApi
+} from "../../config/api";
 
 Page({
 
@@ -13,17 +17,53 @@ Page({
    */
   data: {
     userInfo: null,
+    helperId: null,
+    helperInfo: null,
+    sosListeners: [], //紧急联系人列表
+    sosListenerIRIs: [], //紧急联系人IRI列表
     tmplIds: [MsgTemplates.sos_add_contact, MsgTemplates.sos_send_help]
   },
 
   disagree: function () {
-
+    wx.switchTab({
+      url: Routes.index,
+    })
   },
 
-  agree: function () {
+  agree: function (e) {
+    let helperId = e.currentTarget.dataset.helperid;
     //同意订阅消息
     wx.requestSubscribeMessage({
-      tmplIds: this.data.tmplIds
+      tmplIds: this.data.tmplIds,
+      complete: res => {
+        //发送请求为求助人添加紧急联系人
+        let userId = wx.getStorageSync('userId');
+        if (this.data.sosListeners.includes(UserApi.getItem(userId))) {
+          wx.showModal({
+            title: '您已经是' + this.data.helperInfo.name + '的紧急联系人了，请不要重复添加。',
+            showCancel: false,
+          })
+          return;
+        }
+        let sosListenerIRIs = this.data.sosListenerIRIs;
+        sosListenerIRIs.push(UserApi.getItem(userId));
+
+        wxRequest.put(UserApi.putItem(helperId), {
+          sosListeners: sosListenerIRIs
+        }).then(response => {
+          if (response.status === 200) {
+            wx.showToast({
+              icon: 'success',
+              title: '联系人添加成功',
+              complete: res => {
+                wx.switchTab({
+                  url: Routes.index,
+                })
+              }
+            })
+          }
+        })
+      }
     });
   },
 
@@ -66,13 +106,44 @@ Page({
       })
       return;
     }
-    this.setData({
-      userInfo
-    });
 
     //求助人的用户id
     const helperId = decodeURIComponent(query.scene);
-    
+    //如果求助人和当前用户是同一个人，则提醒
+    if (helperId == userId) {
+      wx.showModal({
+        title: '您不能添加自己为紧急联系人',
+        showCancel: false,
+      })
+      return;
+    }
+    this.setData({
+      helperId,
+      userInfo
+    });
+    wx.showLoading({
+      title: '正在加载中',
+    })
+
+    //获取求助人的信息
+    wxRequest.get(UserApi.getItem(helperId)).then(response => {
+      wx.hideLoading();
+      if (response.status == 200) {
+        let helper = response.data;
+
+        let sosListenerIRIs = [];
+        helper.sosListeners.map(item => {
+          sosListenerIRIs.push(item['@id'])
+        })
+
+        this.setData({
+          helperInfo: helper.resident,
+          sosListeners: helper.sosListeners,
+          sosListenerIRIs
+        })
+      }
+    })
+
 
   },
 

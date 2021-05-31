@@ -10,7 +10,7 @@
       <view class="cu-tag bg-white lg round">{{post.createdAt}}</view>
     </view>
     <view class="content weui-article__section margin-top">
-      <view class="weui-article__p" wx:if="{{post.postImage}}">
+      <view wx:if="{{post.postImage}}" class="weui-article__p" wx:if="{{post.postImage}}">
         <image class="solid radius shadow" src="{{post.postImage}}" mode="widthFix"></image>
       </view>
       <view class="weui-article__p">
@@ -29,7 +29,7 @@
         </view>
         <!-- 如果是文件 -->
         <block wx:if="{{post.attachFiles.length>0}}">
-          <view bindtap="downloadFile" data-url="{{item.url}}" class="flex align-center" wx:for="{{post.attachFiles}}" wx:key="id">
+          <view bindtap="downloadFile" data-url="{{item.url}}" class="flex align-center" wx:for="{{post.attdachFiles}}" wx:key="id">
             <view class="text-xxl">
               <text class="cuIcon-file"></text>
             </view>
