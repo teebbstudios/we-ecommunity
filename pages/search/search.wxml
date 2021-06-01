@@ -17,7 +17,7 @@
           <view class="text-cut">{{item.title}}</view>
         </view>
         <view class="content">
-          <image src="{{item.postImage}}" mode="aspectFill"></image>
+          <image wx:if="{{item.postImage}}" src="{{item.postImage}}" mode="aspectFill"></image>
           <view class="desc">
             <view class="text-content">{{item.summary}}</view>
             <view>
