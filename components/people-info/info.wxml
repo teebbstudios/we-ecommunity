@@ -116,7 +116,7 @@
   <view wx:if="{{!info.owner && !isRegisterPage}}" class="container">
     <view class="col-12 solid-left solid-right">
       <view class="info-row flex padding-left padding-right solid-bottom">
-        <button bindtap="bindWechat" data-residentid="{{info.id}}" data-residentname="{{info.name}}" class="cu-btn round sm text-green">绑定微信</button>
+        <button bindtap="bindWechat" data-residentid="{{info.id}}" data-residentname="{{info.name}}" class="cu-btn round text-green">绑定微信</button>
       </view>
     </view>
   </view>
