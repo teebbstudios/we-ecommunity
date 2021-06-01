@@ -27,9 +27,14 @@ Page({
     let params = {
       title: keywords,
       body: keywords,
-      'category.slug': category,
       page: this.data.page,
       itemsPerPage: 10
+    }
+    if(category != ""){
+      params = {
+        ...params,
+        'category.slug': category
+      }
     }
     wxRequest.get(PostApi.getCollection, {
       params

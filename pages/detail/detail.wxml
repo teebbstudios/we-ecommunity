@@ -17,7 +17,6 @@
         <rich-text nodes="{{post.body}}"></rich-text>
       </view>
 
-
       <view class="weui-article__p" wx:if="{{post.attachments.length > 0}}">
         <view class="weui-article__h2">
           附件:

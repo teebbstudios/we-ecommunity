@@ -4,7 +4,9 @@ import {
   CategoryApi,
   PostApi
 } from "../../config/api";
-import {Routes} from "../../config/route";
+import {
+  Routes
+} from "../../config/route";
 
 Page({
 
@@ -46,7 +48,7 @@ Page({
       posts.map((item) => {
         let post = {
           id: item.id,
-          postImage: item.postImage.url,
+          postImage: item.postImage ? item.postImage.url : null,
           title: item.title,
           summary: item.summary,
           category: item.category.name,
@@ -58,14 +60,14 @@ Page({
         });
       })
 
-      if(postList.length < 10){
+      if (postList.length < 10) {
         this.setData({
           nomore: true
         })
       }
     })
   },
-  navToDetail: function(event){
+  navToDetail: function (event) {
     let id = event.currentTarget.id;
     Routes.navTo(Routes.postDetail, `?id=${id}`);
   },
@@ -88,10 +90,10 @@ Page({
       boolTop: true,
       itemsPerPage: 5
     };
-    this.getPostList(bannerParams).then(response=>{
+    this.getPostList(bannerParams).then(response => {
       let list = response.data['hydra:member'];
       let bannerList = [];
-      list.map(item=>{
+      list.map(item => {
         let banner = {
           id: item.id,
           title: item.title,
@@ -103,7 +105,7 @@ Page({
         })
       })
     })
-    
+
     this.getSimplePostList();
   },
 
@@ -146,14 +148,14 @@ Page({
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function () {
-    if(!this.data.nomore){
+    if (!this.data.nomore) {
       wx.showLoading({
         title: '正在加载中',
       })
       this.setData({
         page: this.data.page + 1
       })
-  
+
       this.getSimplePostList();
     }
   },

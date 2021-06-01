@@ -56,7 +56,10 @@ Page({
    * 4.去掉标签
    */
   formatRichText: function (html) {
-    let newContent = html.replace(/\<img/gi, '<img class="rich-img radius shadow"');
+    let newContent = html
+    .replace(/\<p/gi, '<p class="text-lg rich-p"')
+    .replace(/\<img/gi, '<img class="rich-img radius shadow"')
+    ;
     return newContent;
   },
   /**
