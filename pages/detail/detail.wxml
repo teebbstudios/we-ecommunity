@@ -29,7 +29,7 @@
         </view>
         <!-- 如果是文件 -->
         <block wx:if="{{post.attachFiles.length>0}}">
-          <view bindtap="downloadFile" data-url="{{item.url}}" class="flex align-center" wx:for="{{post.attdachFiles}}" wx:key="id">
+          <view bindtap="downloadFile" data-url="{{item.url}}" class="flex align-center" wx:for="{{post.attachFiles}}" wx:key="id">
             <view class="text-xxl">
               <text class="cuIcon-file"></text>
             </view>

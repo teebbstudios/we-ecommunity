@@ -49,6 +49,17 @@ Page({
     })
   },
   /**
+   * 处理富文本里的图片宽度自适应
+   * 1.去掉img标签里的style、width、height属性
+   * 2.img标签添加style属性：max-width:100%;height:auto
+   * 3.修改所有style里的width属性为max-width:100%
+   * 4.去掉标签
+   */
+  formatRichText: function (html) {
+    let newContent = html.replace(/\<img/gi, '<img class="rich-img radius shadow"');
+    return newContent;
+  },
+  /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
@@ -77,7 +88,7 @@ Page({
         post: {
           id: postObj.id,
           title: postObj.title,
-          body: postObj.body,
+          body: this.formatRichText(postObj.body),
           category: postObj.category.name,
           createdAt: postObj.createdAt,
           postImage: postObj.postImage ? postObj.postImage.url : null,

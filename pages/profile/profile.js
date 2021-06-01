@@ -14,6 +14,7 @@ Page({
    * 页面的初始数据
    */
   data: {
+    openFrom: null,
     info: null,
   },
 
@@ -25,6 +26,14 @@ Page({
       title: '正在加载中',
       mask: true,
     })
+    //启动场景值
+    let result = wx.getLaunchOptionsSync();
+    if(result.scene == 1011){
+      this.setData({
+        openFrom: 'qrcode'
+      })
+    }
+
     let userId = options.id;
     wxRequest.get(ResidentApi.getCollection, {
       params: {

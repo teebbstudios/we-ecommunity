@@ -3,7 +3,7 @@
   <view class="topbar radius shadow bg-white flex align-center margin-bottom">
     <view class="cu-bar">
       <view class="action sub-title">
-        <text class="text-xl text-bold text-red">我的信息</text>
+        <text class="text-xl text-bold text-red">{{openFrom?"住户信息":"我的信息"}}</text>
         <text class="bg-red"></text>
       </view>
     </view>

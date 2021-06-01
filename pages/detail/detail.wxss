@@ -1,8 +1,13 @@
 /* pages/detail/detail.wxss */
-.content image{
+.content image {
   width: 100%;
 }
 
-.content .share button{
+.content .share button {
   width: 200rpx;
+}
+
+rich-text .rich-img {
+  width: 100%!important;
+  height: auto!important;
 }
