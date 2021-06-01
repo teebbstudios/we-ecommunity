@@ -11,8 +11,3 @@ rich-text .rich-img {
   width: 100%!important;
   height: auto!important;
 }
-
-rich-text .rich-p {
-  color: #333333;
-  text-indent: 64rpx;
-}

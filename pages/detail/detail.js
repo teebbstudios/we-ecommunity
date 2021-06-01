@@ -57,7 +57,7 @@ Page({
    */
   formatRichText: function (html) {
     let newContent = html
-    .replace(/\<p/gi, '<p class="text-lg rich-p"')
+    .replace(/\<p/gi, '<p class="text-lg text-black"')
     .replace(/\<img/gi, '<img class="rich-img radius shadow"')
     ;
     return newContent;
