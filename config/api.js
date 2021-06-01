@@ -1,6 +1,6 @@
 export const ApiConfig = {
   // apiHost: `https://qwwdezone.ngrok2.xiaomiqiu.cn`,
-  apiHost: `https://ngrok.teebb.cn`,
+  apiHost: `https://klsq.teebb.net`,
   contentType: `application/ld+json`,
   patchContentType: `application/merge-patch+json`,
   accept: `application/ld+json, `,

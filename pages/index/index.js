@@ -15,12 +15,7 @@ Page({
   data: {
     postLimit: 10,
     swiperList: [],
-    notification: {
-      id: '',
-      title: '',
-      body: '',
-      imagePost: '',
-    },
+    notification: null,
     posts: [],
     page: 1,
     nomore: false,
@@ -99,14 +94,16 @@ Page({
       })
 
       let notifications = response[1].data['hydra:member'];
-      this.setData({
-        notification: {
-          id: notifications[0].id,
-          title: notifications[0].title,
-          body: notifications[0].body,
-          postImage: notifications[0].postImage.url,
-        }
-      });
+      if(notifications.length > 0){
+        this.setData({
+          notification: {
+            id: notifications[0].id,
+            title: notifications[0].title,
+            body: notifications[0].body,
+            postImage: notifications[0].postImage.url,
+          }
+        });
+      }
     })
   },
 

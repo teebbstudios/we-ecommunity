@@ -6,7 +6,12 @@ Component({
    * 组件的属性列表
    */
   properties: {
-    info: Object
+    info: Object,
+    //只有不是登记页面才可显示绑定微信按钮
+    isRegisterPage: {
+      type: Boolean,
+      value: false,
+    }
   },
 
   /**

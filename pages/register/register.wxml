@@ -233,7 +233,7 @@
           <view class="padding-bottom solid-bottom text-lg text-bold">
             请检查并提交信息
           </view>
-          <people-info info="{{info}}"></people-info>
+          <people-info isRegisterPage="true" info="{{info}}"></people-info>
         </scroll-view>
       </swiper-item>
     </swiper>

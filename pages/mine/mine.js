@@ -50,7 +50,7 @@ Page({
             wxRequest.post(UserApi.postLogin, loginParam, postConfig)
               .then(response => {
                 wx.hideLoading();
-                if(response.status === 204){
+                if (response.status === 204) {
                   this.setData({
                     userInfo
                   })
@@ -61,15 +61,15 @@ Page({
                   wx.setStorageSync('familyId', response.headers["Family-Id"])
                   wx.setStorageSync('expireAt', response.headers["Expire-At"])
                   wx.setStorageSync('registered', response.headers["Registered"])
-  
+
                   //登录成功后，添加Token
                   wxRequest.defaults.headers['Authorization'] = 'Bearer ' + token;
-  
+
                   wx.showToast({
                     icon: 'none',
                     title: '登录成功',
                   })
-                }else{
+                } else {
                   wx.showModal({
                     title: '登录失败，请稍候再试',
                     content: response.data['hydra:description'],
@@ -133,7 +133,14 @@ Page({
       })
       return;
     }
-
+    let registered = wx.getStorageSync('registered');
+    if (registered == '') {
+      wx.showToast({
+        icon: 'error',
+        title: '请登记后再试',
+      })
+      return;
+    }
     let userId = wx.getStorageSync('userId');
     wx.navigateTo({
       url: Routes.qrcode + `?userId=${userId}&type=profile`

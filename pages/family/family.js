@@ -40,12 +40,12 @@ Page({
       })
       return;
     }
-    if(userFamilyId !== familyId && userIsAdmin == ""){
-      wx.showToast({
-        icon: 'error',
-        title: '您无权查看信息',
-      })
-    }
+    // if(userFamilyId !== familyId && userIsAdmin == ""){
+    //   wx.showToast({
+    //     icon: 'error',
+    //     title: '您无权查看信息',
+    //   })
+    // }
 
     wxRequest.get(FamilyApi.getItem(familyId)).then(response => {
       wx.hideLoading();

@@ -13,7 +13,7 @@
     </swiper>
   </view>
 
-  <view class="icons">
+  <view class="icons margin-bottom">
     <view class="bg-white padding-sm">
       <view class="grid col-4 text-center">
         <icon-item needLogin="true" icon="bg-red cuIcon-form" title="住户登记" route="{{Routes.register}}"></icon-item>
@@ -28,7 +28,7 @@
     </view>
   </view>
 
-  <view class="notice margin-bottom">
+  <view wx:if="{{notification}}" class="notice margin-bottom">
     <view class="cu-bar bg-white margin-top">
       <view class="action sub-title">
         <text class="text-xl text-bold text-red">社区通知</text>
