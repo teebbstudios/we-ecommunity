@@ -1,18 +1,18 @@
 <!--components/post-item.wxml-->
 <view class="cu-card article">
-<view id="{{post.id}}" bindtap="navToDetail" class="cu-item shadow" wx:for-item="post" wx:for="{{posts}}" wx:key="id">
-  <view class="title">
-    <view class="text-cut">{{post.title}}</view>
-  </view>
-  <view class="content">
-    <image wx:if="{{post.postImage}}" src="{{post.postImage}}" mode="aspectFill"></image>
-    <view class="desc">
-      <view class="text-content">{{post.summary}}</view>
-      <view>
-        <view class="cu-tag bg-red light sm round">{{post.category}}</view>
-        <view class="cu-tag bg-white light lg round">{{post.createdAt}}</view>
+  <view id="{{post.id}}" bindtap="navToDetail" class="cu-item shadow" wx:for-item="post" wx:for="{{posts}}" wx:key="id">
+    <view class="title">
+      <view class="text-cut">{{post.title}}</view>
+    </view>
+    <view class="content">
+      <image wx:if="{{post.postImage}}" src="{{post.postImage}}" mode="aspectFill"></image>
+      <view class="desc">
+        <view class="text-content">{{post.summary}}</view>
+        <view>
+          <view class="cu-tag bg-red light sm round">{{post.category}}</view>
+          <view class="cu-tag bg-white light lg round">{{post.createdAt}}</view>
+        </view>
       </view>
     </view>
   </view>
-</view>
 </view>

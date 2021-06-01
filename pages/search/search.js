@@ -22,7 +22,10 @@ Page({
     loadingComplete: false,
     nomore: false,
   },
-
+  navToDetail: function (event) {
+    let postId =event.currentTarget.id;
+    Routes.navTo(Routes.postDetail, `?id=${postId}`);
+  },
   getSearchResults: function (keywords, category) {
     let params = {
       title: keywords,
