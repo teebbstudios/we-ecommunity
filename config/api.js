@@ -148,6 +148,9 @@ export const SuggestionApi = {
 export const FileUploader = function (config) {
   let promise = Promise.resolve(config);
   let url = ApiConfig.apiHost + FileApi.postCollection;
+  if(config.rotate){
+    url = url + "?rotate=true"
+  }
   return promise.then(config => {
     return new Promise((resolve, reject) => {
       wx.uploadFile({

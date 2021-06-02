@@ -678,6 +678,7 @@ Page({
     let idcardFrontParams = {
       upload: this.data.idcardFrontUpdate,
       filePath: this.data.info.idcardFrontTmp,
+      rotate: true,
       headers
     }
 

@@ -57,6 +57,7 @@ Page({
         }
         let idcardBackParams = {
           filePath: res.tempImagePath,
+          rotate: true,
           headers
         }
 
@@ -143,14 +144,19 @@ Page({
         idcardBackUpdate: true,
         "info.idcardBackTmp": src, //照片路径
         "info.idcardBack": this.data.idcardBack,
-        "info.name": this.data.ocrResult.name.text,
-        "info.birthday": this.data.ocrResult.birth.text,
-        "info.sex": this.data.ocrResult.gender.text == "男" ? 1 : 0,
-        "info.nationality": this.data.ocrResult.nationality.text,
-        "info.idcard": this.data.ocrResult.id.text,
-        "info.address": this.data.ocrResult.address.text,
-        "info.age": this.getAge(this.data.ocrResult.birth.text),
       })
+      let ocrResult = this.data.ocrResult;
+      if (ocrResult) {
+        prevPage.setData({
+          "info.name": ocrResult.name.text,
+          "info.birthday": ocrResult.birth.text,
+          "info.sex": ocrResult.gender.text == "男" ? 1 : 0,
+          "info.nationality": ocrResult.nationality.text,
+          "info.idcard": ocrResult.id.text,
+          "info.address": ocrResult.address.text,
+          "info.age": this.getAge(ocrResult.birth.text),
+        })
+      }
     }
 
     // 最后返回上一页(也就是主页)
