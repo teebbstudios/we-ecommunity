@@ -103,6 +103,7 @@
             <view class="radius margin-bottom bg-white padding-left padding-right">
               <view class="cu-bar">
                 <view class="action text-bold">身份证上传</view>
+                <text class="text-sm text-grey">注:每天自动识别前100次身份证信息</text>
               </view>
               <view class="idcard grid col-2 text-grey">
                 <view id="idcardback" class="idcardback padding padding-top-xs" bindtap="goCamera">
@@ -127,6 +128,7 @@
                   </view>
                 </view>
               </view>
+              
             </view>
             <view class="radius bg-white padding-left padding-right">
               <view class="cu-form-group">
@@ -148,22 +150,6 @@
                   placeholder="请输入您的民族" value="{{info.nationality}}" placeholder-style="text-align:right"></input>
               </view>
               <view class="cu-form-group">
-                <view class="title text-bold">学历</view>
-                <picker id="education" bindchange="pickerChange" value="{{educationIndex}}" range="{{educations}}">
-                  <view class="picker">
-                    {{info.education?info.education:educationIndex?educations[educationIndex]:'请选择您的学历'}}
-                  </view>
-                </picker>
-              </view>
-              <view class="cu-form-group">
-                <view class="title text-bold">联系手机</view>
-                <input class="text-right" id="phone" bindblur="getInputValue" class="text-right" type="number"
-                  placeholder="请填写您或监护人的手机号码" placeholder-style="text-align:right" value="{{info.phone}}"></input>
-                <button open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber" class="cu-btn bg-white icon">
-                  <text class="cuIcon-phone text-grey"></text>
-                </button>
-              </view>
-              <view class="cu-form-group">
                 <view class="title text-bold">出生日期</view>
                 <picker mode="date" end="{{today}}" value="{{info.birthday}}" bindchange="dateChange">
                   <view class="picker">
@@ -182,6 +168,22 @@
                   value="{{info.address}}" placeholder="请输入您的身份证住址" placeholder-style="text-align:right"></input>
                 <button bindtap="getLocation" class="cu-btn bg-white icon">
                   <text class="cuIcon-locationfill text-grey"></text>
+                </button>
+              </view>
+              <view class="cu-form-group">
+                <view class="title text-bold">学历情况</view>
+                <picker id="education" bindchange="pickerChange" value="{{educationIndex}}" range="{{educations}}">
+                  <view class="picker">
+                    {{info.education?info.education:educationIndex?educations[educationIndex]:'请选择您的学历'}}
+                  </view>
+                </picker>
+              </view>
+              <view class="cu-form-group">
+                <view class="title text-bold">联系手机</view>
+                <input class="text-right" id="phone" bindblur="getInputValue" class="text-right" type="number"
+                  placeholder="请填写您或监护人的手机号码" placeholder-style="text-align:right" value="{{info.phone}}"></input>
+                <button open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber" class="cu-btn bg-white icon">
+                  <text class="cuIcon-phone text-grey"></text>
                 </button>
               </view>
               <view class="cu-form-group">

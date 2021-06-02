@@ -670,11 +670,11 @@ Page({
       filePath: this.data.info.selfieTmp,
       headers
     }
-    let idcardBackParams = {
-      upload: this.data.idcardBackUpdate,
-      filePath: this.data.info.idcardBackTmp,
-      headers
-    }
+    // let idcardBackParams = {
+    //   upload: this.data.idcardBackUpdate,
+    //   filePath: this.data.info.idcardBackTmp,
+    //   headers
+    // }
     let idcardFrontParams = {
       upload: this.data.idcardFrontUpdate,
       filePath: this.data.info.idcardFrontTmp,
@@ -683,7 +683,7 @@ Page({
 
     return wxRequest.all([
       this.uploadFile(selfieParams),
-      this.uploadFile(idcardBackParams),
+      // this.uploadFile(idcardBackParams),
       this.uploadFile(idcardFrontParams),
     ]).then(response => {
       //selfie
@@ -694,15 +694,15 @@ Page({
         })
       }
       //idcardBack
+      // if (response[1] !== undefined) {
+      //   let result = JSON.parse(response[1].data);
+      //   this.setData({
+      //     "info.idcardBack": result['@id']
+      //   })
+      // }
+      //idcardFront
       if (response[1] !== undefined) {
         let result = JSON.parse(response[1].data);
-        this.setData({
-          "info.idcardBack": result['@id']
-        })
-      }
-      //idcardFront
-      if (response[2] !== undefined) {
-        let result = JSON.parse(response[2].data);
         this.setData({
           "info.idcardFront": result['@id']
         })

@@ -1,7 +1,6 @@
 <!-- 默认宽高占满屏幕100%，推荐放在单独页 -->
 <!-- 拍照完成后会返回临时路径 -->
 <!-- 封装良苦用心 | 注释满满 | 不忙时麻烦给你Star 谢谢！ -->
-
 <!-- 调起摄像头拍照 —— 【身份证人像面】 -->
 <view class="camera_box">
   <camera class="camera" wx:if="{{!show}}" device-position="back" flash="off" binderror="error">
