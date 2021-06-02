@@ -142,7 +142,7 @@ Page({
       // https://blog.csdn.net/weixin_44198965/article/details/107821802 获取页面栈后 可以访问页面栈中的数据-这样达到的不同页面更新数据
       prevPage.setData({
         idcardBackUpdate: true,
-        "info.idcardBackTmp": src, //照片路径
+        "info.idcardBackTmp": this.data.idcardBackUrl, //照片路径
         "info.idcardBack": this.data.idcardBack,
       })
       let ocrResult = this.data.ocrResult;

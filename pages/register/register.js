@@ -22,9 +22,6 @@ Page({
    */
   data: {
     infoUpdate: false,
-    selfieUpdate: false,
-    idcardBackUpdate: false,
-    idcardFrontUpdate: false,
     familyUpdate: false,
     info: {
       createType: 0, //所选择的登记类型，0：为自己登记，1：代他人登记
@@ -146,7 +143,7 @@ Page({
   },
   radioChange: function (e) {
     //如果选择代他人登记，清除数据
-    if(e.detail.value == 1){
+    if (e.detail.value == 1) {
       this.setData({
         info: {
           createType: 1, //所选择的登记类型，0：为自己登记，1：代他人登记
@@ -347,7 +344,7 @@ Page({
                 }
 
                 let residents = families[0].residents;
-                if(!(residents instanceof Array)){
+                if (!(residents instanceof Array)) {
                   residents = Object.values(residents)
                 }
                 let residentsName = '';
@@ -652,65 +649,6 @@ Page({
     });
   },
 
-  uploadFile: function (params) {
-    if (params.upload) {
-      return FileUploader(params);
-    }
-  },
-
-  uploadFilesFunc: function () {
-    //上传照片，提交信息
-    let headers = {
-      "Content-Type": "multipart/form-data",
-      "Accept": "application/ld+json, application/json",
-      "Authorization": 'Bearer ' + wx.getStorageSync('authToken')
-    }
-    let selfieParams = {
-      upload: this.data.selfieUpdate,
-      filePath: this.data.info.selfieTmp,
-      headers
-    }
-    // let idcardBackParams = {
-    //   upload: this.data.idcardBackUpdate,
-    //   filePath: this.data.info.idcardBackTmp,
-    //   headers
-    // }
-    let idcardFrontParams = {
-      upload: this.data.idcardFrontUpdate,
-      filePath: this.data.info.idcardFrontTmp,
-      rotate: true,
-      headers
-    }
-
-    return wxRequest.all([
-      this.uploadFile(selfieParams),
-      // this.uploadFile(idcardBackParams),
-      this.uploadFile(idcardFrontParams),
-    ]).then(response => {
-      //selfie
-      if (response[0] !== undefined) {
-        let result = JSON.parse(response[0].data);
-        this.setData({
-          "info.selfie": result['@id']
-        })
-      }
-      //idcardBack
-      // if (response[1] !== undefined) {
-      //   let result = JSON.parse(response[1].data);
-      //   this.setData({
-      //     "info.idcardBack": result['@id']
-      //   })
-      // }
-      //idcardFront
-      if (response[1] !== undefined) {
-        let result = JSON.parse(response[1].data);
-        this.setData({
-          "info.idcardFront": result['@id']
-        })
-      }
-    })
-  },
-
   //提交资料
   submit: function (e) {
     wx.showLoading({
@@ -718,69 +656,68 @@ Page({
       mask: true
     })
 
-    this.uploadFilesFunc().then(result => {
-      if (this.data.infoUpdate) {
-        //更新资料
-        wxRequest.put(ResidentApi.patchItem(this.data.info.id), this.data.info).then(response => {
-          wx.hideLoading();
-          if (response.status === 200) {
-            wx.showModal({
-              title: '资料提交成功',
-              content: '您的资料已提交成功，审核结果将以微信通知的方法告诉您。请您接受通知提醒。',
-              showCancel: false,
-              success: res => {
-                if (res.confirm) {
-                  wx.requestSubscribeMessage({
-                    tmplIds: this.data.tmplIds,
-                    complete: res => {
-                      wx.navigateBack();
-                    }
-                  })
-                }
+    if (this.data.infoUpdate) {
+      //更新资料
+      wxRequest.put(ResidentApi.patchItem(this.data.info.id), this.data.info).then(response => {
+        wx.hideLoading();
+        if (response.status === 200) {
+          wx.showModal({
+            title: '资料提交成功',
+            content: '您的资料已提交成功，审核结果将以微信通知的方法告诉您。请您接受通知提醒。',
+            showCancel: false,
+            success: res => {
+              if (res.confirm) {
+                wx.requestSubscribeMessage({
+                  tmplIds: this.data.tmplIds,
+                  complete: res => {
+                    wx.navigateBack();
+                  }
+                })
               }
-            })
-          } else {
-            wx.showModal({
-              title: '资料提交失败',
-              content: response.data['hydra:description'],
-              showCancel: false
-            })
-          }
-        });
-      } else {
-        //提交资料
-        wxRequest.post(ResidentApi.postCollection, this.data.info).then(response => {
-          wx.hideLoading();
-          if (response.status === 201) {
-            wx.setStorage({
-              key: 'registered',
-              data: true
-            });
-            wx.showModal({
-              title: '资料提交成功',
-              content: '您的资料已提交成功，审核结果将以微信通知的方法告诉您。请您接受通知提醒。',
-              showCancel: false,
-              success: res => {
-                if (res.confirm) {
-                  wx.requestSubscribeMessage({
-                    tmplIds: this.data.tmplIds,
-                    complete: res => {
-                      wx.navigateBack();
-                    }
-                  })
-                }
+            }
+          })
+        } else {
+          wx.showModal({
+            title: '资料提交失败',
+            content: response.data['hydra:description'],
+            showCancel: false
+          })
+        }
+      });
+    } else {
+      //提交资料
+      wxRequest.post(ResidentApi.postCollection, this.data.info).then(response => {
+        wx.hideLoading();
+        if (response.status === 201) {
+          wx.setStorage({
+            key: 'registered',
+            data: true
+          });
+          wx.showModal({
+            title: '资料提交成功',
+            content: '您的资料已提交成功，审核结果将以微信通知的方法告诉您。请您接受通知提醒。',
+            showCancel: false,
+            success: res => {
+              if (res.confirm) {
+                wx.requestSubscribeMessage({
+                  tmplIds: this.data.tmplIds,
+                  complete: res => {
+                    wx.navigateBack();
+                  }
+                })
               }
-            })
-          } else {
-            wx.showModal({
-              title: '资料提交失败',
-              content: response.data['hydra:description'],
-              showCancel: false
-            })
-          }
-        });
-      }
-    })
+            }
+          })
+        } else {
+          wx.showModal({
+            title: '资料提交失败',
+            content: response.data['hydra:description'],
+            showCancel: false
+          })
+        }
+      });
+    }
+
   },
 
   forbid: function (e) {

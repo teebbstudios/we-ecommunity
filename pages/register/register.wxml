@@ -89,14 +89,13 @@
                 <view class="action text-bold">自拍照上传</view>
               </view>
               <view class="text-grey padding padding-top-xs">
-                <view id="selfie" class="selfie solid radius" bindtap="goCamera">
+                <view id="selfie" class="selfie shadow radius" bindtap="goCamera">
                   <view wx:if="{{!info.selfieTmp}}"
                     class="h-100 text-center flex text-sl flex-direction justify-center radius">
                     <text class="cuIcon-people"></text>
                     <text class="text-sm">点击拍摄自拍</text>
                   </view>
-                  <image wx:if="{{info.selfieTmp}}" class="selfie solid radius" mode="widthFix"
-                    src="{{info.selfieTmp}}"></image>
+                  <image wx:if="{{info.selfieTmp}}" class="selfie solid radius" mode="widthFix" src="{{info.selfieTmp}}"></image>
                 </view>
               </view>
             </view>
@@ -113,7 +112,7 @@
                     <text class="text-sm">点击拍摄身份证人像面</text>
                   </view>
                   <view wx:if="{{info.idcardBackTmp}}" class="img-wrapper solid radius">
-                    <image class="{{info.idcardBack?'':'idcardImage'}}"  mode="widthFix" src="{{info.idcardBackTmp}}"></image>
+                    <image mode="widthFix" src="{{info.idcardBackTmp}}"></image>
                   </view>
                 </view>
 
@@ -124,7 +123,7 @@
                     <text class="text-sm">点击拍摄身份证国徽面</text>
                   </view>
                   <view wx:if="{{info.idcardFrontTmp}}" class="img-wrapper solid radius">
-                    <image class="{{info.idcardFront?'':'idcardImage'}}" mode="widthFix" src="{{info.idcardFrontTmp}}"></image>
+                    <image mode="widthFix" src="{{info.idcardFrontTmp}}"></image>
                   </view>
                 </view>
               </view>

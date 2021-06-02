@@ -16,17 +16,11 @@ swiper{
 
 .selfie{
   width: 200rpx;
-  height: 200rpx;
+  height: 240rpx;
   overflow: hidden;
 }
 
 .img-wrapper{
   height: 180rpx;
   overflow: hidden;
-}
-
-.idcardImage{
-  height: 180rpx;
-  width: 100%;
-  transform: translateX(70rpx) scale(1.65) rotate(-90deg);
 }

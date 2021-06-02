@@ -1,12 +1,17 @@
+import {
+  FileUploader,
+} from "../../config/api";
+
 Page({
 
   /**
    * 页面的初始数据
    */
-
   data: {
     src: '', //拍照后图像路径(临时路径)
-    show: false //相机视图显示隐藏标识
+    show: false, //相机视图显示隐藏标识
+    selfie: null,
+    selfieUrl: null,
   },
 
   // 取消/重新拍照按钮
@@ -14,6 +19,10 @@ Page({
     this.setData({ //更新数据
       show: false
     })
+  },
+
+  uploadFile: function (params) {
+    return FileUploader(params);
   },
 
   // 点击拍照按钮
@@ -33,10 +42,37 @@ Page({
       quality: 'high', //成像质量
 
       success: (res) => { //成功回调
+        wx.showLoading({
+          title: '正在上传',
+          mask:true,
+        })
+
         this.setData({
           src: res.tempImagePath, //tempImagePath为api返回的照片路径
           show: true
         })
+
+        let headers = {
+          "Content-Type": "multipart/form-data",
+          "Accept": "application/ld+json, application/json",
+          "Authorization": 'Bearer ' + wx.getStorageSync('authToken')
+        }
+        let selfieParams = {
+          filePath: res.tempImagePath,
+          headers
+        }
+
+        this.uploadFile(selfieParams).then(response => {
+          wx.hideLoading();
+          if (response.statusCode == 201) {
+            let result = JSON.parse(response.data);
+            this.setData({
+              selfie: result['@id'],
+              selfieUrl: result.url
+            })
+          }
+        })
+
       },
 
       fail: (error) => { //失败回调
@@ -74,13 +110,14 @@ Page({
     if (prevPage) {
 
       // 获取当前图片路径(用户拍下的照片)
-      var src = currentPage.data.src;
+      // var src = currentPage.data.src;
 
       // 动态更新数据(不懂移步文章)
       // https://blog.csdn.net/weixin_44198965/article/details/107821802 获取页面栈后 可以访问页面栈中的数据-这样达到的不同页面更新数据
       prevPage.setData({
         selfieUpdate: true,
-        "info.selfieTmp": src, //照片路径
+        "info.selfieTmp": this.data.selfieUrl, //照片路径
+        "info.selfie": this.data.selfie,
       })
     }
 
