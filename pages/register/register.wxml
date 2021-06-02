@@ -65,7 +65,7 @@
               </picker>
             </view>
             <view class="cu-form-group">
-              <view class="title text-bold">选择房间号</view>
+              <view class="title text-bold">选择房屋号</view>
               <picker id="room" bindchange="pickerChange" value="{{roomIndex}}" range="{{rooms}}" range-key="roomNum">
                 <view class="picker">
                   {{info.roomNum?info.roomNum:roomIndex?rooms[roomIndex].roomNum:'点击选择您的房间号'}}
@@ -89,7 +89,7 @@
                 <view class="action text-bold">自拍照上传</view>
               </view>
               <view class="text-grey padding padding-top-xs">
-                <view id="selfie" class="selfie shadow radius" bindtap="goCamera">
+                <view id="selfie" class="selfie solid shadow radius" bindtap="goCamera">
                   <view wx:if="{{!info.selfieTmp}}"
                     class="h-100 text-center flex text-sl flex-direction justify-center radius">
                     <text class="cuIcon-people"></text>
@@ -170,20 +170,20 @@
                 </button>
               </view>
               <view class="cu-form-group">
+                <view class="title text-bold">联系电话</view>
+                <input class="text-right" id="phone" bindblur="getInputValue" class="text-right" type="number"
+                  placeholder="请填写您或监护人的号码" placeholder-style="text-align:right" value="{{info.phone}}"></input>
+                <button open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber" class="cu-btn sm bg-white icon">
+                  <text class="cuIcon-phone text-grey"></text>
+                </button>
+              </view>
+              <view class="cu-form-group">
                 <view class="title text-bold">学历情况</view>
                 <picker id="education" bindchange="pickerChange" value="{{educationIndex}}" range="{{educations}}">
                   <view class="picker">
                     {{info.education?info.education:educationIndex?educations[educationIndex]:'请选择您的学历'}}
                   </view>
                 </picker>
-              </view>
-              <view class="cu-form-group">
-                <view class="title text-bold">联系手机</view>
-                <input class="text-right" id="phone" bindblur="getInputValue" class="text-right" type="number"
-                  placeholder="请填写您或监护人的号码" placeholder-style="text-align:right" value="{{info.phone}}"></input>
-                <button open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber" class="cu-btn sm bg-white icon">
-                  <text class="cuIcon-phone text-grey"></text>
-                </button>
               </view>
               <view class="cu-form-group">
                 <view class="title text-bold">婚姻情况</view>

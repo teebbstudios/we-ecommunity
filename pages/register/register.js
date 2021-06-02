@@ -1,10 +1,7 @@
 import wxRequest from "wechat-request";
 import {
-  ApiConfig,
   FamilyApi,
-  FileApi,
   UserApi,
-  FileUploader,
   ResidentApi
 } from "../../config/api";
 import {
@@ -33,10 +30,8 @@ Page({
       nationality: null, //民族
       selfie: null, //自拍
       selfieTmp: null, //自拍临时文件
-      //身份证人像面
-      idcardBackTmp: null,
-      //身份证国徽面
-      idcardFrontTmp: null,
+      idcardBackTmp: null, //身份证人像面
+      idcardFrontTmp: null, //身份证国徽面
       idcardFront: null, //身份证国徽面
       idcardBack: null, //身份证人像面
       idcard: null, //身份证号码
@@ -52,7 +47,24 @@ Page({
       relationWithRoom: null, //与房产关系
       relationsWithRoomName: null, //与房产关系
     },
-
+    infoCheck: {
+      selfieTmp: "请拍摄自拍照", //自拍临时文件
+      idcardBackTmp: "请拍摄身份证", //身份证人像面
+      idcardFrontTmp: "请拍摄身份证", //身份证国徽面
+      name: "请填写姓名", //姓名
+      sex: "请选择性别", //性别
+      nationality: "请填写民族", //民族
+      birthday: "请选择出生日期", //生日
+      idcard: "请填写身份证号", //身份证号码
+      address: "请填写证件地址", //证件地址
+      phone: "请填写联系电话", //联系电话
+      education: "请选择学历情况", //学历
+      marriage: "请选择婚姻情况", //婚姻情况
+      politics: "请选择政治面貌", //政治面貌
+      employer: "请填写工作单位", //工作单位
+      relationWithHost: "请选择户主关系", //与户主关系iri
+      relationWithRoom: "请选择房产关系", //与房产关系
+    },
     //登记类型提示
     typeDescription: '如果您是首次登记，请先为自己登记信息。',
     types: [{
@@ -175,6 +187,10 @@ Page({
           relationsWithRoomName: null, //与房产关系
         },
         infoUpdate: false,
+        areaId: null,
+        buildingId: null,
+        unitId: null,
+        roomId: null,
       })
     }
 
@@ -288,10 +304,31 @@ Page({
           break;
         case 2: //选择住址
           //在这一步查找或创建家庭
-          if (!this.data.areaId || !this.data.buildingId || !this.data.unitId || !this.data.roomId) {
+          if (!this.data.areaId) {
             wx.showToast({
               icon: 'error',
-              title: '请补充完整信息',
+              title: '请选择小区',
+            })
+            return;
+          }
+          if (!this.data.buildingId) {
+            wx.showToast({
+              icon: 'error',
+              title: '请选择楼栋号',
+            })
+            return;
+          }
+          if (!this.data.unitId) {
+            wx.showToast({
+              icon: 'error',
+              title: '请选择单元号',
+            })
+            return;
+          }
+          if (!this.data.roomId) {
+            wx.showToast({
+              icon: 'error',
+              title: '请选择房屋号',
             })
             return;
           }
@@ -569,20 +606,21 @@ Page({
   //检查住户信息是否完整
   checkInfoComplete: function () {
     let info = this.data.info;
-    if (!info.selfieTmp || !info.idcardFrontTmp || !info.idcardBackTmp) {
+    let infoCheck = this.data.infoCheck;
+    try {
+      Object.keys(infoCheck).map(checkKey => {
+        if (!info[checkKey]) {
+          throw checkKey;
+        }
+      })
+    } catch (e) {
       wx.showToast({
         icon: 'error',
-        title: '请补充拍照信息',
+        title: infoCheck[e],
       })
       return -1;
     }
-    if (!info.name || !info.sex || !info.nationality || !info.education || !info.phone || !info.birthday || !info.idcard || !info.address || !info.marriage || !info.politics || !info.employer || !info.relationWithHost || !this.data.info.relationWithRoom) {
-      wx.showToast({
-        icon: 'error',
-        title: '请补充完整信息',
-      })
-      return -1;
-    }
+    
     if (!(/^1[3456789]\d{9}$/.test(info.phone))) {
       wx.showToast({
         icon: 'error',
@@ -598,7 +636,6 @@ Page({
       })
       return -1;
     }
-
   },
 
   getChoosePoi: (e) => {
