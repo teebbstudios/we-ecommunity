@@ -81,9 +81,9 @@ Page({
           }).then(res => {
             wx.hideLoading();
             if (res.errMsg == "invokeService:ok") {
-              wx.showModal({
-                title: '识别成功，请您点击红色按钮继续操作',
-                showCancel: false
+              wx.showToast({
+                icon: "success",
+                title: "自动识别成功",
               })
               this.setData({
                 ocrResult: res.data.idcard_res,
@@ -91,9 +91,9 @@ Page({
             }
           }).catch(err => {
             wx.hideLoading();
-            wx.showModal({
-              title: '自动识别失败，请您手动填写身份证信息',
-              showCancel: false
+            wx.showToast({
+              icon: "success",
+              title: "自动识别失败",
             })
             console.error('invokeService fail', err)
           })
