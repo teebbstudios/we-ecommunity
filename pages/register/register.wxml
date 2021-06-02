@@ -43,7 +43,7 @@
               <view class="title text-bold">选择小区</view>
               <picker id="area" bindchange="pickerChange" value="{{areaIndex}}" range="{{areas}}" range-key="name">
                 <view class="picker">
-                  {{info.communityName?info.communityName:'点击选择您所在小区'}}
+                  {{info.communityName?info.communityName:areaIndex?areas[areaIndex].name:'点击选择您所在小区'}}
                 </view>
               </picker>
             </view>
@@ -240,8 +240,7 @@
   </view>
 
   <view class="action flex justify-center">
-    <button disabled="{{num == 0? true: false}}" class="cu-btn bg-olive shadow" id="prev"
-      bindtap="numSteps">上一步</button>
+    <button disabled="{{num == 0 ? true: false}}" class="cu-btn bg-olive shadow" id="prev" bindtap="numSteps">上一步</button>
     <button wx:if="{{num !== 3}}" class="cu-btn bg-red shadow" id="next" bindtap="numSteps">下一步</button>
     <button wx:if="{{num === 3}}" class="cu-btn bg-red shadow" bindtap="submit">提交</button>
   </view>

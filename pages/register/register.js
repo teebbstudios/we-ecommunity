@@ -145,6 +145,42 @@ Page({
     })
   },
   radioChange: function (e) {
+    //如果选择代他人登记，清除数据
+    if(e.detail.value == 1){
+      this.setData({
+        info: {
+          createType: 1, //所选择的登记类型，0：为自己登记，1：代他人登记
+          house: null, //家庭地址
+          name: null, //姓名
+          sex: null, //性别
+          birthday: null, //生日
+          age: null, //年龄
+          nationality: null, //民族
+          selfie: null, //自拍
+          selfieTmp: null, //自拍临时文件
+          //身份证人像面
+          idcardBackTmp: null,
+          //身份证国徽面
+          idcardFrontTmp: null,
+          idcardFront: null, //身份证国徽面
+          idcardBack: null, //身份证人像面
+          idcard: null, //身份证号码
+          phone: null, //联系电话
+          education: null, //学历
+          marriage: null, //婚姻情况
+          politics: null, //政治面貌
+          address: null, //证件地址
+          employer: null, //工作单位
+          family: null, //家庭iri
+          relationWithHost: null, //与户主关系iri
+          relationsWithHostName: null, //与户主关系名称
+          relationWithRoom: null, //与房产关系
+          relationsWithRoomName: null, //与房产关系
+        },
+        infoUpdate: false,
+      })
+    }
+
     this.setData({
       typeDescription: this.data.types[e.detail.value].description,
       "info.createType": e.detail.value * 1,
@@ -182,7 +218,7 @@ Page({
             wx.showLoading({
               title: '正在加载中',
             })
-            //如果自己已经登记过，那么弹出提示只能代他人登记。
+            //如果自己已经登记过，那么弹出提示。
             let params = {
               "owner.id": wx.getStorageSync('userId')
             }
@@ -198,9 +234,6 @@ Page({
                     let resident = response.data["hydra:member"][0];
                     if (res.confirm) {
                       //获取小区信息
-                      let familyParams = {
-                        "owner.id": wx.getStorageSync('userId')
-                      }
                       wxRequest.get(resident.family).then(response => {
                         let family = response.data;
 
@@ -314,6 +347,9 @@ Page({
                 }
 
                 let residents = families[0].residents;
+                if(!(residents instanceof Array)){
+                  residents = Object.values(residents)
+                }
                 let residentsName = '';
                 residents.map(item => {
                   residentsName = residentsName + this.replaceStr(item.name, 1, '*') + ' ';
@@ -681,7 +717,7 @@ Page({
       mask: true
     })
 
-    this.uploadFilesFunc().then(res => {
+    this.uploadFilesFunc().then(result => {
       if (this.data.infoUpdate) {
         //更新资料
         wxRequest.put(ResidentApi.patchItem(this.data.info.id), this.data.info).then(response => {
@@ -715,7 +751,10 @@ Page({
         wxRequest.post(ResidentApi.postCollection, this.data.info).then(response => {
           wx.hideLoading();
           if (response.status === 201) {
-            wx.setStorage({key: 'registered', data: true});
+            wx.setStorage({
+              key: 'registered',
+              data: true
+            });
             wx.showModal({
               title: '资料提交成功',
               content: '您的资料已提交成功，审核结果将以微信通知的方法告诉您。请您接受通知提醒。',
