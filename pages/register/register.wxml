@@ -113,7 +113,7 @@
                     <text class="text-sm">点击拍摄身份证人像面</text>
                   </view>
                   <view wx:if="{{info.idcardBackTmp}}" class="img-wrapper solid radius">
-                    <image class="idcardImage" mode="heightFix" src="{{info.idcardBackTmp}}"></image>
+                    <image class="{{info.idcardBack?'':'idcardImage'}}"  mode="widthFix" src="{{info.idcardBackTmp}}"></image>
                   </view>
                 </view>
 
@@ -124,7 +124,7 @@
                     <text class="text-sm">点击拍摄身份证国徽面</text>
                   </view>
                   <view wx:if="{{info.idcardFrontTmp}}" class="img-wrapper solid radius">
-                    <image class="idcardImage" mode="heightFix" src="{{info.idcardFrontTmp}}"></image>
+                    <image class="{{info.idcardFront?'':'idcardImage'}}" mode="widthFix" src="{{info.idcardFrontTmp}}"></image>
                   </view>
                 </view>
               </view>
