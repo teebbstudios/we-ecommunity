@@ -10,7 +10,7 @@
     </view>
     <view class="tips">
       <text wx:if="{{!type}}" class="text-grey">如有需要请向工作人员出示此二维码</text>
-      <text wx:if="{{type=='sosqrcode'}}" class="text-grey">请让家人扫码成为您的紧急联系人</text>
+      <text wx:if="{{type=='sosqrcode'}}" class="text-grey">请让家人扫码成为您的紧急联系人，添加完成后请重启小程序以更新联系人列表</text>
       <text wx:if="{{type=='bindwechat'}}" class="text-grey">请让当前信息所有人“{{residentName}}”扫码绑定微信</text>
     </view>
   </view>
