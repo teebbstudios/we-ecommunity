@@ -28,6 +28,10 @@ Page({
   },
 
   agree: function (e) {
+    wx.showLoading({
+      title: '正在绑定中',
+      mask: true,
+    })
     let residentid = e.currentTarget.dataset.residentid;
 
     let userId = wx.getStorageSync('userId');
@@ -35,17 +39,23 @@ Page({
         owner: UserApi.getItem(userId)
       })
       .then(response => {
-        if(response.status == 200){
+        wx.hideLoading();
+        if (response.status == 200) {
+          let resident = response.data;
+          let familyIdIndex = resident.family.lastIndexOf('/');
+          let familyId = resident.family.substring(familyIdIndex + 1);
+          wx.setStorageSync('familyId', familyId);
+
           wx.showToast({
             icon: 'success',
             title: '绑定成功',
-            complete: res =>{
+            complete: res => {
               wx.switchTab({
                 url: Routes.index
               })
             }
           })
-        }else{
+        } else {
           wx.showModal({
             title: '绑定失败，请稍候再试，或截图联系工作人员',
             content: response.data['hydra:description'],

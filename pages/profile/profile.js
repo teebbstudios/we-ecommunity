@@ -28,6 +28,9 @@ Page({
     })
     //启动场景值
     let result = wx.getLaunchOptionsSync();
+    wx.showToast({
+      title: "'"+ result.scene + "'",
+    })
     if(result.scene == 1011){
       this.setData({
         openFrom: 'qrcode'
@@ -63,6 +66,11 @@ Page({
           "info.relationWithHostName": resident.relationWithHost.name,
           "info.relationWithRoomName": resident.relationWithRoom.name,
           "info.house": resident.house,
+        })
+      }else{
+        wx.showModal({
+          title: response.data['hydra:description'],
+          showCancel:false,
         })
       }
     })
