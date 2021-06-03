@@ -191,6 +191,14 @@ Page({
         buildingId: null,
         unitId: null,
         roomId: null,
+        community: null,
+        building: null,
+        unit: null,
+        room: null,
+        areaIndex: null,
+        buildingIndex: null,
+        unitIndex: null,
+        roomIndex: null,
       })
     }
 
@@ -240,56 +248,65 @@ Page({
             }).then(response => {
               wx.hideLoading();
               if (response.data["hydra:member"].length > 0) {
-                wx.showModal({
-                  title: '您已登记过信息',
-                  content: '您已登记过信息，点击确定将修改信息，点击取消可以选择代他人登记信息。',
-                  success: (res) => {
-                    let resident = response.data["hydra:member"][0];
-                    if (res.confirm) {
-                      //获取小区信息
-                      wxRequest.get(resident.family).then(response => {
-                        let family = response.data;
+                let resident = response.data["hydra:member"][0];
+                if(resident.status == 'finish'){
+                  wx.showModal({
+                    title: '您已登记并成功审核',
+                    content: '如果您要变更信息请点击“预约办理”在线办理或联系工作人员进行变更。',
+                    showCancel:false,
+                  })
+                }else{
+                  wx.showModal({
+                    title: '您要修改登记信息吗？',
+                    content: '您已登记过信息，点击确定将修改信息，点击取消可以选择代他人登记信息。',
+                    success: (res) => {
+                      if (res.confirm) {
+                        let familyId = wx.getStorageSync('familyId');
+                        //获取小区信息
+                        wxRequest.get(FamilyApi.getItemAddress(familyId)).then(response => {
+                          let family = response.data;
 
-                        this.data.areas.map(item => {
-                          if (item['@id'] == family.community['@id']) {
-                            this.setData({
-                              buildings: item.builds,
-                              units: item.units,
-                              rooms: item.rooms,
-                            })
-                          }
-                        });
+                          this.data.areas.map(item => {
+                            if (item['@id'] == family.community['@id']) {
+                              this.setData({
+                                buildings: item.builds,
+                                units: item.units,
+                                rooms: item.rooms,
+                              })
+                            }
+                          });
 
-                        this.setData({
-                          infoUpdate: true,
-                          num: currentStep,
-                          areaId: family.community['@id'],
-                          community: family.community,
-                          buildingId: family.building['@id'],
-                          building: family.building,
-                          unitId: family.unit['@id'],
-                          unit: family.unit,
-                          roomId: family.room['@id'],
-                          room: family.room,
-                          info: resident,
-                          "info.age": this.getAge(resident.birthday),
-                          "info.house": family.community.name + family.building.buildingName + family.unit.unitName + family.room.roomNum,
-                          "info.communityName": family.community.name,
-                          "info.buildingName": family.building.buildingName,
-                          "info.unitName": family.unit.unitName,
-                          "info.roomNum": family.room.roomNum,
-                          "info.selfieTmp": resident.selfieUrl,
-                          "info.idcardBackTmp": resident.idcardBackUrl,
-                          "info.idcardFrontTmp": resident.idcardFrontUrl,
-                          "info.relationWithRoom": this.getRelationIri(this.data.relationsWithRoom, resident.relationWithRoom.id),
-                          "info.relationWithRoomName": resident.relationWithRoom.name,
-                          "info.relationWithHost": this.getRelationIri(this.data.relationsWithHost, resident.relationWithHost.id),
-                          "info.relationWithHostName": resident.relationWithHost.name,
+                          this.setData({
+                            infoUpdate: true,
+                            num: currentStep,
+                            areaId: family.community['@id'],
+                            community: family.community,
+                            buildingId: family.building['@id'],
+                            building: family.building,
+                            unitId: family.unit['@id'],
+                            unit: family.unit,
+                            roomId: family.room['@id'],
+                            room: family.room,
+                            info: resident,
+                            "info.age": this.getAge(resident.birthday),
+                            "info.house": family.community.name + family.building.buildingName + family.unit.unitName + family.room.roomNum,
+                            "info.communityName": family.community.name,
+                            "info.buildingName": family.building.buildingName,
+                            "info.unitName": family.unit.unitName,
+                            "info.roomNum": family.room.roomNum,
+                            "info.selfieTmp": resident.selfieUrl,
+                            "info.idcardBackTmp": resident.idcardBackUrl,
+                            "info.idcardFrontTmp": resident.idcardFrontUrl,
+                            "info.relationWithRoom": this.getRelationIri(this.data.relationsWithRoom, resident.relationWithRoom.id),
+                            "info.relationWithRoomName": resident.relationWithRoom.name,
+                            "info.relationWithHost": this.getRelationIri(this.data.relationsWithHost, resident.relationWithHost.id),
+                            "info.relationWithHostName": resident.relationWithHost.name,
+                          })
                         })
-                      })
+                      }
                     }
-                  }
-                })
+                  })
+                }
               } else {
                 this.setData({
                   num: currentStep
@@ -620,7 +637,7 @@ Page({
       })
       return -1;
     }
-    
+
     if (!(/^1[3456789]\d{9}$/.test(info.phone))) {
       wx.showToast({
         icon: 'error',

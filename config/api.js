@@ -1,5 +1,5 @@
 export const ApiConfig = {
-  // apiHost: `https://qwwdezone.ngrok2.xiaomiqiu.cn`,
+  // apiHost: `http://127.0.0.1:8000`,
   apiHost: `https://klsq.teebb.net`,
   contentType: `application/ld+json`,
   patchContentType: `application/merge-patch+json`,
@@ -39,6 +39,9 @@ export const FamilyApi = {
   postCollection: `/api/auth/families`,
   getItem: (id) => {
     return `/api/auth/families/${id}`
+  },
+  getItemAddress: (id) => {
+    return `/api/auth/families/${id}/address`
   },
   getItemQrcode: (id) => {
     return `/api/auth/families/${id}/qrcode`
