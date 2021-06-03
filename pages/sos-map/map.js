@@ -5,19 +5,35 @@ Page({
    * 页面的初始数据
    */
   data: {
-
+    latitude: null,
+    longitude: null,
+    markers: [],
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    let latitude = options.latitude;
-    let longitude = options.longitude;
-    wx.openLocation({
+    let latitude = options.latitude * 1;
+    let longitude = options.longitude * 1;
+    let marker = {
+      id: 1,
       latitude,
-      longitude
+      longitude,
+      name: '求助人位置',
+      callout: {
+        content: '求助人位置',
+        color: '#e54d42',
+        display: 'ALWAYS',
+      }
+    }
+    this.setData({
+      latitude, 
+      longitude,
+      markers: [marker]
     })
+
+    this.mapcontext = wx.createMapContext('sos-map');
   },
 
   /**

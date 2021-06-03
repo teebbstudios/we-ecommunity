@@ -1,2 +1,8 @@
 <!--pages/sos-map/map.wxml-->
-<text>pages/sos-map/map.wxml</text>
+<map id="sos-map" 
+longitude="{{longitude}}" 
+latitude="{{latitude}}" 
+markers="{{markers}}" 
+show-location 
+show-compass
+></map>
