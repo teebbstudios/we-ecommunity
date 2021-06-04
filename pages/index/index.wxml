@@ -40,12 +40,12 @@
         <view class="title text-lg margin-left margin-right margin-bottom-sm">
           <view class="text-bold">{{notification.title}}</view>
         </view>
-        <view class="padding-left padding-right">
-          <rich-text nodes="{{notification.body}}"></rich-text>
-        </view>
         <view wx:if="{{notification.postImage}}" class="grid flex-sub padding padding-top-xs col-1">
           <view class="bg-img only-img" style="background-image:url({{notification.postImage}});">
           </view>
+        </view>
+        <view class="padding-left padding-right padding-bottom">
+          <text>{{notification.summary}}</text>
         </view>
       </view>
     </view>

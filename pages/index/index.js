@@ -100,6 +100,7 @@ Page({
             id: notifications[0].id,
             title: notifications[0].title,
             body: notifications[0].body,
+            summary: notifications[0].summary,
             postImage: notifications[0].postImage.url,
           }
         });
