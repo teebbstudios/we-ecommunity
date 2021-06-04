@@ -57,9 +57,8 @@ Page({
    */
   formatRichText: function (html) {
     let newContent = html
-    .replace(/\<p/gi, '<p class="text-lg text-black"')
-    .replace(/\<img/gi, '<img class="rich-img radius shadow"')
-    ;
+      .replace(/\<p/gi, '<p class="text-lg text-black"')
+      .replace(/\<img/gi, '<img class="rich-img radius shadow"');
     return newContent;
   },
   /**
@@ -91,7 +90,7 @@ Page({
         post: {
           id: postObj.id,
           title: postObj.title,
-          body: this.formatRichText(postObj.body),
+          body: postObj.body ? this.formatRichText(postObj.body) : "这里空空如也！",
           category: postObj.category.name,
           createdAt: postObj.createdAt,
           postImage: postObj.postImage ? postObj.postImage.url : null,
