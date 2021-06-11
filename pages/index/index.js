@@ -47,7 +47,7 @@ Page({
       posts.map((item) => {
         let post = {
           id: item.id,
-          postImage: item.postImage.url,
+          postImage: item.postImage?item.postImage.url:null,
           title: item.title,
           summary: item.summary,
           category: item.category.name,
