@@ -28,9 +28,12 @@ Page({
     })
     //启动场景值
     let result = wx.getLaunchOptionsSync();
-  
+    this.setData({
+      scene: result.scene
+    })
     if(result.scene == 1011){
       this.setData({
+        scene: result.scene,
         openFrom: 'qrcode'
       })
     }

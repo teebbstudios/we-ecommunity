@@ -1,5 +1,5 @@
 export const ApiConfig = {
-  // apiHost: `http://127.0.0.1:8000`,
+  // apiHost: `http://www.ecommunity.cc`,
   apiHost: `https://klsq.teebb.net`,
   contentType: `application/ld+json`,
   patchContentType: `application/merge-patch+json`,

@@ -36,7 +36,7 @@ Page({
     if(userFamilyId == "" && userIsAdmin == ""){
       wx.showToast({
         icon: 'error',
-        title: '您还没有登记信息',
+        title: '请先登记信息',
       })
       return;
     }
