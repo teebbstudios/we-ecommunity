@@ -1,5 +1,5 @@
 export const ApiConfig = {
-  apiHost: ``,
+  apiHost: `https://demo.teebb.net`, //请修改为您的接口地址
   contentType: `application/ld+json`,
   patchContentType: `application/merge-patch+json`,
   accept: `application/ld+json, `,

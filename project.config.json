@@ -70,5 +70,11 @@
     "miniprogram": {
       "list": []
     }
-  }
+  },
+  "watchOptions": {
+    "ignore": [
+       "readme/**",
+       "README.md"
+    ]
+ }	
 }
