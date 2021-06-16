@@ -31,3 +31,4 @@
 2. 修改`project.config.json`中appid为您自己的小程序ID
 3. 修改`config/api.js`文件`apiHost`API主机地址
 4. 修改`config/templates.js`文件中订阅消息模板ID，模板名称及模板中的项目要与文件保持一致（Todo：文件未补充）
+5. 后续更新使用`git pull`命令进行更新，并修改前4条中的文件
