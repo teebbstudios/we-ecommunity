@@ -30,5 +30,5 @@
 1. 使用`git clone`命令下载库 
 2. 修改`project.config.json`中appid为您自己的小程序ID
 3. 修改`config/api.js`文件`apiHost`API主机地址
-4. 修改`config/templates.js`文件中订阅消息模板ID，模板名称及模板中的项目要与文档说明保持一致（http://ec.teebb.com/tech/miniprogram-template-ids.html）
+4. 修改`config/templates.js`文件中订阅消息模板ID，模板标题及模板中的关键词要与[文档说明](http://ec.teebb.com/tech/miniprogram-template-ids.html)保持一致
 5. 后续更新使用`git pull`命令进行更新，并修改前4条中的文件
