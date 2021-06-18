@@ -1,5 +1,5 @@
 //请修改为您自己申请的小程序模板ID
-//申请的模板名称和模板项要与文档()说明一致，否则通知发送失败
+//申请的模板名称和模板项要与文档(http://ec.teebb.com/tech/miniprogram-template-ids.html)说明一致，否则通知发送失败
 export const MsgTemplates = {
   //新活动通知
   activity: 'bSnqkxDIoVeqXxts_bLQunTCIkYDFdooNOnl9pZnnME',
