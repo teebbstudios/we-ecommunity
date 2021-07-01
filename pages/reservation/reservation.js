@@ -137,6 +137,7 @@ Page({
     this.data.imgList.map(item=>{
       let uploadParams ={
         filePath:item,
+        watermark:false,
         headers
       }
       uploadRequests.push(FileUploader(uploadParams));

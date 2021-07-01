@@ -153,6 +153,13 @@ export const FileUploader = function (config) {
   if(config.rotate){
     url = url + "?rotate=true"
   }
+  if (!config.watermark) {
+    if (url.indexOf('?') !== -1) {
+      url = url + '&watermark=false'
+    } else {
+      url = url + '?watermark=false'
+    }
+  }
   return promise.then(config => {
     return new Promise((resolve, reject) => {
       wx.uploadFile({
